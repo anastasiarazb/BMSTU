@@ -1,0 +1,198 @@
+#ifndef RASTERIZATION_H
+#define RASTERIZATION_H
+
+#define GLFW_INCLUDE_GLU
+#include <GLFW/glfw3.h>
+#include <stdlib.h>
+#include <iostream>
+#include <vector>
+#include <list>
+#include <math.h>
+#include <glm/glm.hpp>
+
+#define WHITE_A 255, 255, 255, 255
+#define BLACK_A 0,    0,   0,  255
+#define RED_A   255, 0,   0,   255
+#define GREEN_A 25,  255, 25,  255
+#define BLUE_A  0,   0,   255, 255
+#define RED 255, 0, 0
+#define GREEN   25, 255, 25
+#define BLUE 0, 0, 255
+#define WHITE 255, 255, 255
+
+#define BLACK 0, 0, 0
+
+static GLubyte red[4] = {RED_A};
+static GLubyte green[4] = {GREEN_A};
+static GLubyte blue[4] = {BLUE_A};
+static GLubyte white[4] = {WHITE_A};
+static GLubyte black[4] = {BLACK_A};
+
+struct Framebuffer;
+
+#pragma pack(push, 1)
+struct Pixel{
+    GLubyte r = 255, g = 255, b = 255, alpha = 255; //GLubyte == 8-bit unsigned integer
+    void set(u_int8_t r, u_int8_t g, u_int8_t b, u_int8_t a) {
+        float alpha = (float)a/255.f;
+        this->r += (int)roundf((float)(r - this->r)*alpha);
+        this->g += (int)roundf((float)(g - this->g)*alpha);
+        this->b += (int)roundf((float)(b - this->b)*alpha);
+        this->alpha = a;
+    }
+
+    void set(u_int8_t r, u_int8_t g, u_int8_t b) {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+        this->alpha = 255;
+    }
+
+    void setv3(const u_int8_t *v) {
+        set(v[0], v[1], v[2]);
+    }
+
+    void setv4(const u_int8_t *v) {
+        set(v[0], v[1], v[2], v[3]);
+    }
+
+    void setPlusBackgrv4(const u_int8_t *v, const u_int8_t *back) {
+        setPlusBackgrv3(v, v[3], back);
+    }
+    void setPlusBackgrv3(const u_int8_t *v, u_int8_t alpha, const u_int8_t *back)
+    {
+        float a = (float)alpha/255.f;
+        this->r = back[0]+(int)roundf((float)(v[0] - back[0])*a);
+        this->g = back[1]+(int)roundf((float)(v[1] - back[1])*a);
+        this->b = back[2]+(int)roundf((float)(v[2] - back[2])*a);
+        this->alpha = alpha;
+    }
+};
+#pragma pack(pop)
+
+class Edge;
+
+class Point : public glm::vec3 {
+public:
+    using glm::vec3::vec3;
+    bool operator == (Point const &v2) const{
+        return (x == v2.x) && (y == v2.y) ; // && (z == v2.z);
+    }
+    bool operator < (Point const &v2) const {
+        return (y == v2.y) ? (x < v2.x) : (y < v2.y);
+    }
+};
+
+class Edge {
+    public:
+        Edge(){}
+        Edge(const Point &a, const Point &b) {
+            if (a < b) {
+                this->a = a;
+                this->b = b;
+            } else {
+                this->a = b;
+                this->b = a;
+            }
+        }
+
+        Edge(const Edge &e) : a(e.a), b(e.b) {}
+
+        Point a;
+        Point b;
+
+        operator Point() {
+            return b - a;
+        }
+
+        double length() const {
+            return glm::length(b - a);
+        }
+
+        bool operator == (Edge const &rhs) {
+            return 	(a == rhs.a && b == rhs.b) ||
+                    (a == rhs.b && b == rhs.a);
+        }
+};
+
+
+bool operator<(const Edge& a, const Edge& b); //Функция для сортировки перед заливкой: сравнение по y
+std::ostream& operator<<(std::ostream& os, const std::list<Edge>& edges);
+std::ostream& operator<< (std::ostream& os, const Edge& x);
+
+struct ActiveEdge
+{
+    int y_max, x_start;
+    double x_current, dx;
+    ActiveEdge() {}
+    ActiveEdge(int y_max, int x_start, double dx):
+        y_max(y_max), x_start(x_start), x_current((double)x_start), dx(dx){}
+};
+
+
+struct PointSet{
+    std::vector<Point> verteces;
+    std::list<Edge> edges;
+    int y_max = 0;
+
+    bool filled = true;
+    bool lined = true;
+    bool antialiasing = true;
+    bool contrast = false;
+    bool CCW = true;
+
+    GLubyte *lineColor = green;
+    GLubyte *foregroundColor = red;
+
+    void clear();
+    void testPolygon();
+    void addPoint(GLint x, GLint y, GLint z);
+    void addMousePoint(GLFWwindow* window);
+    void addEdge(const Point& a, const Point& b);
+};
+
+
+
+struct Framebuffer {
+    GLsizei width;
+    GLsizei height; //Начало системы координат - в левом нижнем углу
+    GLsizei size = 0;
+    PointSet polygon;
+    Pixel *canvas;
+
+    Framebuffer();
+    std::list<ActiveEdge> AET; //Active Edge Table - Список Активных Ребер
+    Framebuffer(GLsizei width, GLsizei height);
+    ~Framebuffer();
+    void reinitBuffer(GLsizei width, GLsizei height);
+
+    void loadBuf();
+    Pixel& access(GLint x, GLint y);
+    void mouse_callback(GLFWwindow* window, int button, int action, int mods);
+    void printPolygon();
+    void drawPoint(GLint x, GLint y);
+    void drawPoint(GLint x, GLint y, GLubyte *v3color);
+    void drawPointPlusBackgr(GLint x, GLint y, const GLubyte *v3color, int alpha, const GLubyte *backgr_color);
+    void drawLine(GLint y, GLint x1, GLint x2);
+    void printVerteces();
+
+    void fillPolygon();
+    void refresh_AET();
+    inline void updateX();
+    void fillLines();
+
+    void Bresenham(GLint x1, GLint y1, GLint x2, GLint y2);
+    void Bresenham(const Edge& e);
+    void antiAliasingBresenham(const Point& a, const Point& b);
+    void antiAliasingBresenhamShift(const Point& a, const Point& b, const Point& v0, const Point& v1);
+    void antiAliasingBresenham(GLint x1, GLint y1, GLint x2, GLint y2);
+    void softBoard();
+    void clearCanvas();
+    void deletePoint();
+    bool inBuffer(GLint x, GLint y);
+    bool inBuffer(const Point& p);
+};
+
+std::ostream& operator<<(std::ostream& os, const Framebuffer& F);
+
+#endif // RASTERIZATION_H
