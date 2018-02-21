@@ -6,7 +6,8 @@ CONFIG -= qt
 SOURCES += src/main.cpp \
     src/rasterization.cpp \
     src/callbacks.cpp \
-    src/fill.cpp
+    src/fill.cpp \
+    src/triangulation.cpp
 INCLUDEPATH += ../../glm/glm
 LIBS += -lGL -lGLU -lGLEW -lglfw
 
@@ -14,4 +15,5 @@ QMAKE_CXXFLAGS += -std=c++11
 
 HEADERS += \
     src/rasterization.h \
-    src/callbacks.h
+    src/callbacks.h \
+    src/triangulation.h

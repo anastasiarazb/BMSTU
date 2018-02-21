@@ -1,11 +1,12 @@
 #define GLFW_INCLUDE_GLU
-#include <GLFW/glfw3.h>
 #include "rasterization.h"
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
 #include <random>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
+#include <GLFW/glfw3.h>
 
 #define LINE_COLOR GREEN
 #define BACKGR_BRIGHTNESS 100
@@ -80,10 +81,17 @@ Pixel& Framebuffer::access(GLint x, GLint y)
 
 /*COMPARATORS, COUT*/
 
+bool Point::lessByX(Point const &p1, Point const &p2) {
+    return p1.x < p2.x;
+}
+
+bool Point::lessByY(Point const &p1, Point const &p2) {
+    return p1.y < p2.y;
+}
+
 inline bool Framebuffer::inBuffer(GLint x, GLint y)
 {
     return x >= 0 && x < width && y >=0 && y < height;
-
 }
 
 bool Framebuffer::inBuffer(const Point& p)
@@ -145,8 +153,7 @@ void PointSet::addMousePoint(GLFWwindow *window) //Передача коорди
     //Корректная работа в случае, когда "самодельный" буфер по размеру не совпадает с размером окна
     addPoint(x, height - y, z);
     printf("PUSH %d,  %d\n", x, height - y);
-
-
+    need_to_redraw = true;
 }
 
 void PointSet::addPoint(GLint x, GLint y, GLint z)
@@ -235,34 +242,27 @@ void Framebuffer::printPolygon()
     {
         fillPolygon();
     }
+    if (polygon.need_to_redraw) {
+        polygon.edges.clear();
+        Point a, b;
+        for (size_t i = 1; i < polygon.verteces.size(); ++i)
+        {
+            a = polygon.verteces.at(i-1);
+            b = polygon.verteces.at(i);
+            polygon.addEdge(a, b);
+        }
+        if (polygon.verteces.size() > 2)
+        {   //дорисовать замыкающую линию
+            polygon.addEdge(polygon.verteces.back(), polygon.verteces.front());
+        }
+        polygon.need_to_redraw = false;
+    }
     if (polygon.lined)
     {
-
-        if (polygon.antialiasing)
+        for(const auto& e: polygon.edges)
         {
-            softBoard();
-        } else {
-            for(const auto& e: polygon.edges)
-            {
-                Bresenham(e);
-            }
+            Bresenham(e);
         }
-    }
-}
-
-void Framebuffer::softBoard()
-{
-    Point *a;
-    Point *b;
-    for (size_t i = 1; i < polygon.verteces.size(); ++i)
-    {
-        a = &polygon.verteces.at(i-1);
-        b = &polygon.verteces.at(i);
-        antiAliasingBresenham(*a, *b);
-    }
-    if (polygon.verteces.size() > 2)
-    {   //дорисовать замыкающую линию
-        antiAliasingBresenham(polygon.verteces.back(), polygon.verteces.front());
     }
 }
 
@@ -322,65 +322,6 @@ inline void shiftXY(int &x, int &y, int &error, int signX, int signY, int max_er
         y += signY;
         error -= max_error;
     }
-}
-
-void Framebuffer::antiAliasingBresenham(GLint x1, GLint y1, GLint x2, GLint y2)
-{
-    int dX = std::abs(x2 - x1);
-    int dY = std::abs(y2 - y1);
-    int signX = x1 < x2 ? 1 : -1; //Изменение в зависимости от квадранта
-    int signY = y1 < y2 ? 1 : -1;
-    int swap = -1; //Отрицательное значение == нет
-
-    int temp;
-    if( dY > dX)
-    {
-        SWAP(dX, dY);
-        swap = 1;
-    }
-
-    //Было замечено, что при переходе в следующий октант изменяет знак на противоположный одна
-    //из 3 величин: swap (если swap = +-1), signX, signY. => для того, чтобы при обходе по
-    //часовой стрелке область оставалась справа,нужно отразить относительно начала координат
-    //четные октанты. В них выполняется условие swap*signX*signY == 1
-    //(Для 1 октанта: swap = -1, signX = signY = 1.)
-    //Соответственно, для обхода против часовой стрелки отражать надо нечетные октанты по
-    //условию swap*signX*signY == -1
-
-    if( (polygon.CCW && swap*signX*signY < 0)
-            || (!polygon.CCW && swap*signX*signY > 0))
-    {
-        SWAP(x1, x2);
-        SWAP(y1, y2);
-        signX *= -1;
-        signY *= -1;
-    }
-    int I = 255; //Максимальная градация интенсивности
-    int delta_error = 2*I*dY;
-    int error = I*dX;
-    int max_error = 2*I*(dX - dY);
-    int intense = (int)roundf((float)error/(2.f*dX));
-    drawPointPlusBackgr(x1, y1, polygon.lineColor, intense, background);
-    //Чтобы было меньше if в теле цикла выбор октанта вынесен на уровень выше
-    //shiftXY изменяет аргументы так, как будто они в 1 октанте
-    if (swap < 0) {
-        while(x1 != x2) {
-            shiftXY(x1, y1, error, signX, signY, max_error, delta_error);
-            intense = (int)round((float)error/(2.f*dX));
-            drawPointPlusBackgr(x1, y1, polygon.lineColor, intense, background);
-        }
-    } else {
-        while(y1 != y2) {
-            shiftXY(y1, x1, error, signY, signX, max_error, delta_error);
-            intense = (int)round((float)error/(2.f*dX));
-            drawPointPlusBackgr(x1, y1, polygon.lineColor, intense, background);
-        }
-    }
-}
-
-void Framebuffer::antiAliasingBresenham(const Point& a, const Point& b)
-{
-    antiAliasingBresenham(a.x, a.y, b.x, b.y);
 }
 
 void Framebuffer::Bresenham(const Edge& e)

@@ -3,12 +3,12 @@
 
 extern Framebuffer buffer;
 
-void cursor_callback(GLFWwindow* window, double x, double y)
+void cursor_callback(GLFWwindow* , double, double)
 {
 
 }
 
-void mouse_callback(GLFWwindow* window, int button, int action, int mods)
+void mouse_callback(GLFWwindow* window, int button, int action, int /*mods*/)
 {
     if(button == GLFW_MOUSE_BUTTON_RIGHT)
     {
@@ -24,7 +24,7 @@ void mouse_callback(GLFWwindow* window, int button, int action, int mods)
     }
 }
 
-void resize_callback(GLFWwindow* window, int width, int height)
+void resize_callback(GLFWwindow* , int width, int height)
 {
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
@@ -38,7 +38,7 @@ void resize_callback(GLFWwindow* window, int width, int height)
 
 }
 
-void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void keyboard_callback(GLFWwindow* /*window*/, int key, int /*scancode*/, int action, int /*mods*/)
 {
     if (action == GLFW_PRESS) {
         switch(key) //GLFW_KEY_ESCAPE GLFW_KEY_LEFT GLFW_KEY_RIGHT GLFW_KEY_SPACE
@@ -49,14 +49,8 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
         case(GLFW_KEY_C):  //C - contrast color
             buffer.polygon.contrast = !buffer.polygon.contrast;
             return;
-        case(GLFW_KEY_A): //A - antialiasing
-            buffer.polygon.antialiasing = !buffer.polygon.antialiasing;
-            return;
         case(GLFW_KEY_L): //L - lined
             buffer.polygon.lined = !buffer.polygon.lined;
-            return;
-        case(GLFW_KEY_SPACE): //Изменить направление обхода полигона при сглаживании
-            buffer.polygon.CCW = !buffer.polygon.CCW;
             return;
         case(GLFW_KEY_E): //E - erase - стереть все
             buffer.polygon.clear();
@@ -65,7 +59,7 @@ void keyboard_callback(GLFWwindow* window, int key, int scancode, int action, in
     }
 }
 
-void error_callback(int error, const char* description)
+void error_callback(int /*error*/, const char* description)
 {
     fputs(description, stderr);
 }

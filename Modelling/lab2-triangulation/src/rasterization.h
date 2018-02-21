@@ -24,9 +24,9 @@
 
 static GLubyte red[4] = {RED_A};
 static GLubyte green[4] = {GREEN_A};
-static GLubyte blue[4] = {BLUE_A};
-static GLubyte white[4] = {WHITE_A};
-static GLubyte black[4] = {BLACK_A};
+//static GLubyte blue[4] = {BLUE_A};
+//static GLubyte white[4] = {WHITE_A};
+//static GLubyte black[4] = {BLACK_A};
 
 struct Framebuffer;
 
@@ -75,12 +75,14 @@ class Edge;
 class Point : public glm::vec3 {
 public:
     using glm::vec3::vec3;
-    bool operator == (Point const &v2) const{
+    bool operator==(Point const &v2) const {
         return (x == v2.x) && (y == v2.y) ; // && (z == v2.z);
     }
-    bool operator < (Point const &v2) const {
+    bool operator<(Point const &v2) const {
         return (y == v2.y) ? (x < v2.x) : (y < v2.y);
     }
+    static bool lessByX(Point const &p1, Point const &p2);
+    static bool lessByY(Point const &p1, Point const &p2);
 };
 
 class Edge {
@@ -137,9 +139,8 @@ struct PointSet{
 
     bool filled = true;
     bool lined = true;
-    bool antialiasing = true;
     bool contrast = false;
-    bool CCW = true;
+    bool need_to_redraw = false;
 
     GLubyte *lineColor = green;
     GLubyte *foregroundColor = red;
@@ -183,10 +184,6 @@ struct Framebuffer {
 
     void Bresenham(GLint x1, GLint y1, GLint x2, GLint y2);
     void Bresenham(const Edge& e);
-    void antiAliasingBresenham(const Point& a, const Point& b);
-    void antiAliasingBresenhamShift(const Point& a, const Point& b, const Point& v0, const Point& v1);
-    void antiAliasingBresenham(GLint x1, GLint y1, GLint x2, GLint y2);
-    void softBoard();
     void clearCanvas();
     void deletePoint();
     bool inBuffer(GLint x, GLint y);

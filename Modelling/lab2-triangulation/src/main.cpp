@@ -13,7 +13,7 @@ void draw()
     buffer.loadBuf();
 }
 
-int main(int argc, char* argv[])
+int main()
 {
     // initialise GLFW
     if(!glfwInit())
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     glfwSetErrorCallback(error_callback);
 
     GLFWwindow* window;
-    window = glfwCreateWindow(800, 600, "A-antialiasing. F-filling. L-lined. Space-CCW. C-contrast colors. Z-cancel. E-erase", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "F-filling. L-lined. C-contrast colors. E-erase", NULL, NULL);
     if (window == NULL)
     {
         printf("glfwOpenWindow failed.\n");
@@ -33,10 +33,10 @@ int main(int argc, char* argv[])
         return -2;
     }
 
-    int attrib;
-    attrib = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MAJOR);
-    attrib = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
-    attrib = glfwGetWindowAttrib(window, GLFW_OPENGL_PROFILE);
+//    int attrib;
+//    attrib = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MAJOR);
+//    attrib = glfwGetWindowAttrib(window, GLFW_CONTEXT_VERSION_MINOR);
+//    attrib = glfwGetWindowAttrib(window, GLFW_OPENGL_PROFILE);
 
     glfwMakeContextCurrent(window);
 
