@@ -1,4 +1,110 @@
 #include "triangulation.h"
+#include <algorithm>
+#include <set>
+
+
+
+BB::BB(const std::vector<Point> &points) {
+    std::set<float> x_set, y_set;
+    const Point &start_point = points.front();
+    min_x = max_x = start_point.x;
+    min_y = max_y = start_point.y;
+    for (const Point &p: points) {
+        x_set.insert(p.x);
+        y_set.insert(p.y);
+    }
+    min_x = *(x_set.begin());
+    max_x = *(x_set.rbegin());
+    min_y = *(y_set.begin());
+    max_y = *(y_set.rbegin());
+    printf("BB: x = [%f; %f], y = [%f; %f]\n",  min_x, max_x, min_y, max_y);
+    if (x_set.size() < y_set.size()) {
+        orientation = Orientation::VERTICAL;
+    } else if (x_set.size() > y_set.size()) {
+        orientation = Orientation::HORIZONTAL;
+    } else {
+        float x_len = max_x - min_x;
+        float y_len = max_y - min_y;
+        if (x_len < y_len) {
+            orientation = Orientation::VERTICAL;
+        } else {
+            orientation = Orientation::HORIZONTAL;
+        }
+    }
+}
+
+Triangulation triangulate_4(std::vector<Point> verteces)
+{
+    return Triangulation();
+}
+
+Triangulation merge(Triangulation &&part1, Triangulation &&part2)
+{
+    Triangulation result;
+    result.reserve(part1.size() + part2.size());
+    result.insert(result.begin(), part1.begin(), part1.end());
+    result.insert(result.end(),   part2.begin(), part2.end());
+    return result;
+}
+
+Triangulation PointSet::triangulate(std::vector<Point> &verteces)
+{
+    switch (verteces.size()) {
+    case 1: //Algorithm assumes that we can split point set to subsets of 3 and 4 points
+    case 2:
+    case 5:
+        return Triangulation();
+    case 3:
+        return Triangulation {Triangle(verteces[0], verteces[1], verteces[2])};
+    case 4:
+        return triangulate_4(verteces);
+    }
+    std::vector<Point> part1;
+    std::vector<Point> part2;
+    int parts_num = PointSet::split(verteces, part1, part2);
+    if (parts_num == 1) {
+        return Triangulation(triangulate(part1));
+    }
+    return merge(std::move(triangulate(part1)), std::move(triangulate(part2)));
+}
+
+int PointSet::split(std::vector<Point> &verteces
+                    , std::vector<Point> &part1, std::vector<Point> &part2) {
+    switch (verteces.size()) {
+    case 3:
+    case 4:
+        part1 = verteces;
+        part2.clear();
+        return 1;
+    case 1:
+    case 2:
+    case 5: //Algorithm assume, that we can split triangulation for subsets of 3 or 4 points
+        part1.clear();
+        part2.clear();
+        return 0;
+    }
+    BB bounding_box(verteces);
+    if (bounding_box.getOrientation() == BB::Orientation::HORIZONTAL) {
+        std::sort(verteces.begin(), verteces.end(), Point::lessByX);
+    } else {
+        std::sort(verteces.begin(), verteces.end(), Point::lessByY);
+    }
+    size_t N = verteces.size();
+    size_t part_size = 0;
+    if (N >= 12 || N == 8) { // Split to equal parts: floor(N/2) + ceil(N/2)
+        part_size = verteces.size()/2; // floor(N/2)
+    } else { // N < 12 : split to 3 + N-3
+        part_size = 3;
+    }
+    std::vector<Point>::iterator pivot = verteces.begin() + part_size;
+    part1.clear();
+    part2.clear();
+    part1.reserve(part_size);
+    part2.reserve(N - part_size);
+    part1.assign(verteces.begin(), pivot);
+    part2.assign(pivot, verteces.end());
+    return 2;
+}
 
 bool Triangle::sharesVertexWith(Triangle const &triangle) const {
     if ( a.x == triangle.a.x && a.y == triangle.a.y ) return true;
@@ -108,4 +214,36 @@ std::vector<Triangle> addDetail(std::vector<Triangle> &triangles){
         newtriangles.push_back(Triangle(ac, bc, triangles[i].c));
     }
     return newtriangles;
+}
+
+std::set<Edge> Triangulation::edges()
+{
+    std::set<Edge> edges;
+    for (const Triangle &tr: *this) {
+        edges.insert(tr.edge, tr.edge + 3);
+        std::cout << "Triangulation::edges(): "
+                  << tr.edge[0] << " " << tr.edge[1] << " " << tr.edge[2] << std::endl;
+    }
+    return edges;
+}
+
+float Triangle::maxCos() const
+{
+    float cosA = glm::dot(guides[0], guides[1]);
+    float cosB = glm::dot(guides[1], guides[2]);
+    float cosC = glm::dot(guides[2], guides[0]);
+    return std::max(cosA, std::max(cosB, cosC));
+}
+
+bool Triangle::isInside(const Point &p) const
+{
+    float sign1 = glm::cross(p-a, b-a);
+    float sign2 = glm::cross(p-b, c-b);
+    float sign3 = glm::cross(p-c, c-a);
+    if ((sign1 > 0 && sign2 > 0 && sign3 > 0)
+         || (sign1 < 0 && sign2 < 0 && sign3 < 0)) {
+        return true;
+    }
+    /// TODO: process special cases, when vectors are collinear
+    return false;
 }

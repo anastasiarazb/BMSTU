@@ -141,37 +141,3 @@ inline void Framebuffer::updateX()
     }
 }
 
-void Framebuffer::fillPolygon()
-{
-    int Y_min = polygon.edges.front().a.y;
-    Y_max = std::min(polygon.y_max, height - 1);
-    Y_next = Y_min;
-
-    if(polygon.edges.size() < 3)
-    {
-//        printf("Singular polygon\n"); //Вырожденный случай
-        return;
-    }
-
-//    printf("*****************\n [FILL POLYGON]\nY_MAX = %d, Y_MIN = %d\n", Y_max, Y_min);
-//    std::cout << polygon.edges ;
-
-    last_edge = polygon.edges.begin();
-    for(Y_current = Y_min; Y_current < Y_max; /*++Y_current*/)
-    {
-        refresh_AET();
-//        printf("Y_next = %d\n", Y_next);
-        while(Y_current < Y_next)
-        {
-            AET.sort();
-            fillLines();
-            ++Y_current;
-
-            updateX();
-        }
-    }
-    AET.clear();
-//    std::cout << "[fillPolygon]: end" << std::endl;
-}
-
-

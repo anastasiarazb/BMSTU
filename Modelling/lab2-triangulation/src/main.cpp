@@ -25,7 +25,7 @@ int main()
     glfwSetErrorCallback(error_callback);
 
     GLFWwindow* window;
-    window = glfwCreateWindow(800, 600, "F-filling. L-lined. C-contrast colors. E-erase", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "L-lined. C-contrast colors. E-erase", NULL, NULL);
     if (window == NULL)
     {
         printf("glfwOpenWindow failed.\n");

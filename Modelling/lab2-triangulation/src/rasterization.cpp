@@ -7,6 +7,7 @@
 #include <cmath>
 #include <random>
 #include <GLFW/glfw3.h>
+#include "triangulation.h"
 
 #define LINE_COLOR GREEN
 #define BACKGR_BRIGHTNESS 100
@@ -107,7 +108,9 @@ bool Framebuffer::inBuffer(const Point& p)
 
 bool operator<(const Edge& e1, const Edge& e2)
 {
-    return e1.a < e2.b;
+    return (e1.a == e2.a)
+            ? e1.b < e2.b
+            : e1.a < e2.a;
 }
 
 
@@ -116,16 +119,14 @@ std::ostream& operator<<(std::ostream& os, const std::list<Edge>& edges)
     os << "EDGES: {\n";
     for(auto e: edges)
     {
-        os << " (" << e.a.x << ", " << e.a.y<< ", " << e.a.z
-           << ")--->(" << e.b.x << ", " << e.b.y<< ", " << e.b.z << ")\n";
+        os << e << "\n";
     }
     return os << "}"<<std::endl;
 }
 
 std::ostream& operator<< (std::ostream& os, const Edge& e)
 {
-    return os << " (" << e.a.x << ", " << e.a.y<< ", " << e.a.z
-              << ")--->(" << e.b.x << ", " << e.b.y<< ", " << e.b.z << ")" << std::endl;
+    return os << e.a << "--->" << e.b;
 }
 
 std::ostream& operator<<(std::ostream& os, const Framebuffer& F)
@@ -135,6 +136,10 @@ std::ostream& operator<<(std::ostream& os, const Framebuffer& F)
     return os;
 }
 
+std::ostream& operator<<(std::ostream& os, const Point& p)
+{
+    return os << "(" << p.x << ", " << p.y << ", " << p.z << ")";
+}
 
 /* ___________________ADD___________________ */
 
@@ -208,7 +213,7 @@ void Framebuffer::printVerteces()
             {
                 for (int j = 0; j < rad_y; ++j)
                 {
-                    access(dot.x - i, dot.y + j).set(GREEN);
+                    access(dot.x - i, dot.y + j).set(RED);
                 }
             }
         }
@@ -235,26 +240,39 @@ void Framebuffer::printPolygon()
         return;
     }
     printVerteces();
+    BB bb(polygon.verteces);
+    std::cout << bb.orientation_to_string() << std::endl;
+    std::vector<Point> part1, part2;
+    int parts_num = PointSet::split(polygon.verteces, part1, part2);
+    if (parts_num == 2) {
+        std::cout << "PART1:\n";
+        for (const Point &p : part1) {
+            std::cout << p << "\n";
+        }
+        std::cout << "PART2:\n";
+        for (const Point &p : part2) {
+            std::cout << p << "\n";
+        }
+    }
 
     polygon.foregroundColor = polygon.contrast ? red : green;
 
-    if (polygon.filled)
-    {
-        fillPolygon();
-    }
     if (polygon.need_to_redraw) {
         polygon.edges.clear();
-        Point a, b;
-        for (size_t i = 1; i < polygon.verteces.size(); ++i)
-        {
-            a = polygon.verteces.at(i-1);
-            b = polygon.verteces.at(i);
-            polygon.addEdge(a, b);
-        }
-        if (polygon.verteces.size() > 2)
-        {   //дорисовать замыкающую линию
-            polygon.addEdge(polygon.verteces.back(), polygon.verteces.front());
-        }
+        Triangulation triangulation = PointSet::triangulate(polygon.verteces);
+        std::set<Edge> tr_edges = triangulation.edges();
+        polygon.edges.insert(polygon.edges.begin(), tr_edges.begin(), tr_edges.end());
+//        Point a, b;
+//        for (size_t i = 1; i < polygon.verteces.size(); ++i)
+//        {
+//            a = polygon.verteces.at(i-1);
+//            b = polygon.verteces.at(i);
+//            polygon.addEdge(a, b);
+//        }
+//        if (polygon.verteces.size() > 2)
+//        {   //дорисовать замыкающую линию
+//            polygon.addEdge(polygon.verteces.back(), polygon.verteces.front());
+//        }
         polygon.need_to_redraw = false;
     }
     if (polygon.lined)
@@ -263,6 +281,7 @@ void Framebuffer::printPolygon()
         {
             Bresenham(e);
         }
+        printf("printPolygon: %lu edges\n", polygon.edges.size());
     }
 }
 
@@ -305,13 +324,6 @@ void Framebuffer::drawLine(GLint y, GLint x1, GLint x2)
 }
 
 /* *********************************************** */
-
-#define SWAP(a, b) { \
-    temp = a; \
-    a = b;    \
-    b = temp; \
- }
-
 inline void shiftXY(int &x, int &y, int &error, int signX, int signY, int max_error, int delta_error)
 {
     x += signX;

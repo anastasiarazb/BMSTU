@@ -43,9 +43,6 @@ void keyboard_callback(GLFWwindow* /*window*/, int key, int /*scancode*/, int ac
     if (action == GLFW_PRESS) {
         switch(key) //GLFW_KEY_ESCAPE GLFW_KEY_LEFT GLFW_KEY_RIGHT GLFW_KEY_SPACE
         {
-        case(GLFW_KEY_F): //F - filled
-            buffer.polygon.filled = !buffer.polygon.filled;
-            return;
         case(GLFW_KEY_C):  //C - contrast color
             buffer.polygon.contrast = !buffer.polygon.contrast;
             return;

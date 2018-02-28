@@ -85,6 +85,8 @@ public:
     static bool lessByY(Point const &p1, Point const &p2);
 };
 
+std::ostream& operator<<(std::ostream& os, const Point& p);
+
 class Edge {
     public:
         Edge(){}
@@ -98,7 +100,7 @@ class Edge {
             }
         }
 
-        Edge(const Edge &e) : a(e.a), b(e.b) {}
+        Edge(const Edge &e) : a(e.a), b(e.b){}
 
         Point a;
         Point b;
@@ -119,7 +121,7 @@ class Edge {
 
 
 bool operator<(const Edge& a, const Edge& b); //Функция для сортировки перед заливкой: сравнение по y
-std::ostream& operator<<(std::ostream& os, const std::list<Edge>& edges);
+std::ostream& operator<< (std::ostream& os, const std::list<Edge>& edges);
 std::ostream& operator<< (std::ostream& os, const Edge& x);
 
 struct ActiveEdge
@@ -131,13 +133,12 @@ struct ActiveEdge
         y_max(y_max), x_start(x_start), x_current((double)x_start), dx(dx){}
 };
 
+class Triangulation;
 
 struct PointSet{
     std::vector<Point> verteces;
     std::list<Edge> edges;
     int y_max = 0;
-
-    bool filled = true;
     bool lined = true;
     bool contrast = false;
     bool need_to_redraw = false;
@@ -150,6 +151,9 @@ struct PointSet{
     void addPoint(GLint x, GLint y, GLint z);
     void addMousePoint(GLFWwindow* window);
     void addEdge(const Point& a, const Point& b);
+    static int split(std::vector<Point> &verteces
+               , std::vector<Point> &part1, std::vector<Point> &part2);
+    static Triangulation triangulate(std::vector<Point> &verteces);
 };
 
 
@@ -176,8 +180,6 @@ struct Framebuffer {
     void drawPointPlusBackgr(GLint x, GLint y, const GLubyte *v3color, int alpha, const GLubyte *backgr_color);
     void drawLine(GLint y, GLint x1, GLint x2);
     void printVerteces();
-
-    void fillPolygon();
     void refresh_AET();
     inline void updateX();
     void fillLines();
