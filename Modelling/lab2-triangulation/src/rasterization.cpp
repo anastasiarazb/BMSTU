@@ -251,8 +251,8 @@ void Framebuffer::printPolygon()
     BB bb(polygon.verteces);
     std::cout << bb.orientation_to_string() << std::endl;
     std::vector<Point> part1, part2;
-    int parts_num = PointSet::split(polygon.verteces, part1, part2);
-    if (parts_num == 2) {
+    PointSet::SplitType parts_num = PointSet::split(polygon.verteces, part1, part2);
+    if (parts_num == PointSet::SplitType::VERTICAL || parts_num == PointSet::SplitType::HORIZONTAL) {
         std::cout << "PART1:\n";
         for (const Point &p : part1) {
             std::cout << p << "\n";

@@ -141,6 +141,11 @@ struct ActiveEdge
 class Triangulation;
 
 struct PointSet{
+
+    enum class SplitType {
+        ZERO, SINGLE, VERTICAL, HORIZONTAL
+    };
+
     std::vector<Point> verteces;
     std::list<Edge> edges;
     int y_max = 0;
@@ -156,8 +161,9 @@ struct PointSet{
     void addPoint(GLint x, GLint y, GLint z);
     void addMousePoint(GLFWwindow* window);
     void addEdge(const Point& a, const Point& b);
-    static int split(std::vector<Point> &verteces
-               , std::vector<Point> &part1, std::vector<Point> &part2);
+    static SplitType split(std::vector<Point> &verteces
+                     , std::vector<Point> &part1, std::vector<Point> &part2
+                     );
     static Triangulation triangulate(std::vector<Point> &verteces);
 };
 

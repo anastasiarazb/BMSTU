@@ -18,16 +18,16 @@ BB::BB(const std::vector<Point> &points) {
     min_y = *(y_set.begin());
     max_y = *(y_set.rbegin());
     if (x_set.size() < y_set.size()) {
-        orientation = Orientation::VERTICAL;
+        orientation = PointSet::SplitType::VERTICAL;
     } else if (x_set.size() > y_set.size()) {
-        orientation = Orientation::HORIZONTAL;
+        orientation = PointSet::SplitType::HORIZONTAL;
     } else {
         float x_len = max_x - min_x;
         float y_len = max_y - min_y;
         if (x_len < y_len) {
-            orientation = Orientation::VERTICAL;
+            orientation = PointSet::SplitType::VERTICAL;
         } else {
-            orientation = Orientation::HORIZONTAL;
+            orientation = PointSet::SplitType::HORIZONTAL;
         }
     }
 }
@@ -91,6 +91,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
                 PBC.set(p, c, b);
                 PCA.neighbour[0] = &PBC;
                 PBC.neighbour[0] = &PCA;
+                std::cout << "count = 1, neighbour = 0";
                 return Triangulation {PCA, PBC};
             } else if (ABC.neighbour[1] != nullptr) {
                 PAB.set(p, a, b);
@@ -120,6 +121,8 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
         Triangle::setNeigbours(PBC, 2, PCA, 0); // share PC
         Triangle::setNeigbours(ABC, 2, PCA, 1); // share AC
         return Triangulation {ABC, PBC, PCA};
+
+        /// TODO: handle case PBA
     }
     if (count != 3) {
         std::cout << "ACHTUNG: unhandled case, count = " << count << std::endl;
@@ -130,7 +133,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
     return triangulate_4(verteces);
 }
 
-Triangulation merge(Triangulation &&part1, Triangulation &&part2)
+Triangulation merge(Triangulation &&part1, Triangulation &&part2, PointSet::SplitType orientation)
 {
     Triangulation result;
     result.reserve(part1.size() + part2.size());
@@ -153,30 +156,31 @@ Triangulation PointSet::triangulate(std::vector<Point> &verteces)
     }
     std::vector<Point> part1;
     std::vector<Point> part2;
-    int parts_num = PointSet::split(verteces, part1, part2);
-    if (parts_num == 1) {
+    PointSet::SplitType orientation = PointSet::split(verteces, part1, part2);
+    if (orientation == PointSet::SplitType::SINGLE) {
         return Triangulation(triangulate(part1));
     }
-    return merge(std::move(triangulate(part1)), std::move(triangulate(part2)));
+    return merge(std::move(triangulate(part1)), std::move(triangulate(part2)), orientation);
 }
 
-int PointSet::split(std::vector<Point> &verteces
+PointSet::SplitType PointSet::split(std::vector<Point> &verteces
                     , std::vector<Point> &part1, std::vector<Point> &part2) {
     switch (verteces.size()) {
     case 3:
     case 4:
         part1 = verteces;
         part2.clear();
-        return 1;
+        return PointSet::SplitType::SINGLE;
     case 1:
     case 2:
     case 5: //Algorithm assume, that we can split triangulation for subsets of 3 or 4 points
         part1.clear();
         part2.clear();
-        return 0;
+        return PointSet::SplitType::ZERO;
     }
     BB bounding_box(verteces);
-    if (bounding_box.getOrientation() == BB::Orientation::HORIZONTAL) {
+    PointSet::SplitType orientation = bounding_box.getOrientation();
+    if (orientation == PointSet::SplitType::HORIZONTAL) {
         std::sort(verteces.begin(), verteces.end(), Point::lessByX);
     } else {
         std::sort(verteces.begin(), verteces.end(), Point::lessByY);
@@ -195,7 +199,7 @@ int PointSet::split(std::vector<Point> &verteces
     part2.reserve(N - part_size);
     part1.assign(verteces.begin(), pivot);
     part2.assign(pivot, verteces.end());
-    return 2;
+    return orientation;
 }
 
 bool Triangle::sharesVertexWith(Triangle const &triangle) const {
@@ -350,4 +354,18 @@ void Triangle::set(const Point &a, const Point &b, const Point &c)
     guides[0] = glm::normalize(b-a);
     guides[1] = glm::normalize(c-b);
     guides[2] = glm::normalize(a-c);
+}
+
+const char* BB::orientation_to_string() {
+    switch (orientation) {
+    case PointSet::SplitType::ZERO:
+        return "ZERO";
+    case PointSet::SplitType::SINGLE:
+        return "ONE";
+    case PointSet::SplitType::VERTICAL:
+        return "VERTICAL";
+    case PointSet::SplitType::HORIZONTAL:
+        return "HORIZONTAL";
+    default: return "undefined";
+    }
 }

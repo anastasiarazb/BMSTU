@@ -50,18 +50,11 @@ public:
 
 class BB {
 public:
-    enum class Orientation {
-        VERTICAL, HORIZONTAL
-    };
     BB(const std::vector<Point> &points);
-    Orientation getOrientation() const {return orientation;}
-    const char* orientation_to_string() {
-        return (orientation == Orientation::VERTICAL)
-                ? "VERTICAL"
-                : "HORIZONTAL";
-    }
+    PointSet::SplitType getOrientation() const {return orientation;}
+    const char* orientation_to_string();
 private:
-    Orientation orientation;
+    PointSet::SplitType orientation;
     float min_x, max_x, min_y, max_y;
 };
 
