@@ -38,7 +38,7 @@ void resize_callback(GLFWwindow* , int width, int height)
 
 }
 
-void keyboard_callback(GLFWwindow* /*window*/, int key, int /*scancode*/, int action, int /*mods*/)
+void keyboard_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/)
 {
     if (action == GLFW_PRESS) {
         switch(key) //GLFW_KEY_ESCAPE GLFW_KEY_LEFT GLFW_KEY_RIGHT GLFW_KEY_SPACE
@@ -52,6 +52,9 @@ void keyboard_callback(GLFWwindow* /*window*/, int key, int /*scancode*/, int ac
         case(GLFW_KEY_E): //E - erase - стереть все
             buffer.polygon.clear();
             return;
+        case(GLFW_KEY_Q):
+        case(GLFW_KEY_ESCAPE):
+            glfwSetWindowShouldClose(window, GL_TRUE);
         }
     }
 }

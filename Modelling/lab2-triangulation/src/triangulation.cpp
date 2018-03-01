@@ -17,7 +17,6 @@ BB::BB(const std::vector<Point> &points) {
     max_x = *(x_set.rbegin());
     min_y = *(y_set.begin());
     max_y = *(y_set.rbegin());
-    printf("BB: x = [%f; %f], y = [%f; %f]\n",  min_x, max_x, min_y, max_y);
     if (x_set.size() < y_set.size()) {
         orientation = Orientation::VERTICAL;
     } else if (x_set.size() > y_set.size()) {
@@ -32,10 +31,103 @@ BB::BB(const std::vector<Point> &points) {
         }
     }
 }
+/*
+3 cases:               .p
+      /                \/              a
+   c /\              a /\              /\
+1)  /  \ .p      2)   /  \        3)  /.p\
+   /____\_          _/____\_         /____\
+  a      b          b      c        b      c
 
-Triangulation triangulate_4(std::vector<Point> verteces)
+1) p is in angle cab (vector (p-a) lies between (c-a) and (b-a)) => add 1 new triangle pcb
+2) p is not in any angle => add 2 new triangles pab & pca
+3) p is in all angles => delete triangle abc and add 3 triangles pab, pbc, pca
+*/
+Triangulation triangulate_4(std::vector<Point> &verteces)
 {
-    return Triangulation();
+    auto between = [](const glm::vec3 &ap, const glm::vec3 &ab, const glm::vec3 &ac) {
+        return glm::dot(ap, ab) > 0 && glm::dot(ap, ac) > 0
+                && (Edge::pseudoscalar(ab, ap)*Edge::pseudoscalar(ap, ac) >= 0);
+    };
+    const Point &p = verteces[0];
+    const Point &a = verteces[1];
+    const Point &b = verteces[2];
+    const Point &c = verteces[3];
+    std::cout << "triangulate_4:" << std::endl;
+    std::cout << "P = " << p << "; A = " << a
+              << "B = " << b << "; C = " << c << std::endl;
+    int count = 0;
+    Triangle ABC(a, b, c), PAB, PCA, PBC;
+    if (between(p-a, b-a, c-a)) {
+        std::cout << "between(p-a, b-a, c-a)" << std::endl;
+        ++count;
+        PBC.set(p, b, c);
+        Triangle::setNeigbours(ABC, 1, PBC, 1);
+//        ABC.neighbour[1] = &PBC;
+//        PBC.neighbour[1] = &ABC;
+    }
+    if (between(p-b, a-b, c-b)) {
+        std::cout << "between(p-b, a-b, c-b)" << std::endl;
+        ++count;
+        PCA.set(a, p, c);
+        Triangle::setNeigbours(ABC, 2, PCA, 2);
+//        ABC.neighbour[2] = &PCA;
+//        PCA.neighbour[2] = &ABC;
+    }
+    if (between(p-c, a-c, b-c)) {
+        std::cout << "between(p-c, a-c, b-c)" << std::endl;
+        ++count;
+        PAB.set(a, b, p);
+        Triangle::setNeigbours(ABC, 0, PAB, 0);
+//        ABC.neighbour[0] = &PAB;
+//        PAB.neighbour[0] = &ABC;
+    }
+    // Choose the right case
+    if (count == 1) { // case 1 => 2 triangles
+        // Check Delaunay condition
+        if (ABC.circumCircleContains(p)) {
+            if (ABC.neighbour[0] != nullptr) {
+                PCA.set(p, c, a);
+                PBC.set(p, c, b);
+                PCA.neighbour[0] = &PBC;
+                PBC.neighbour[0] = &PCA;
+                return Triangulation {PCA, PBC};
+            } else if (ABC.neighbour[1] != nullptr) {
+                PAB.set(p, a, b);
+                PCA.set(p, a, c);
+                PAB.neighbour[0] = &PCA;
+                PCA.neighbour[0] = &PAB;
+                return Triangulation {PAB, PCA};
+            } else {
+                PAB.set(p, b, a);
+                PBC.set(p, b, c);
+                PAB.neighbour[0] = &PBC;
+                PBC.neighbour[0] = &PAB;
+                return Triangulation {PAB, PBC};
+            }
+        } else { // the pair satisfies Delaunay's condition
+            for (int i = 0; i < 3; ++i) {
+                if (ABC.neighbour[i] != nullptr) {
+                    return Triangulation {ABC, *ABC.neighbour[i]};
+                }
+            }
+        } // ABC.circumCircleContains(p)
+    } // if (count == 1) // case 1 => 2 triangles
+    if (count == 0) { // case 2 => 3 triangles
+        PBC.set(p, b, c);
+        PCA.set(p, c, a);
+        Triangle::setNeigbours(ABC, 1, PCA, 2); // share CA
+        Triangle::setNeigbours(PBC, 2, PCA, 0); // share PC
+        Triangle::setNeigbours(ABC, 2, PCA, 1); // share AC
+        return Triangulation {ABC, PBC, PCA};
+    }
+    if (count != 3) {
+        std::cout << "ACHTUNG: unhandled case, count = " << count << std::endl;
+        throw std::exception();
+    }
+    // count == 3 => case 3, swap p with any point and get case 2
+    std::swap(verteces.front(), verteces.back());
+    return triangulate_4(verteces);
 }
 
 Triangulation merge(Triangulation &&part1, Triangulation &&part2)
@@ -237,13 +329,25 @@ float Triangle::maxCos() const
 
 bool Triangle::isInside(const Point &p) const
 {
-    float sign1 = glm::cross(p-a, b-a);
-    float sign2 = glm::cross(p-b, c-b);
-    float sign3 = glm::cross(p-c, c-a);
-    if ((sign1 > 0 && sign2 > 0 && sign3 > 0)
-         || (sign1 < 0 && sign2 < 0 && sign3 < 0)) {
+    bool sign1 = Edge::pseudoscalar(p-a, b-a) > 0;
+    bool sign2 = Edge::pseudoscalar(p-b, c-b) > 0;
+    bool sign3 = Edge::pseudoscalar(p-c, c-a) > 0;
+    if (sign1 == sign2 && sign2 == sign3) {
         return true;
     }
     /// TODO: process special cases, when vectors are collinear
     return false;
+}
+
+void Triangle::set(const Point &a, const Point &b, const Point &c)
+{
+    this->a = a;
+    this->b = b;
+    this->c = c;
+    edge[0] = Edge(a, b);
+    edge[1] = Edge(b, c);
+    edge[2] = Edge(c, a);
+    guides[0] = glm::normalize(b-a);
+    guides[1] = glm::normalize(c-b);
+    guides[2] = glm::normalize(a-c);
 }

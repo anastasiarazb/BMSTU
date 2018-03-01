@@ -76,10 +76,10 @@ class Point : public glm::vec3 {
 public:
     using glm::vec3::vec3;
     bool operator==(Point const &v2) const {
-        return (x == v2.x) && (y == v2.y) ; // && (z == v2.z);
+        return (x == v2.x) && (y == v2.y) && (z == v2.z);
     }
     bool operator<(Point const &v2) const {
-        return (y == v2.y) ? (x < v2.x) : (y < v2.y);
+        return (x < v2.x) || (x == v2.x && (y < v2.y || (y == v2.y && z < v2.z)));
     }
     static bool lessByX(Point const &p1, Point const &p2);
     static bool lessByY(Point const &p1, Point const &p2);
@@ -90,14 +90,14 @@ std::ostream& operator<<(std::ostream& os, const Point& p);
 class Edge {
     public:
         Edge(){}
-        Edge(const Point &a, const Point &b) {
-            if (a < b) {
-                this->a = a;
-                this->b = b;
-            } else {
-                this->a = b;
-                this->b = a;
-            }
+        Edge(const Point &a, const Point &b): a(a), b(b) {
+//            if (a < b) {
+//                this->a = a;
+//                this->b = b;
+//            } else {
+//                this->a = b;
+//                this->b = a;
+//            }
         }
 
         Edge(const Edge &e) : a(e.a), b(e.b){}
@@ -116,6 +116,11 @@ class Edge {
         bool operator == (Edge const &rhs) {
             return 	(a == rhs.a && b == rhs.b) ||
                     (a == rhs.b && b == rhs.a);
+        }
+
+        static bool intersect(const Point &a, const Point &b, const Point &c, const Point &d);
+        static float pseudoscalar(const glm::vec3 &u, const glm::vec3 &v) {
+            return u.x*v.y - v.x*u.y;
         }
 };
 

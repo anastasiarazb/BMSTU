@@ -107,10 +107,18 @@ bool Framebuffer::inBuffer(const Point& p)
 
 
 bool operator<(const Edge& e1, const Edge& e2)
-{
-    return (e1.a == e2.a)
-            ? e1.b < e2.b
-            : e1.a < e2.a;
+{ // Comparison by the less point (less by coords)
+    Point e1_left  = std::min(e1.a, e1.b);
+    Point e1_right = std::max(e1.a, e1.b);
+    Point e2_left  = std::min(e2.a, e2.b);
+    Point e2_right = std::max(e2.a, e2.b);
+    return e1_left < e2_left
+            || (e1_left == e2_left && e1_right < e2_right);
+//    return (e1.a < e1.b && (e1.a < e2.a || e1.a < e2.b))
+//            || (e1.b < e1.a && (e1.b < e2.a || e1.b < e2.b));
+//    return (e1.a == e2.a)
+//            ? e1.b < e2.b
+//            : e1.a < e2.a;
 }
 
 
@@ -281,7 +289,7 @@ void Framebuffer::printPolygon()
         {
             Bresenham(e);
         }
-        printf("printPolygon: %lu edges\n", polygon.edges.size());
+//        printf("printPolygon: %lu edges\n", polygon.edges.size());
     }
 }
 
@@ -373,4 +381,20 @@ void Framebuffer::Bresenham(GLint x1, GLint y1, GLint x2, GLint y2)
 
         drawPoint(x1, y1, polygon.lineColor);
     }
+}
+
+bool Edge::intersect(const Point &a, const Point &b, const Point &c, const Point &d)
+{
+    auto area = [](const Point &a, const Point &b, const Point &c) {
+        return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    };
+    auto intersect_1 = [](float a, float b, float c, float d) {
+        if (a > b)  std::swap (a, b);
+        if (c > d)  std::swap (c, d);
+        return std::max(a,c) <= std::min(b,d);
+    };
+    return intersect_1 (a.x, b.x, c.x, d.x)
+            && intersect_1 (a.y, b.y, c.y, d.y)
+            && area(a,b,c) * area(a,b,d) <= 0
+            && area(c,d,a) * area(c,d,b) <= 0;
 }

@@ -12,6 +12,7 @@ public:
             edge {{a, b}, {b, c}, {c, a}},
             guides{glm::normalize(b-a), glm::normalize(c-b), glm::normalize(a-c)}
     {}
+    Triangle() = default;
 
     bool sharesVertexWith(Triangle const &triangle) const;
 
@@ -24,9 +25,16 @@ public:
     Point a, b, c;
     Edge edge[3];
     glm::vec3 guides[3];
+    Triangle *neighbour[3] = {nullptr};
 
     float maxCos() const;
     bool isInside(const Point &p) const;
+    void set(const Point &a, const Point &b, const Point &c);
+
+    static void setNeigbours(Triangle &M, int NtoMidx, Triangle &N, int MtoNidx) {
+        M.neighbour[NtoMidx] = &N;
+        N.neighbour[MtoNidx] = &M;
+    }
 };
 
 struct Edge;
