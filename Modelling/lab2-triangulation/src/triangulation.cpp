@@ -46,9 +46,16 @@ BB::BB(const std::vector<Point> &points) {
 Triangulation triangulate_4(std::vector<Point> &verteces)
 {
     auto between = [](const glm::vec3 &ap, const glm::vec3 &ab, const glm::vec3 &ac) {
-        return glm::dot(ap, ab) > 0 && glm::dot(ap, ac) > 0
-                && (Edge::pseudoscalar(ab, ap)*Edge::pseudoscalar(ap, ac) >= 0);
+        return Edge::pseudoscalar(ab, ap)*Edge::pseudoscalar(ap, ac) >= 0;
+//        std::cout << glm::dot(glm::cross(ab, ap), glm::cross(ap, ac)) << std::endl;
+//        return glm::dot(glm::cross(ab, ap), glm::cross(ap, ac)) >= 0;
     };
+
+    auto is_inside = [](const glm::vec3 &u, const glm::vec3 &v) {
+        return glm::dot(u, v) > 0;
+//        return (u.x*v.x + u.y*v.y) > 0;
+    };
+
     const Point &p = verteces[0];
     const Point &a = verteces[1];
     const Point &b = verteces[2];
@@ -58,29 +65,57 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
               << "B = " << b << "; C = " << c << std::endl;
     int count = 0;
     Triangle ABC(a, b, c), PAB, PCA, PBC;
+    std::cout << "between(p-a, b-a, c-a) = ";
     if (between(p-a, b-a, c-a)) {
-        std::cout << "between(p-a, b-a, c-a)" << std::endl;
-        ++count;
-        PBC.set(p, b, c);
-        Triangle::setNeigbours(ABC, 1, PBC, 1);
-//        ABC.neighbour[1] = &PBC;
-//        PBC.neighbour[1] = &ABC;
+        glm::vec3 med = glm::normalize(b-a) + glm::normalize(c-a);
+        if (is_inside(p-a, med)) { // case 1 or 3
+            std::cout << "between(p-a, b-a, c-a)" << std::endl;
+            ++count;
+            PBC.set(p, b, c);
+            Triangle::setNeigbours(ABC, 1, PBC, 1);
+        } else {  // case 2 => return 3 triangles
+            PAB.set(p, a, b);
+            PCA.set(p, c, a);
+            Triangle::setNeigbours(ABC, 2, PCA, 1); // share CA
+            Triangle::setNeigbours(PCA, 2, PAB, 0); // share PA
+            Triangle::setNeigbours(ABC, 1, PAB, 1); // share AB
+            return Triangulation {ABC, PAB, PCA};
+        }
     }
+    std::cout << "between(p-b, a-b, c-b) = ";
     if (between(p-b, a-b, c-b)) {
-        std::cout << "between(p-b, a-b, c-b)" << std::endl;
-        ++count;
-        PCA.set(a, p, c);
-        Triangle::setNeigbours(ABC, 2, PCA, 2);
-//        ABC.neighbour[2] = &PCA;
-//        PCA.neighbour[2] = &ABC;
+        glm::vec3 med = glm::normalize(a-b) + glm::normalize(c-b);
+        if (is_inside(p-b, med)) { // case 1 or 3
+            std::cout << "between(p-b, a-b, c-b)" << std::endl;
+            ++count;
+            PCA.set(a, p, c);
+            Triangle::setNeigbours(ABC, 2, PCA, 2); // share CA
+        } else {
+            std::cout << "out(p-b, a-b, c-b)" << std::endl;
+            PAB.set(p, a, b);
+            PBC.set(p, b, c);
+            Triangle::setNeigbours(ABC, 1, PBC, 1); // share BC
+            Triangle::setNeigbours(PBC, 0, PAB, 2); // share PB
+            Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
+            return Triangulation {ABC, PAB, PBC};
+        }
     }
+    std::cout << "between(p-c, a-c, b-c) = ";
     if (between(p-c, a-c, b-c)) {
-        std::cout << "between(p-c, a-c, b-c)" << std::endl;
-        ++count;
-        PAB.set(a, b, p);
-        Triangle::setNeigbours(ABC, 0, PAB, 0);
-//        ABC.neighbour[0] = &PAB;
-//        PAB.neighbour[0] = &ABC;
+        glm::vec3 med = glm::normalize(a-c) + glm::normalize(b-c);
+        if (is_inside(p-c, med)) { // case 1 or 3
+            std::cout << "between(p-c, a-c, b-c)" << std::endl;
+            ++count;
+            PAB.set(p, a, b);
+            Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
+        } else {
+            PBC.set(p, b, c);
+            PCA.set(p, c, a);
+            Triangle::setNeigbours(ABC, 1, PBC, 1); // share BC
+            Triangle::setNeigbours(PBC, 2, PCA, 0); // share PC
+            Triangle::setNeigbours(ABC, 2, PCA, 1); // share AC
+            return Triangulation {ABC, PBC, PCA};
+        }
     }
     // Choose the right case
     if (count == 1) { // case 1 => 2 triangles
@@ -114,16 +149,6 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             }
         } // ABC.circumCircleContains(p)
     } // if (count == 1) // case 1 => 2 triangles
-    if (count == 0) { // case 2 => 3 triangles
-        PBC.set(p, b, c);
-        PCA.set(p, c, a);
-        Triangle::setNeigbours(ABC, 1, PCA, 2); // share CA
-        Triangle::setNeigbours(PBC, 2, PCA, 0); // share PC
-        Triangle::setNeigbours(ABC, 2, PCA, 1); // share AC
-        return Triangulation {ABC, PBC, PCA};
-
-        /// TODO: handle case PBA
-    }
     if (count != 3) {
         std::cout << "ACHTUNG: unhandled case, count = " << count << std::endl;
         throw std::exception();
@@ -356,7 +381,8 @@ void Triangle::set(const Point &a, const Point &b, const Point &c)
     guides[2] = glm::normalize(a-c);
 }
 
-const char* BB::orientation_to_string() {
+const char* BB::orientation_to_string()
+{
     switch (orientation) {
     case PointSet::SplitType::ZERO:
         return "ZERO";
@@ -368,4 +394,15 @@ const char* BB::orientation_to_string() {
         return "HORIZONTAL";
     default: return "undefined";
     }
+}
+
+Triangle &Triangle::make_CCW()
+{
+    if (Edge::pseudoscalar(b-a, c-a) > 0) {
+        return *this;
+    }
+    std::swap(b, c);
+    set(a, b, c);
+    std::swap(neighbour[0], neighbour[2]);
+    return *this;
 }

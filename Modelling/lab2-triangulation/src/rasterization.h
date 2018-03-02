@@ -113,6 +113,8 @@ class Edge {
             return glm::length(b - a);
         }
 
+        void reverse();
+
         bool operator == (Edge const &rhs) {
             return 	(a == rhs.a && b == rhs.b) ||
                     (a == rhs.b && b == rhs.a);

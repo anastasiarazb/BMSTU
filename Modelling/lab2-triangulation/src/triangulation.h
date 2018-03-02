@@ -18,6 +18,8 @@ public:
 
     bool circumCircleContains(Point const &v) const;
 
+    Triangle& make_CCW();
+
 
     bool operator==(Triangle const &rhs) const;
 
@@ -35,17 +37,24 @@ public:
         M.neighbour[NtoMidx] = &N;
         N.neighbour[MtoNidx] = &M;
     }
+
+    static Edge findP0P1(Triangulation L, Triangulation R, PointSet::SplitType orientation);
 };
 
 struct Edge;
 
 class Triangulation: public std::vector<Triangle> {
 public:
-    Triangulation(const Triangulation &other) : std::vector<Triangle>(other) {}
-    Triangulation(Triangulation&& other) : std::vector<Triangle>(std::move(other)) {}
+    Triangulation(const Triangulation &other) : std::vector<Triangle>(other) {make_CCW();}
+    Triangulation(Triangulation&& other) : std::vector<Triangle>(std::move(other)) {make_CCW();}
     Triangulation() : std::vector<Triangle>() {}
-    Triangulation(std::initializer_list<Triangle> init): std::vector<Triangle>(init) {}
+    Triangulation(std::initializer_list<Triangle> init): std::vector<Triangle>(init) {make_CCW();}
     std::set<Edge> edges();
+    void make_CCW() {
+        for (Triangle &p : *this) {
+            p.make_CCW();
+        }
+    }
 };
 
 class BB {

@@ -165,7 +165,7 @@ void PointSet::addMousePoint(GLFWwindow *window) //Передача коорди
     //Координаты мыши в с.к. буфера кадра
     //Корректная работа в случае, когда "самодельный" буфер по размеру не совпадает с размером окна
     addPoint(x, height - y, z);
-    printf("PUSH %d,  %d\n", x, height - y);
+    printf("PUSH %d,  %d, %d\n", x, height - y, z);
     need_to_redraw = true;
 }
 
@@ -190,9 +190,33 @@ void PointSet::clear()
 void PointSet::testPolygon()
 {
     clear();
-    addPoint(992, 72, 3);
-    addPoint(129, 243, 2);
-    addPoint(732, 43, 1);
+
+    addPoint(216, 451, 10);
+    addPoint(520, 222, 9);
+    addPoint(520, 222, 49);
+    addPoint(306, 185, 34);
+
+//    addPoint(100, 370, 31);
+//    addPoint(191, 356, 19);
+//    addPoint(273, 365, 48);
+//    addPoint(296, 283, 37);
+
+//    addPoint(223, 255, 45);
+//    addPoint(309, 256, 9);
+//    addPoint(338, 258, 24);
+//    addPoint(338, 258, 31);
+
+//    addPoint(61, 368, 32);
+//    addPoint(310, 544, 48);
+//    addPoint(317, 455, 37);
+//    addPoint(345, 206, 37);
+
+//    addPoint(242, 382, 32);
+//    addPoint(337, 394, 48);
+//    addPoint(344, 457, 37);
+//    addPoint(336, 537, 37);
+
+    need_to_redraw = true;
 }
 
 /* ___________________PRINT___________________ */
@@ -248,8 +272,8 @@ void Framebuffer::printPolygon()
         return;
     }
     printVerteces();
-    BB bb(polygon.verteces);
-    std::cout << bb.orientation_to_string() << std::endl;
+//    BB bb(polygon.verteces);
+//    std::cout << bb.orientation_to_string() << std::endl;
     std::vector<Point> part1, part2;
     PointSet::SplitType parts_num = PointSet::split(polygon.verteces, part1, part2);
     if (parts_num == PointSet::SplitType::VERTICAL || parts_num == PointSet::SplitType::HORIZONTAL) {
