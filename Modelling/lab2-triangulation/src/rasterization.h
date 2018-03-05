@@ -74,15 +74,28 @@ class Edge;
 
 class Point : public glm::vec3 {
 public:
+    static bool lessByX(const Point &a, const Point &b) {
+            return a.x < b.x || (a.x == b.x && (a.y < b.y || (a.y == b.y && a.z < b.z)));
+    }
+    static bool lessByY(const Point &a, const Point &b) {
+            return a.y < b.y || (a.y == b.y && (a.x < b.x || (a.x == b.x && a.z < b.z)));
+    }
+    static bool greaterByX(const Point &a, const Point &b) {
+            return a.x > b.x || (a.x == b.x && (a.y > b.y || (a.y == b.y && a.z > b.z)));
+    }
+    static bool greaterByY(const Point &a, const Point &b) {
+            return a.y > b.y || (a.y == b.y && (a.x > b.x || (a.x == b.x && a.z > b.z)));
+    }
+
     using glm::vec3::vec3;
+
+    using Comparator = bool (*)(const Point &, const Point &);
     bool operator==(Point const &v2) const {
         return (x == v2.x) && (y == v2.y) && (z == v2.z);
     }
     bool operator<(Point const &v2) const {
-        return (x < v2.x) || (x == v2.x && (y < v2.y || (y == v2.y && z < v2.z)));
+        return lessByX(*this, v2);
     }
-    static bool lessByX(Point const &p1, Point const &p2);
-    static bool lessByY(Point const &p1, Point const &p2);
 };
 
 std::ostream& operator<<(std::ostream& os, const Point& p);
@@ -172,11 +185,11 @@ struct PointSet{
 
 
 struct Framebuffer {
-    GLsizei width;
-    GLsizei height; //Начало системы координат - в левом нижнем углу
+    GLsizei width = 0;
+    GLsizei height = 0; //Начало системы координат - в левом нижнем углу
     GLsizei size = 0;
     PointSet polygon;
-    Pixel *canvas;
+    Pixel *canvas = nullptr;
 
     Framebuffer();
     std::list<ActiveEdge> AET; //Active Edge Table - Список Активных Ребер

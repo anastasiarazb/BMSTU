@@ -49,9 +49,8 @@ void Framebuffer::reinitBuffer(GLsizei width, GLsizei height)
         size = new_size;
     }
     else if (size < new_size) {
-        Pixel *temp = (Pixel *)calloc(sizeof(Pixel), new_size);
         free(canvas);
-        canvas = temp;
+        canvas = (Pixel *)calloc(sizeof(Pixel), new_size);
         size = new_size;
     } //Если кадр меньше исходного, буфер не трогаем
 
@@ -81,14 +80,6 @@ Pixel& Framebuffer::access(GLint x, GLint y)
 /* ************************************************************ */
 
 /*COMPARATORS, COUT*/
-
-bool Point::lessByX(Point const &p1, Point const &p2) {
-    return p1.x < p2.x;
-}
-
-bool Point::lessByY(Point const &p1, Point const &p2) {
-    return p1.y < p2.y;
-}
 
 inline bool Framebuffer::inBuffer(GLint x, GLint y)
 {
@@ -417,8 +408,8 @@ bool Edge::intersect(const Point &a, const Point &b, const Point &c, const Point
         if (c > d)  std::swap (c, d);
         return std::max(a,c) <= std::min(b,d);
     };
-    return intersect_1 (a.x, b.x, c.x, d.x)
+    return intersect_1 (a.x, b.x, c.x, d.x)      // bounding box intersetcion
             && intersect_1 (a.y, b.y, c.y, d.y)
-            && area(a,b,c) * area(a,b,d) <= 0
+            && area(a,b,c) * area(a,b,d) <= 0    // pseudoscalar multiplication
             && area(c,d,a) * area(c,d,b) <= 0;
 }
