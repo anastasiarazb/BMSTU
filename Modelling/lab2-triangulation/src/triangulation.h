@@ -22,6 +22,8 @@ public:
 
     bool sharesVertexWith(Triangle const &triangle) const;
 
+    Edge getNextEdge(const Edge &e);
+
     bool circumCircleContains(Point const &v) const;
 
     Triangle& make_CCW();

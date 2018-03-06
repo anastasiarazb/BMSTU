@@ -183,7 +183,7 @@ void PointSet::clear()
 void PointSet::testPolygon()
 {
     clear();
-#define TEST_POLYGON
+//#define TEST_POLYGON
     addPoint(340,  286, 10);
     addPoint(395,  384, 49);
     addPoint(416,  313, 9);

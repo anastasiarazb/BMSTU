@@ -162,7 +162,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             if (ABC.has_neighbour[1]) {
                 return Triangulation {ABC, PBC};
             }
-            if (ABC.has_neighbour[1]) {
+            if (ABC.has_neighbour[2]) {
                 return Triangulation {ABC, PCA};
             }
         } // ABC.circumCircleContains(p)
@@ -193,8 +193,8 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
     }
     Triangulation::Contour::const_iterator L_it_top, R_it_low;
     Triangulation::Contour::const_reverse_iterator R_it_top, L_it_low;
-    Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
-    Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
+    Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
+    Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
     return result;
 }
 
