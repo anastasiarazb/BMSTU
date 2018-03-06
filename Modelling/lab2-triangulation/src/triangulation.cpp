@@ -196,11 +196,11 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
     Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
     Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
     Point P0 = R_it_top->a;
-    Point P1 = L_it_top->a;
-    Point Q1 = R_it_top->b;
-    Point Q2 = L_it_top->b;
-    std::cout << "top = " << top << " P0 = " << P0
-                 << " P1 = " << P1 << " Q1 = " << Q1 << " Q2 = " << Q2 << std::endl;
+    Point P1 = L_it_top->b;
+    Point Q0 = R_it_top->b;
+    Point Q1 = L_it_top->a;
+    std::cout << "*** top = " << top << " bottom = " << bottom << " P0 = " << P0
+                 << " P1 = " << P1 << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl;
     return result;
 }
 
@@ -298,9 +298,10 @@ bool Triangle::circumCircleContains(Point const &v) const {
 }
 
 bool Triangle::operator==(Triangle const &rhs) const {
-    return	(a() == rhs.a() || a() == rhs.b() || a() == rhs.c()) &&
-            (b() == rhs.a() || b() == rhs.b() || b() == rhs.c()) &&
-            (c() == rhs.a() || c() == rhs.b() || c() == rhs.c());
+    return a() == rhs.a() && b() == rhs.b() && c() == rhs.c();
+//    return	(a() == rhs.a() || a() == rhs.b() || a() == rhs.c()) &&
+//            (b() == rhs.a() || b() == rhs.b() || b() == rhs.c()) &&
+//            (c() == rhs.a() || c() == rhs.b() || c() == rhs.c());
 }
 
 Point calcNormal(std::vector<Triangle> &triangles, Triangle triangle, Point a) {
@@ -412,6 +413,41 @@ bool Triangle::isInside(const Point &p) const
     return false;
 }
 
+void Triangle::flip(Triangle &A, Triangle &B)
+{
+    // Get set of 4 different edges, which form triangles
+    // A = {E1, E2}, B = {E3, E4}
+    // after flip
+    // A = {E4, E1}, B = {E2, E3}
+    std::pair<Edge, bool> E1 = B.contains(A.edges[0])
+            ? A.getMarkedEdge(1)
+            : A.getMarkedEdge(0);
+    std::pair<Edge, bool> E2 = B.contains(A.edges[2])
+            ? A.getMarkedEdge(1)
+            : A.getMarkedEdge(2);
+    std::pair<Edge, bool> E3 = A.contains(B.edges[0])   // Can be e0 or e1 of B
+            ? B.getMarkedEdge(1)
+            : B.getMarkedEdge(0);
+    std::pair<Edge, bool> E4 = A.contains(B.edges[2])   // Can be e1 or e2 of B
+                ? B.getMarkedEdge(1)
+                : B.getMarkedEdge(0);
+    // We want order: E1->E2 & E3->E4
+    if (E2.first.b == E1.first.a) std::swap(E1, E2);
+    if (E4.first.b == E3.first.a) std::swap(E3, E4);
+    if (E4.first.b != E1.first.a) {
+        std::cout << "flip: error E4.first.b != E1.first.a ";
+        exit(1);
+    }
+    if (E2.first.b != E3.first.a) {
+        std::cout << "flip: error E2.first.b != E3.first.a ";
+        exit(1);
+    }
+    A.set(E4.first.a, E4.first.b, E1.first.b);
+    A.setNeigbours(E4.second, E1.second, true);
+    B.set(E2.first.a, E2.first.b, E3.first.b);
+    B.setNeigbours(E2.second, E3.second, true);
+}
+
 void Triangle::set(const Point &a, const Point &b, const Point &c)
 {
     points[0] = a;
@@ -493,19 +529,18 @@ Edge Triangulation::findTopTangent(Triangulation::Contour &L_contour,
     std::cout << "P0P1 = " << P0P1 << std::endl;
     std::cout << "R_prev = " << *R_prev << std::endl;
     std::cout << "R_next = " << *R_next << std::endl;
-    ++L_it, ++R_it;
     while((!is_convex(*L_prev, P0P1, *L_next) || !is_convex(*R_prev, P0P1, *R_next))
          && L_it != L_end && R_it != R_end ) {
         if (!is_convex(*L_prev, P0P1, *L_next)) {
             L_prev = L_next; // Step towards contour direction
-            L_next = &(*L_it);
             ++L_it;
+            L_next = &(*L_it);
             P0P1.set(R_prev->b, L_next->a);
         }
         if (!is_convex(*R_prev, P0P1, *R_next)) {
             R_next = R_prev; // Step backwards contour direction
-            R_prev = &(*R_it);
             ++R_it;
+            R_prev = &(*R_it);
             P0P1.set(R_prev->b, L_next->a);
         }
         std::cout << "L_prev = " << *L_prev << std::endl;
@@ -515,6 +550,8 @@ Edge Triangulation::findTopTangent(Triangulation::Contour &L_contour,
         std::cout << "R_next = " << *R_next << std::endl;
     }
     std::cout << "findTopTangent:" << std::endl;
+    --L_it;
+    --R_it;
     std::cout << P0P1 << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
     return P0P1;
 }
@@ -577,6 +614,16 @@ Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
     }
     std::cout << P0P1 << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
     return P0P1;
+}
+
+std::vector<Triangle>::iterator Triangulation::find_adjacent(const Edge &e)
+{
+    for (std::vector<Triangle>::iterator it = begin(); it != end(); ++it) {
+        if (it->contains(e)) {
+            return it;
+        }
+    }
+    return end();
 }
 
 

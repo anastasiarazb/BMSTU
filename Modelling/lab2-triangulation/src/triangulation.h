@@ -47,6 +47,24 @@ public:
         M.has_neighbour[NtoMidx] = true;
         N.has_neighbour[MtoNidx] = true;
     }
+
+    void setNeigbours(bool ab, bool bc, bool ca) {
+        has_neighbour[0] = ab;
+        has_neighbour[1] = bc;
+        has_neighbour[2] = ca;
+    }
+
+    bool contains(const Edge &e) const {
+        return e == edges[0] || e == edges[1] || e == edges[2];
+    }
+
+    using MarkedEdge = std::pair<Edge, bool>;
+
+    static void flip(Triangle &A, Triangle &B);
+
+    MarkedEdge getMarkedEdge(int i) {
+        return MarkedEdge {edges[i], has_neighbour[i]};
+    }
 };
 
 std::ostream& operator<< (std::ostream& os, const Triangle& x);
@@ -85,6 +103,7 @@ public:
                                Contour::reverse_iterator &L_it,
                                Contour::iterator &R_it
                                );
+    std::vector<Triangle>::iterator find_adjacent(const Edge &e);
 };
 
 class BB {

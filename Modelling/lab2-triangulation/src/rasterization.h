@@ -126,7 +126,7 @@ class Edge {
 
         void reverse();
 
-        bool operator == (Edge const &rhs) {
+        bool operator == (Edge const &rhs) const {
             return 	(a == rhs.a && b == rhs.b) ||
                     (a == rhs.b && b == rhs.a);
         }
