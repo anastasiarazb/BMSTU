@@ -82,7 +82,6 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
               << "B = " << b << "; C = " << c << std::endl;
     int count = 0;
     Triangle ABC(a, b, c), PAB, PCA, PBC;
-    std::cout << "between(p-a, b-a, c-a) = ";
     if (between(p-a, b-a, c-a)) {
         glm::vec3 med = glm::normalize(b-a) + glm::normalize(c-a);
         if (is_inside(p-a, med)) { // case 1 or 3
@@ -96,10 +95,10 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             Triangle::setNeigbours(ABC, 2, PCA, 1); // share CA
             Triangle::setNeigbours(PCA, 2, PAB, 0); // share PA
             Triangle::setNeigbours(ABC, 1, PAB, 1); // share AB
+            std::cout << "Triangulation {ABC, PAB, PCA}" << std::endl;
             return Triangulation {ABC, PAB, PCA};
         }
     }
-    std::cout << "between(p-b, a-b, c-b) = ";
     if (between(p-b, a-b, c-b)) {
         glm::vec3 med = glm::normalize(a-b) + glm::normalize(c-b);
         if (is_inside(p-b, med)) { // case 1 or 3
@@ -114,10 +113,10 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             Triangle::setNeigbours(ABC, 1, PBC, 1); // share BC
             Triangle::setNeigbours(PBC, 0, PAB, 2); // share PB
             Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
+            std::cout << "Triangulation {ABC, PAB, PBC}" << std::endl;
             return Triangulation {ABC, PAB, PBC};
         }
     }
-    std::cout << "between(p-c, a-c, b-c) = ";
     if (between(p-c, a-c, b-c)) {
         glm::vec3 med = glm::normalize(a-c) + glm::normalize(b-c);
         if (is_inside(p-c, med)) { // case 1 or 3
@@ -131,6 +130,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             Triangle::setNeigbours(ABC, 1, PBC, 1); // share BC
             Triangle::setNeigbours(PBC, 2, PCA, 0); // share PC
             Triangle::setNeigbours(ABC, 2, PCA, 1); // share AC
+            std::cout << "Triangulation {ABC, PBC, PCA}" << std::endl;
             return Triangulation {ABC, PBC, PCA};
         }
     }
@@ -175,12 +175,25 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
     return triangulate_4(verteces);
 }
 
-Triangulation merge(Triangulation &&part1, Triangulation &&part2, PointSet::SplitType orientation)
+Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitType orientation)
 {
     Triangulation result;
+    std::cout << "MERGE: \n P1:\n" << part1 << " P2:\n" << part2;
     result.reserve(part1.size() + part2.size());
     result.insert(result.begin(), part1.begin(), part1.end());
     result.insert(result.end(),   part2.begin(), part2.end());
+    std::vector<EdgeTriPair> L_contour;
+    std::vector<EdgeTriPair> R_contour;
+    if (orientation == PointSet::SplitType::HORIZONTAL) { // find top
+        L_contour = part1.contour(Point::greaterByX);
+        R_contour = part2.contour(Point::lessByX);
+    } else {
+        L_contour = part1.contour(Point::greaterByY);
+        R_contour = part2.contour(Point::lessByY);
+    }
+    Triangulation::Contour::const_iterator L_it;
+    Triangulation::Contour::const_reverse_iterator R_it;
+    Triangulation::findTopTangent(L_contour, R_contour, L_it, R_it);
     return result;
 }
 
@@ -202,9 +215,11 @@ Triangulation PointSet::triangulate(std::vector<Point> &verteces)
     if (orientation == PointSet::SplitType::SINGLE) {
         return Triangulation(triangulate(part1));
     }
-triangulate(part1).contour();
-triangulate(part2).contour();
-    return merge(std::move(triangulate(part1)), std::move(triangulate(part2)), orientation);
+//triangulate(part1).contour();
+//triangulate(part2).contour();
+    Triangulation p = triangulate(part2);
+    std::cout << "PointSet::triangulate" << p;
+    return merge(triangulate(part1), triangulate(part2), orientation);
 }
 
 PointSet::SplitType PointSet::split(std::vector<Point> &verteces
@@ -289,21 +304,21 @@ Point calcNormal(std::vector<Triangle> &triangles, Triangle triangle, Point a) {
         bool found = false;
         if (triangles[j].a() == a
             && !(triangle == triangles[j])){
-            normal = glm::cross((Point)triangles[j].edges[2], (Point)triangles[j].edges[0]);
+            normal = glm::cross((glm::vec3)triangles[j].edges[2], (glm::vec3)triangles[j].edges[0]);
             chosenEdge = triangles[j].edges[1];
             found = true;
         }
 
         if (triangles[j].b() == a
             && !(triangle == triangles[j])){
-            normal = glm::cross((Point)triangles[j].edges[0], (Point)triangles[j].edges[1]);
+            normal = glm::cross((glm::vec3)triangles[j].edges[0], (glm::vec3)triangles[j].edges[1]);
             chosenEdge = triangles[j].edges[2];
             found = true;
         }
 
         if (triangles[j].c() == a
             && !(triangle == triangles[j])){
-            normal = glm::cross((Point)triangles[j].edges[1], (Point)triangles[j].edges[2]);
+            normal = glm::cross((glm::vec3)triangles[j].edges[1], (glm::vec3)triangles[j].edges[2]);
             chosenEdge = triangles[j].edges[0];
             found = true;
         }
@@ -423,13 +438,24 @@ Triangle &Triangle::make_CCW()
     const Point &a = points[0];
     const Point &b = points[1];
     const Point &c = points[2];
+//    std::cout << "make_CCW " << *this <<  Edge::pseudoscalar(b-a, c-a);
     if (Edge::pseudoscalar(b-a, c-a) > 0) {
+//        std::cout << "> 0 " << std::endl;
         return *this;
     }
     std::swap(points[1], points[2]);
     set(points[0], points[1], points[2]);
     std::swap(neighbour[0], neighbour[2]);
+//    std::cout << " -> " << *this << std::endl;
     return *this;
+}
+
+std::ostream& operator<<(std::ostream& os, const Triangulation &T)
+{
+    for (const Triangle &t : T) {
+        os << t << std::endl;
+    }
+    return os;
 }
 
 Triangle *Triangle::getNext(const Point &p, Point &next_p, Orientation dir)
@@ -485,70 +511,133 @@ Point Triangle::minPointByY() const
     return P;
 }
 
-Edge Triangulation::findTopTangent(Triangulation &L, Triangulation &R,
-                                          PointSet::SplitType orientation)
+Edge Triangulation::findTopTangent(Triangulation::Contour &L_contour,
+                                   Triangulation::Contour &R_contour,
+                                   Triangulation::Contour::const_iterator &L_it,
+                                   Triangulation::Contour::const_reverse_iterator &R_it
+                                   )
 {
-    Triangle::Orientation L_circumvention, R_circumvention;
-    Point P0;
-    Point P1;
-    Triangle T0;
-    Triangle T1;
-    using edge_tri_pair = std::pair<Edge &, Triangle &>;
-    if (orientation == PointSet::SplitType::HORIZONTAL) { // find top
-//        std::vector<edge_tri_pair> L_contour(L.contour());
-//        std::vector<edge_tri_pair> R_contour(R.contour());
-        // Find the most right point of left part and the most left point of the right one
-        // and move up until contour is convex
 
-//        edge_tri_pair left_edge = std::max_element(L_contour.begin(), L_contour.end(), less_by_right_bound);
-//        edge_tri_pair right_edge = std::;
-        auto less_by_right_bound = [](const edge_tri_pair &X, const edge_tri_pair &Y)
-        {
-            return (BB(X.second).max_x < BB(Y.second).max_x);
-        };
-        auto less_by_left_bound = [](const edge_tri_pair &X, const edge_tri_pair &Y)
-        {
-            return (BB(X.second).min_x < BB(Y.second).min_x);
-        };
-
-//        L_circumvention = Triangle::Orientation::CCW;
-//        R_circumvention = Triangle::Orientation::CW;
-//        std::sort(L.begin(), L.end(), less_by_right_bound);
-//        std::sort(R.begin(), R.end(), less_by_left_bound);
-//        T0 = L.back();  // the most right point of left part
-//        T1 = R.front(); // the most left point of right part
-//        P0 = T0.maxPointByX();
-//        P1 = T1.minPointByX();
-//        Point nextP0, nextP1;
-//        Triangle nextT0, nextT1;
-//        nextT0 = *T0.getNext(P0, nextP0, L_circumvention);
-//        nextT1 = *T1.getNext(P1, nextP1, R_circumvention);
-//        while(Edge::pseudoscalar(P1-P0, ))
-    } else {
-        auto less_by_min_x = [](const Triangle &X, const Triangle &Y) //find left
-        {
-            return (BB(X).min_x < BB(Y).min_x);
-        };
-        std::sort(L.begin(), L.end(), less_by_min_x);
-        std::sort(R.begin(), L.end(), less_by_min_x);
+    auto is_convex = [](const EdgeTriPair *u, const glm::vec3 &p, const EdgeTriPair *v)->bool {
+        return Edge::pseudoscalar((glm::vec3)*(u->edge), p) >= 0
+                && Edge::pseudoscalar(p, (glm::vec3)*(v->edge)) >= 0;
+    };
+         L_it  = L_contour.cbegin();
+    auto L_end = L_contour.cend();
+         R_it  = R_contour.crbegin();
+    auto R_end = R_contour.crend();
+    // Find the most right point of left part and the most left point of the right one
+    // and move up until contour is convex
+    const EdgeTriPair *L_prev = &L_contour.back();
+    const EdgeTriPair *L_next = &L_contour.front();
+    const EdgeTriPair *R_prev = &R_contour.back();
+    const EdgeTriPair *R_next = &R_contour.front();
+    Edge P0P1(R_prev->edge->b, L_next->edge->a);
+    std::cout << "findTopTangent_A " << std::endl;
+    std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
+    std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+    std::cout << "P0P1 = " << P0P1 << std::endl;
+    std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
+    std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+    ++L_it, ++R_it;
+    while((!is_convex(L_prev, P0P1, L_next) || !is_convex(R_prev, P0P1, R_next))
+         && L_it != L_end && R_it != R_end ) {
+        if (!is_convex(L_prev, P0P1, L_next)) {
+            L_prev = L_next; // Step towards contour direction
+            L_next = &(*L_it);
+            ++L_it;
+            P0P1.set(R_prev->edge->b, L_next->edge->a);
+        }
+        if (!is_convex(R_prev, P0P1, R_next)) {
+            R_next = R_prev; // Step backwards contour direction
+            R_prev = &(*R_it);
+            ++R_it;
+            P0P1.set(R_prev->edge->b, L_next->edge->a);
+        }
+        std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
+        std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+        std::cout << "P0P1 = " << P0P1 << std::endl;
+        std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
+        std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
     }
-
-    return Edge(L.front().a(), R.front().a());
+    std::cout << "findTopTangent:" << std::endl;
+    std::cout << P0P1 << "; L=" <<  *L_it->tri <<  "; R=" <<  *R_it->tri << std::endl;
+    return P0P1;
 }
 
-std::vector<EdgeTriPair> Triangulation::contour(Point::Comparator compare)
+Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
+                                   Triangulation::Contour &R_contour,
+                                   Triangulation::Contour::const_reverse_iterator &L_it,
+                                   Triangulation::Contour::const_iterator         &R_it
+                                   )
+{
+
+    auto is_convex = [](const EdgeTriPair *u, const glm::vec3 &p, const EdgeTriPair *v)->bool {
+        return Edge::pseudoscalar((glm::vec3)*(u->edge), p) >= 0
+                && Edge::pseudoscalar(p, (glm::vec3)*(v->edge)) >= 0;
+    };
+         L_it  = L_contour.crbegin();
+    auto L_end = L_contour.crend();
+         R_it  = R_contour.cbegin();
+    auto R_end = R_contour.cend();
+    // Find the most right point of left part and the most left point of the right one
+    // and move up until contour is convex
+    const EdgeTriPair *L_prev = &L_contour.back();
+    const EdgeTriPair *L_next = &L_contour.front();
+    const EdgeTriPair *R_prev = &R_contour.back();
+    const EdgeTriPair *R_next = &R_contour.front();
+    Edge P0P1(L_next->edge->a, R_prev->edge->b);
+    std::cout << "findTopTangent_A " << std::endl;
+    std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
+    std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+    std::cout << "P0P1 = " << P0P1 << std::endl;
+    std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
+    std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+    ++L_it, ++R_it;
+    while((!is_convex(L_prev, P0P1, L_next) || !is_convex(R_prev, P0P1, R_next))
+         && L_it != L_end && R_it != R_end ) {
+        if (!is_convex(R_prev, P0P1, R_next)) {
+            R_prev = R_next; // Step towards contour direction
+            R_next = &(*R_it);
+            ++R_it;
+            P0P1.set(L_next->edge->a, R_prev->edge->b);
+        }
+        if (!is_convex(L_prev, P0P1, L_next)) {
+            L_next = L_prev; // Step backwards contour direction
+            L_prev = &(*L_it);
+            ++L_it;
+            P0P1.set(L_next->edge->a, R_prev->edge->b);
+        }
+        std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
+        std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+        std::cout << "P0P1 = " << P0P1 << std::endl;
+        std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
+        std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+    }
+    std::cout << "findTopTangent:" << std::endl;
+    std::cout << P0P1 << "; L=" <<  *L_it->tri <<  "; R=" <<  *R_it->tri << std::endl;
+    return P0P1;
+}
+
+
+Triangulation::Contour Triangulation::contour(Point::Comparator compare)
 {
     // std::map: search, removal, and insertion operations have logarithmic complexity
     // tie edge with its start point
     std::map<Point, EdgeTriPair, Point::Comparator> edge_set(compare);
     for (Triangle &T : *this) {
+        std::cout << "contour of  = " << T << std::endl;
+    }
+    for (Triangle &T : *this) {
         for (int i = 0; i < 3; ++i) {
             if (T.neighbour[i] == nullptr) {
+//                EdgeTriPair watafuk(&(T.edges[i]), &T);
+//                std::cout << "Emplace = " << T << std::endl;
                 edge_set.emplace(T.edges[i].a, EdgeTriPair(&(T.edges[i]), &T));
             }
         }
     }
-    std::vector<EdgeTriPair> result;
+    std::vector<EdgeTriPair> result; // using Countour = std::vector<EdgeTriPair>
     result.reserve(edge_set.size());
     // find start point of contour with point_comp condition
     result.push_back(edge_set.begin()->second);
@@ -556,6 +645,15 @@ std::vector<EdgeTriPair> Triangulation::contour(Point::Comparator compare)
     // for every edge get its end point and push next the edge starting with that point
     while (result.size() != edge_set.size()) {
         next_point = &result.back().edge->b;
+        if (edge_set.find(*next_point) == edge_set.end()) {
+            for (Triangle t : *this) {
+                std::cout << "ACHTUNG " << t << std::endl;
+            }
+            for (std::pair<Point, EdgeTriPair> pair : edge_set) {
+                std::cout << pair.first << " __ " << *pair.second.edge << std::endl;
+            }
+            exit(1);
+        }
         result.push_back(edge_set[*next_point]);
     }
     std::cout << "Triangulation::contour:" << std::endl;
@@ -564,4 +662,18 @@ std::vector<EdgeTriPair> Triangulation::contour(Point::Comparator compare)
     }
 
     return result;
+}
+
+std::ostream& operator<< (std::ostream& os, const Triangle& x)
+{
+//    return os << "<" << x.a() << ", " << x.b() << ", " << x.c() << ">";
+    os << "<" << x.a() << ", " << x.b() << ", " << x.c() << " + " ;
+    for (int i = 0; i < 3; ++i) {
+        if (x.neighbour[i] == nullptr) {
+            os << " -- 0";
+        } else {
+            os << " -- { " << x.neighbour[i]->a().x << ", " << x.neighbour[i]->a().y << "}" ;
+        }
+    }
+    return os << ">";
 }

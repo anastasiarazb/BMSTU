@@ -103,22 +103,20 @@ std::ostream& operator<<(std::ostream& os, const Point& p);
 class Edge {
     public:
         Edge(){}
-        Edge(const Point &a, const Point &b): a(a), b(b) {
-//            if (a < b) {
-//                this->a = a;
-//                this->b = b;
-//            } else {
-//                this->a = b;
-//                this->b = a;
-//            }
-        }
+        Edge(const Point &a, const Point &b): a(a), b(b) {}
 
         Edge(const Edge &e) : a(e.a), b(e.b){}
+
+        Edge &set(const Point &a, const Point &b) {
+            this->a = a;
+            this->b = b;
+            return *this;
+        }
 
         Point a;
         Point b;
 
-        operator Point() {
+        operator glm::vec3() const {
             return b - a;
         }
 

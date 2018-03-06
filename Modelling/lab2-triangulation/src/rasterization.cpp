@@ -137,7 +137,9 @@ std::ostream& operator<<(std::ostream& os, const Framebuffer& F)
 
 std::ostream& operator<<(std::ostream& os, const Point& p)
 {
-    return os << "(" << p.x << ", " << p.y << ", " << p.z << ")";
+//    return os << "(" << p.x << ")";
+    return os << "(" << p.x << ", " << p.y << ")";
+//    return os << "(" << p.x << ", " << p.y << ", " << p.z << ")";
 }
 
 /* ___________________ADD___________________ */
@@ -156,7 +158,7 @@ void PointSet::addMousePoint(GLFWwindow *window) //Передача коорди
     //Координаты мыши в с.к. буфера кадра
     //Корректная работа в случае, когда "самодельный" буфер по размеру не совпадает с размером окна
     addPoint(x, height - y, z);
-    printf("PUSH %d,  %d, %d\n", x, height - y, z);
+    printf("addPoint(%d,  %d, %d)\n", x, height - y, z);
     need_to_redraw = true;
 }
 
@@ -181,11 +183,14 @@ void PointSet::clear()
 void PointSet::testPolygon()
 {
     clear();
-
-    addPoint(216, 451, 10);
-    addPoint(520, 222, 9);
-    addPoint(520, 222, 49);
-    addPoint(306, 185, 34);
+#define TEST_POLYGON
+    addPoint(340,  286, 10);
+    addPoint(395,  384, 49);
+    addPoint(416,  313, 9);
+    addPoint(418,  273, 34);
+    addPoint(580,  265, 32);
+    addPoint(541,  356, 37);
+    addPoint(595,  415, 37);
 
 //    addPoint(100, 370, 31);
 //    addPoint(191, 356, 19);
@@ -246,8 +251,9 @@ void Framebuffer::printVerteces()
 void Framebuffer::printPolygon()
 {
     clearCanvas();
-
-//    polygon.testPolygon();
+#ifdef TEST_POLYGON
+    polygon.testPolygon();
+#endif
 //    switch(polygon.verteces.size()){
 //    case 0: //Пустое поле, нечего рисовать
 //        return;

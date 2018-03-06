@@ -20,6 +20,22 @@ public:
     {}
     Triangle() = default;
 
+    Triangle(const Triangle &o)
+        : points   {o.points[0],    o.points[1],    o.points[2]},
+          edges    {o.edges [0],    o.edges [1],    o.edges [2]},
+          guides   {o.guides[0],    o.guides[1],    o.guides[2]},
+          neighbour{o.neighbour[0], o.neighbour[1], o.neighbour[2]} {}
+    Triangle &operator=(const Triangle &o) {
+        for (int i = 0; i < 3; ++i) {
+            points[i] = o.points[i];
+            edges[i] = o.edges[i];
+            guides[i] = o.guides[i];
+            neighbour[i] = o.neighbour[i];
+        }
+        return *this;
+
+    }
+
     bool sharesVertexWith(Triangle const &triangle) const;
 
     bool circumCircleContains(Point const &v) const;
@@ -27,10 +43,11 @@ public:
     Triangle& make_CCW();
 
     bool operator==(Triangle const &rhs) const;
-    Triangle &operator=(const Triangle &other) {
-        set(other.a(), other.b(), other.c());
-        return *this;
-    }
+
+//    Triangle &operator=(Triangle &other) {
+//        set(other.a(), other.b(), other.c());
+//        return *this;
+//    }
 
 
 //    Point a, b, c;
@@ -57,8 +74,11 @@ public:
     Point minPointByX() const;
     Point minPointByY() const;
 };
-
+std::ostream& operator<< (std::ostream& os, const Triangle& x);
 struct Edge;
+class  Triangle;
+
+std::ostream& operator<<(std::ostream& os, const Triangulation &T);
 
 struct EdgeTriPair {
     Edge *edge = nullptr;
@@ -71,21 +91,33 @@ struct EdgeTriPair {
 
 class Triangulation: public std::vector<Triangle> {
 public:
-
-    Triangulation(const Triangulation &other) : std::vector<Triangle>(other) {make_CCW();}
-    Triangulation(Triangulation&& other) : std::vector<Triangle>(std::move(other)) {make_CCW();}
+    Triangulation(const Triangulation &other) : std::vector<Triangle>(other) {initialize();}
+    Triangulation(Triangulation&& other) : std::vector<Triangle>(std::move(other)) {initialize();}
     Triangulation() : std::vector<Triangle>() {}
-    Triangulation(std::initializer_list<Triangle> init): std::vector<Triangle>(init) {make_CCW();}
+    Triangulation(std::initializer_list<Triangle> init): std::vector<Triangle>(init) {initialize();}
+    void initialize() {
+        make_CCW();
+        std::cout << *this << std::endl;
+    }
+
     std::set<Edge> edges();
     void make_CCW() {
         for (Triangle &p : *this) {
             p.make_CCW();
         }
     }
-
-    std::vector<EdgeTriPair> contour(Point::Comparator compare = Point::lessByX
-            /*[](const Point &a, const Point &b) {return Point::lessByX(a, b);}*/);
-    static Edge findTopTangent(Triangulation &L, Triangulation &R, PointSet::SplitType orientation);
+    using Contour = std::vector<EdgeTriPair>;
+    Contour contour(Point::Comparator compare = Point::lessByX);
+    static Edge findTopTangent(Triangulation::Contour &L_contour,
+                               Triangulation::Contour &R_contour,
+                               std::vector<EdgeTriPair>::const_iterator &L_it,
+                               std::vector<EdgeTriPair>::const_reverse_iterator &R_it
+                               );
+    static Edge findLowTangent(Triangulation::Contour &L_contour,
+                               Triangulation::Contour &R_contour,
+                               std::vector<EdgeTriPair>::const_reverse_iterator &L_it,
+                               std::vector<EdgeTriPair>::const_iterator &R_it
+                               );
 };
 
 class BB {

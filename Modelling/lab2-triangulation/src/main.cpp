@@ -43,7 +43,7 @@ int main()
     glfwSetKeyCallback(window, keyboard_callback);
     glfwSetFramebufferSizeCallback(window, resize_callback);
     glfwSetMouseButtonCallback(window, mouse_callback);
-    glfwSetCursorPosCallback(window, cursor_callback);
+//    glfwSetCursorPosCallback(window, cursor_callback);
 
     resize_callback(window, 800, 600);
 
