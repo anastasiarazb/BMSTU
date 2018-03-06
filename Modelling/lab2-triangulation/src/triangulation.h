@@ -55,15 +55,6 @@ class  Triangle;
 
 std::ostream& operator<<(std::ostream& os, const Triangulation &T);
 
-struct EdgeTriPair {
-    Edge *edge = nullptr;
-    Triangle *tri = nullptr;
-    EdgeTriPair(Edge *edge, Triangle *tri): edge(edge), tri(tri) {}
-    EdgeTriPair() = default;
-    EdgeTriPair(EdgeTriPair &&other) : edge(other.edge), tri(other.tri) {}
-    EdgeTriPair(const EdgeTriPair &other) : edge(other.edge), tri(other.tri) {}
-};
-
 class Triangulation: public std::vector<Triangle> {
 public:
     Triangulation(const Triangulation &other) : std::vector<Triangle>(other) {initialize();}
@@ -82,17 +73,17 @@ public:
             p.make_CCW();
         }
     }
-    using Contour = std::vector<EdgeTriPair>;
+    using Contour = std::vector<Edge>;
     Contour contour(Point::Comparator compare = Point::lessByX);
-    static Edge findTopTangent(Triangulation::Contour &L_contour,
-                               Triangulation::Contour &R_contour,
-                               std::vector<EdgeTriPair>::const_iterator &L_it,
-                               std::vector<EdgeTriPair>::const_reverse_iterator &R_it
+    static Edge findTopTangent(Contour &L_contour,
+                               Contour &R_contour,
+                               Contour::iterator &L_it,
+                               Contour::reverse_iterator &R_it
                                );
-    static Edge findLowTangent(Triangulation::Contour &L_contour,
-                               Triangulation::Contour &R_contour,
-                               std::vector<EdgeTriPair>::const_reverse_iterator &L_it,
-                               std::vector<EdgeTriPair>::const_iterator &R_it
+    static Edge findLowTangent(Contour &L_contour,
+                               Contour &R_contour,
+                               Contour::reverse_iterator &L_it,
+                               Contour::iterator &R_it
                                );
 };
 

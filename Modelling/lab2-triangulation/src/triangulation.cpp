@@ -182,8 +182,8 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
     result.reserve(part1.size() + part2.size());
     result.insert(result.begin(), part1.begin(), part1.end());
     result.insert(result.end(),   part2.begin(), part2.end());
-    std::vector<EdgeTriPair> L_contour;
-    std::vector<EdgeTriPair> R_contour;
+    std::vector<Edge> L_contour;
+    std::vector<Edge> R_contour;
     if (orientation == PointSet::SplitType::HORIZONTAL) { // find top
         L_contour = part1.contour(Point::greaterByX);
         R_contour = part2.contour(Point::lessByX);
@@ -191,10 +191,16 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
         L_contour = part1.contour(Point::greaterByY);
         R_contour = part2.contour(Point::lessByY);
     }
-    Triangulation::Contour::const_iterator L_it_top, R_it_low;
-    Triangulation::Contour::const_reverse_iterator R_it_top, L_it_low;
+    Triangulation::Contour::iterator L_it_top, R_it_low;
+    Triangulation::Contour::reverse_iterator R_it_top, L_it_low;
     Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
     Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
+    Point P0 = R_it_top->a;
+    Point P1 = L_it_top->a;
+    Point Q1 = R_it_top->b;
+    Point Q2 = L_it_top->b;
+    std::cout << "top = " << top << " P0 = " << P0
+                 << " P1 = " << P1 << " Q1 = " << Q1 << " Q2 = " << Q2 << std::endl;
     return result;
 }
 
@@ -461,109 +467,115 @@ std::ostream& operator<<(std::ostream& os, const Triangulation &T)
 
 Edge Triangulation::findTopTangent(Triangulation::Contour &L_contour,
                                    Triangulation::Contour &R_contour,
-                                   Triangulation::Contour::const_iterator &L_it,
-                                   Triangulation::Contour::const_reverse_iterator &R_it
+                                   Triangulation::Contour::iterator &L_it,
+                                   Triangulation::Contour::reverse_iterator &R_it
                                    )
 {
 
-    auto is_convex = [](const EdgeTriPair *u, const glm::vec3 &p, const EdgeTriPair *v)->bool {
-        return Edge::pseudoscalar((glm::vec3)*(u->edge), p) >= 0
-                && Edge::pseudoscalar(p, (glm::vec3)*(v->edge)) >= 0;
+    auto is_convex = [](const Edge &u, const glm::vec3 &p, const Edge &v)->bool {
+        return Edge::pseudoscalar((glm::vec3)u, p) >= 0
+                && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
     };
-         L_it  = L_contour.cbegin();
-    auto L_end = L_contour.cend();
-         R_it  = R_contour.crbegin();
-    auto R_end = R_contour.crend();
+         L_it  = L_contour.begin();
+    auto L_end = L_contour.end();
+         R_it  = R_contour.rbegin();
+    auto R_end = R_contour.rend();
     // Find the most right point of left part and the most left point of the right one
     // and move up until contour is convex
-    const EdgeTriPair *L_prev = &L_contour.back();
-    const EdgeTriPair *L_next = &L_contour.front();
-    const EdgeTriPair *R_prev = &R_contour.back();
-    const EdgeTriPair *R_next = &R_contour.front();
-    Edge P0P1(R_prev->edge->b, L_next->edge->a);
+    Edge *L_prev = &L_contour.back();
+    Edge *L_next = &L_contour.front();
+    Edge *R_prev = &R_contour.back();
+    Edge *R_next = &R_contour.front();
+    Edge P0P1(R_prev->b, L_next->a);
     std::cout << "findTopTangent_A " << std::endl;
-    std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
-    std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+    std::cout << "L_prev = " << *L_prev << std::endl;
+    std::cout << "L_next = " << *L_next  << std::endl;
     std::cout << "P0P1 = " << P0P1 << std::endl;
-    std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
-    std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+    std::cout << "R_prev = " << *R_prev << std::endl;
+    std::cout << "R_next = " << *R_next << std::endl;
     ++L_it, ++R_it;
-    while((!is_convex(L_prev, P0P1, L_next) || !is_convex(R_prev, P0P1, R_next))
+    while((!is_convex(*L_prev, P0P1, *L_next) || !is_convex(*R_prev, P0P1, *R_next))
          && L_it != L_end && R_it != R_end ) {
-        if (!is_convex(L_prev, P0P1, L_next)) {
+        if (!is_convex(*L_prev, P0P1, *L_next)) {
             L_prev = L_next; // Step towards contour direction
             L_next = &(*L_it);
             ++L_it;
-            P0P1.set(R_prev->edge->b, L_next->edge->a);
+            P0P1.set(R_prev->b, L_next->a);
         }
-        if (!is_convex(R_prev, P0P1, R_next)) {
+        if (!is_convex(*R_prev, P0P1, *R_next)) {
             R_next = R_prev; // Step backwards contour direction
             R_prev = &(*R_it);
             ++R_it;
-            P0P1.set(R_prev->edge->b, L_next->edge->a);
+            P0P1.set(R_prev->b, L_next->a);
         }
-        std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
-        std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+        std::cout << "L_prev = " << *L_prev << std::endl;
+        std::cout << "L_next = " << *L_next  << std::endl;
         std::cout << "P0P1 = " << P0P1 << std::endl;
-        std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
-        std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+        std::cout << "R_prev = " << *R_prev << std::endl;
+        std::cout << "R_next = " << *R_next << std::endl;
     }
     std::cout << "findTopTangent:" << std::endl;
-    std::cout << P0P1 << "; L=" <<  *L_it->tri <<  "; R=" <<  *R_it->tri << std::endl;
+    std::cout << P0P1 << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
     return P0P1;
 }
 
 Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
                                    Triangulation::Contour &R_contour,
-                                   Triangulation::Contour::const_reverse_iterator &L_it,
-                                   Triangulation::Contour::const_iterator         &R_it
+                                   Triangulation::Contour::reverse_iterator &L_it,
+                                   Triangulation::Contour::iterator &R_it
                                    )
 {
 
-    auto is_convex = [](const EdgeTriPair *u, const glm::vec3 &p, const EdgeTriPair *v)->bool {
-        return Edge::pseudoscalar((glm::vec3)*(u->edge), p) >= 0
-                && Edge::pseudoscalar(p, (glm::vec3)*(v->edge)) >= 0;
+    auto is_convex = [](const Edge &u, const glm::vec3 &p, const Edge &v)->bool {
+        return Edge::pseudoscalar((glm::vec3)u, p) >= 0
+                && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
     };
-         L_it  = L_contour.crbegin();
-    auto L_end = L_contour.crend();
-         R_it  = R_contour.cbegin();
-    auto R_end = R_contour.cend();
+         L_it  = L_contour.rbegin();
+    auto L_end = L_contour.rend();
+         R_it  = R_contour.begin();
+    auto R_end = R_contour.end();
     // Find the most right point of left part and the most left point of the right one
     // and move up until contour is convex
-    const EdgeTriPair *L_prev = &L_contour.back();
-    const EdgeTriPair *L_next = &L_contour.front();
-    const EdgeTriPair *R_prev = &R_contour.back();
-    const EdgeTriPair *R_next = &R_contour.front();
-    Edge P0P1(L_next->edge->a, R_prev->edge->b);
-    std::cout << "findTopTangent_A " << std::endl;
-    std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
-    std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+    const Edge *L_prev = &L_contour.back();
+    const Edge *L_next = &L_contour.front();
+    const Edge *R_prev = &R_contour.back();
+    const Edge *R_next = &R_contour.front();
+    Edge P0P1(L_next->a, R_prev->b);
+    std::cout << "findLowTangent_A " << std::endl;
+    std::cout << "L_prev = " << *L_prev << std::endl;
+    std::cout << "L_next = " << *L_next << std::endl;
     std::cout << "P0P1 = " << P0P1 << std::endl;
-    std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
-    std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+    std::cout << "R_prev = " << *R_prev << std::endl;
+    std::cout << "R_next = " << *R_next << std::endl;
     ++L_it, ++R_it;
-    while((!is_convex(L_prev, P0P1, L_next) || !is_convex(R_prev, P0P1, R_next))
+    while((!is_convex(*L_prev, P0P1, *L_next) || !is_convex(*R_prev, P0P1, *R_next))
          && L_it != L_end && R_it != R_end ) {
-        if (!is_convex(R_prev, P0P1, R_next)) {
+        if (!is_convex(*R_prev, P0P1, *R_next)) {
             R_prev = R_next; // Step towards contour direction
             R_next = &(*R_it);
             ++R_it;
-            P0P1.set(L_next->edge->a, R_prev->edge->b);
+            P0P1.set(L_next->a, R_prev->b);
         }
-        if (!is_convex(L_prev, P0P1, L_next)) {
+        if (!is_convex(*L_prev, P0P1, *L_next)) {
             L_next = L_prev; // Step backwards contour direction
             L_prev = &(*L_it);
             ++L_it;
-            P0P1.set(L_next->edge->a, R_prev->edge->b);
+            P0P1.set(L_next->a, R_prev->b);
         }
-        std::cout << "L_prev = " << *L_prev->edge << " + " <<  *L_prev->tri << std::endl;
-        std::cout << "L_next = " << *L_next->edge << " + " <<  *L_next->tri << std::endl;
+        std::cout << "L_prev = " << *L_prev << std::endl;
+        std::cout << "L_next = " << *L_next << std::endl;
         std::cout << "P0P1 = " << P0P1 << std::endl;
-        std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
-        std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
+        std::cout << "R_prev = " << *R_prev << std::endl;
+        std::cout << "R_next = " << *R_next << std::endl;
     }
     std::cout << "findLowTangent:" << std::endl;
-    std::cout << P0P1 << "; L=" <<  *L_it->tri <<  "; R=" <<  *R_it->tri << std::endl;
+    if (L_it == L_end) {
+        std::cout << P0P1 << "; L_it == L_end"<< std::endl;
+    }
+    if (R_it == R_end) {
+        std::cout << P0P1 << "; R_it == R_end"<< std::endl;
+    }
+    std::cout << P0P1 << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
     return P0P1;
 }
 
@@ -572,7 +584,7 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
 {
     // std::map: search, removal, and insertion operations have logarithmic complexity
     // tie edge with its start point
-    std::map<Point, EdgeTriPair, Point::Comparator> edge_set(compare);
+    std::map<Point, Edge, Point::Comparator> edge_set(compare);
     for (Triangle &T : *this) {
         std::cout << "contour of  = " << T << std::endl;
     }
@@ -581,26 +593,26 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
             if (!T.has_neighbour[i]) {
 //                EdgeTriPair watafuk(&(T.edges[i]), &T);
 //                std::cout << "Emplace = " << T << std::endl;
-                edge_set.emplace(T.edges[i].a, EdgeTriPair(&(T.edges[i]), &T));
+                edge_set.emplace(T.edges[i].a, T.edges[i]);
             }
         }
     }
-    std::vector<EdgeTriPair> result; // using Countour = std::vector<EdgeTriPair>
+    std::vector<Edge> result; // using Countour = std::vector<EdgeTriPair>
     result.reserve(edge_set.size());
     // find start point of contour with point_comp condition
     result.push_back(edge_set.begin()->second);
     Point *next_point = nullptr;
-    for (std::pair<Point, EdgeTriPair> pair : edge_set) {
-        std::cout << pair.first << " __ " << *pair.second.edge << std::endl;
+    for (std::pair<Point, Edge> pair : edge_set) {
+        std::cout << pair.first << " __ " << pair.second << std::endl;
     }
     // for every edge get its end point and push next the edge starting with that point
     while (result.size() != edge_set.size()) {
-        next_point = &result.back().edge->b;
-        std::cout << "result.back().edge = " << *result.back().edge << std::endl;
+        next_point = &result.back().b;
+        std::cout << "result.back() = " << result.back() << std::endl;
         if (edge_set.find(*next_point) == edge_set.end()) {
             std::cout << *next_point << " not found!" << std::endl;
-            for (std::pair<Point, EdgeTriPair> pair : edge_set) {
-                std::cout << pair.first << " __ " << *pair.second.edge << std::endl;
+            for (const std::pair<Point, Edge> &pair : edge_set) {
+                std::cout << pair.first << " __ " << pair.second << std::endl;
             }
             exit(1);
         }
@@ -608,7 +620,7 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
     }
     std::cout << "Triangulation::contour:" << std::endl;
     for (auto &p: result) {
-        std::cout << *p.edge << std::endl;
+        std::cout << p << std::endl;
     }
 
     return result;

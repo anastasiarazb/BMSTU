@@ -135,6 +135,10 @@ class Edge {
         static float pseudoscalar(const glm::vec3 &u, const glm::vec3 &v) {
             return u.x*v.y - v.x*u.y;
         }
+
+        static bool less180(const glm::vec3 &u, const glm::vec3 &v) {
+            return pseudoscalar(u, v) > 0;
+        }
 };
 
 
