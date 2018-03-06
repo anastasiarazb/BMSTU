@@ -138,31 +138,32 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
     if (count == 1) { // case 1 => 2 triangles
         // Check Delaunay condition
         if (ABC.circumCircleContains(p)) {
-            if (ABC.neighbour[0] != nullptr) {
+            if (ABC.has_neighbour[0]) {
                 PCA.set(p, c, a);
                 PBC.set(p, c, b);
-                PCA.neighbour[0] = &PBC;
-                PBC.neighbour[0] = &PCA;
+                Triangle::setNeigbours(PCA, 0, PBC, 0);
                 std::cout << "count = 1, neighbour = 0";
                 return Triangulation {PCA, PBC};
-            } else if (ABC.neighbour[1] != nullptr) {
+            } else if (ABC.has_neighbour[1]) {
                 PAB.set(p, a, b);
                 PCA.set(p, a, c);
-                PAB.neighbour[0] = &PCA;
-                PCA.neighbour[0] = &PAB;
+                Triangle::setNeigbours(PCA, 0, PAB, 0);
                 return Triangulation {PAB, PCA};
             } else {
                 PAB.set(p, b, a);
                 PBC.set(p, b, c);
-                PAB.neighbour[0] = &PBC;
-                PBC.neighbour[0] = &PAB;
+                Triangle::setNeigbours(PAB, 0, PBC, 0);
                 return Triangulation {PAB, PBC};
             }
         } else { // the pair satisfies Delaunay's condition
-            for (int i = 0; i < 3; ++i) {
-                if (ABC.neighbour[i] != nullptr) {
-                    return Triangulation {ABC, *ABC.neighbour[i]};
-                }
+            if (ABC.has_neighbour[0]) {
+                return Triangulation {ABC, PAB};
+            }
+            if (ABC.has_neighbour[1]) {
+                return Triangulation {ABC, PBC};
+            }
+            if (ABC.has_neighbour[1]) {
+                return Triangulation {ABC, PCA};
             }
         } // ABC.circumCircleContains(p)
     } // if (count == 1) // case 1 => 2 triangles
@@ -445,7 +446,7 @@ Triangle &Triangle::make_CCW()
     }
     std::swap(points[1], points[2]);
     set(points[0], points[1], points[2]);
-    std::swap(neighbour[0], neighbour[2]);
+    std::swap(has_neighbour[0], has_neighbour[2]);
 //    std::cout << " -> " << *this << std::endl;
     return *this;
 }
@@ -456,59 +457,6 @@ std::ostream& operator<<(std::ostream& os, const Triangulation &T)
         os << t << std::endl;
     }
     return os;
-}
-
-Triangle *Triangle::getNext(const Point &p, Point &next_p, Orientation dir)
-{
-    if (dir == Orientation::CCW) {
-        for (int i = 0; i < 3; ++i) {
-            if (points[i] == p) {
-                next_p = points[(i + 1) % 3];
-                return (neighbour[i] == nullptr) ? this : neighbour[i];
-            }
-        }
-    } else {
-        for (int i = 2; i >= 0; --i) {
-            if (points[i] == p) {
-                next_p = points[(i-1) % 3];
-                Triangle *next_neighbour = neighbour[(i-1) % 3];
-                return (next_neighbour == nullptr) ? this : next_neighbour ;
-            }
-        }
-    }
-    return nullptr; // Point does not belong to the triangle
-}
-
-Point Triangle::maxPointByX() const
-{
-    Point P = points[0];
-    if (points[1].x > P.x) P = points[1];
-    if (points[2].x > P.x) P = points[2];
-    return P;
-}
-
-Point Triangle::maxPointByY() const
-{
-    Point P = points[0];
-    if (points[1].y > P.y) P = points[1];
-    if (points[2].y > P.y) P = points[2];
-    return P;
-}
-
-Point Triangle::minPointByX() const
-{
-    Point P = points[0];
-    if (points[1].x < P.x) P = points[1];
-    if (points[2].x < P.x) P = points[2];
-    return P;
-}
-
-Point Triangle::minPointByY() const
-{
-    Point P = points[0];
-    if (points[1].y < P.y) P = points[1];
-    if (points[2].y < P.y) P = points[2];
-    return P;
 }
 
 Edge Triangulation::findTopTangent(Triangulation::Contour &L_contour,
@@ -630,7 +578,7 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
     }
     for (Triangle &T : *this) {
         for (int i = 0; i < 3; ++i) {
-            if (T.neighbour[i] == nullptr) {
+            if (T.has_neighbour[i]) {
 //                EdgeTriPair watafuk(&(T.edges[i]), &T);
 //                std::cout << "Emplace = " << T << std::endl;
                 edge_set.emplace(T.edges[i].a, EdgeTriPair(&(T.edges[i]), &T));
@@ -669,11 +617,7 @@ std::ostream& operator<< (std::ostream& os, const Triangle& x)
 //    return os << "<" << x.a() << ", " << x.b() << ", " << x.c() << ">";
     os << "<" << x.a() << ", " << x.b() << ", " << x.c() << " + " ;
     for (int i = 0; i < 3; ++i) {
-        if (x.neighbour[i] == nullptr) {
-            os << " -- 0";
-        } else {
-            os << " -- { " << x.neighbour[i]->a().x << ", " << x.neighbour[i]->a().y << "}" ;
-        }
+        os << " -- { " << x.has_neighbour[i] <<  "}" ;
     }
     return os << ">";
 }

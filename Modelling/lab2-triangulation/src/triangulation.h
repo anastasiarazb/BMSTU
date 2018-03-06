@@ -20,22 +20,6 @@ public:
     {}
     Triangle() = default;
 
-    Triangle(const Triangle &o)
-        : points   {o.points[0],    o.points[1],    o.points[2]},
-          edges    {o.edges [0],    o.edges [1],    o.edges [2]},
-          guides   {o.guides[0],    o.guides[1],    o.guides[2]},
-          neighbour{o.neighbour[0], o.neighbour[1], o.neighbour[2]} {}
-    Triangle &operator=(const Triangle &o) {
-        for (int i = 0; i < 3; ++i) {
-            points[i] = o.points[i];
-            edges[i] = o.edges[i];
-            guides[i] = o.guides[i];
-            neighbour[i] = o.neighbour[i];
-        }
-        return *this;
-
-    }
-
     bool sharesVertexWith(Triangle const &triangle) const;
 
     bool circumCircleContains(Point const &v) const;
@@ -44,12 +28,6 @@ public:
 
     bool operator==(Triangle const &rhs) const;
 
-//    Triangle &operator=(Triangle &other) {
-//        set(other.a(), other.b(), other.c());
-//        return *this;
-//    }
-
-
 //    Point a, b, c;
     const Point &a() const {return points[0];}
     const Point &b() const {return points[1];}
@@ -57,23 +35,18 @@ public:
     Point points[3];
     Edge edges[3];
     glm::vec3 guides[3];
-    Triangle *neighbour[3] = {nullptr};
+    bool has_neighbour[3] = {false};
 
     float maxCos() const;
     bool isInside(const Point &p) const;
     void set(const Point &a, const Point &b, const Point &c);
 
     static void setNeigbours(Triangle &M, int NtoMidx, Triangle &N, int MtoNidx) {
-        M.neighbour[NtoMidx] = &N;
-        N.neighbour[MtoNidx] = &M;
+        M.has_neighbour[NtoMidx] = true;
+        N.has_neighbour[MtoNidx] = true;
     }
-
-    Triangle *getNext(const Point &p, Point &next_p, Orientation dir);
-    Point maxPointByX() const;
-    Point maxPointByY() const;
-    Point minPointByX() const;
-    Point minPointByY() const;
 };
+
 std::ostream& operator<< (std::ostream& os, const Triangle& x);
 struct Edge;
 class  Triangle;
