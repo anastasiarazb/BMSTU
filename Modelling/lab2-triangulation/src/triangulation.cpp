@@ -94,7 +94,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             PCA.set(p, c, a);
             Triangle::setNeigbours(ABC, 2, PCA, 1); // share CA
             Triangle::setNeigbours(PCA, 2, PAB, 0); // share PA
-            Triangle::setNeigbours(ABC, 1, PAB, 1); // share AB
+            Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
             std::cout << "Triangulation {ABC, PAB, PCA}" << std::endl;
             return Triangulation {ABC, PAB, PCA};
         }
@@ -179,7 +179,6 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
 Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitType orientation)
 {
     Triangulation result;
-    std::cout << "MERGE: \n P1:\n" << part1 << " P2:\n" << part2;
     result.reserve(part1.size() + part2.size());
     result.insert(result.begin(), part1.begin(), part1.end());
     result.insert(result.end(),   part2.begin(), part2.end());
@@ -192,9 +191,10 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
         L_contour = part1.contour(Point::greaterByY);
         R_contour = part2.contour(Point::lessByY);
     }
-    Triangulation::Contour::const_iterator L_it;
-    Triangulation::Contour::const_reverse_iterator R_it;
-    Triangulation::findTopTangent(L_contour, R_contour, L_it, R_it);
+    Triangulation::Contour::const_iterator L_it_top, R_it_low;
+    Triangulation::Contour::const_reverse_iterator R_it_top, L_it_low;
+    Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
+    Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
     return result;
 }
 
@@ -218,8 +218,8 @@ Triangulation PointSet::triangulate(std::vector<Point> &verteces)
     }
 //triangulate(part1).contour();
 //triangulate(part2).contour();
-    Triangulation p = triangulate(part2);
-    std::cout << "PointSet::triangulate" << p;
+//    Triangulation p = triangulate(part2);
+//    std::cout << "PointSet::triangulate" << p;
     return merge(triangulate(part1), triangulate(part2), orientation);
 }
 
@@ -562,7 +562,7 @@ Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
         std::cout << "R_prev = " << *R_prev->edge << " + " <<  *R_prev->tri << std::endl;
         std::cout << "R_next = " << *R_next->edge << " + " <<  *R_next->tri << std::endl;
     }
-    std::cout << "findTopTangent:" << std::endl;
+    std::cout << "findLowTangent:" << std::endl;
     std::cout << P0P1 << "; L=" <<  *L_it->tri <<  "; R=" <<  *R_it->tri << std::endl;
     return P0P1;
 }
@@ -578,7 +578,7 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
     }
     for (Triangle &T : *this) {
         for (int i = 0; i < 3; ++i) {
-            if (T.has_neighbour[i]) {
+            if (!T.has_neighbour[i]) {
 //                EdgeTriPair watafuk(&(T.edges[i]), &T);
 //                std::cout << "Emplace = " << T << std::endl;
                 edge_set.emplace(T.edges[i].a, EdgeTriPair(&(T.edges[i]), &T));
@@ -590,13 +590,15 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
     // find start point of contour with point_comp condition
     result.push_back(edge_set.begin()->second);
     Point *next_point = nullptr;
+    for (std::pair<Point, EdgeTriPair> pair : edge_set) {
+        std::cout << pair.first << " __ " << *pair.second.edge << std::endl;
+    }
     // for every edge get its end point and push next the edge starting with that point
     while (result.size() != edge_set.size()) {
         next_point = &result.back().edge->b;
+        std::cout << "result.back().edge = " << *result.back().edge << std::endl;
         if (edge_set.find(*next_point) == edge_set.end()) {
-            for (Triangle t : *this) {
-                std::cout << "ACHTUNG " << t << std::endl;
-            }
+            std::cout << *next_point << " not found!" << std::endl;
             for (std::pair<Point, EdgeTriPair> pair : edge_set) {
                 std::cout << pair.first << " __ " << *pair.second.edge << std::endl;
             }

@@ -70,7 +70,8 @@ public:
     Triangulation(std::initializer_list<Triangle> init): std::vector<Triangle>(init) {initialize();}
     void initialize() {
         make_CCW();
-        std::cout << *this << std::endl;
+//        std::cout << "Triangulation::initialize()" << std::endl;
+//        std::cout << *this << std::endl;
     }
 
     std::set<Edge> edges();
