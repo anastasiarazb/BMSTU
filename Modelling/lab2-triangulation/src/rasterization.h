@@ -3,7 +3,8 @@
 
 #define GLFW_INCLUDE_GLU
 #include <GLFW/glfw3.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <list>
@@ -131,6 +132,10 @@ class Edge {
                     (a == rhs.b && b == rhs.a);
         }
 
+        bool operator != (Edge const &rhs) const {
+            return ! (*this == rhs);
+        }
+
         static bool intersect(const Point &a, const Point &b, const Point &c, const Point &d);
         static float pseudoscalar(const glm::vec3 &u, const glm::vec3 &v) {
             return u.x*v.y - v.x*u.y;
@@ -164,6 +169,7 @@ struct PointSet{
     };
 
     std::vector<Point> verteces;
+    std::FILE *output;
     std::list<Edge> edges;
     int y_max = 0;
     bool lined = true;
@@ -182,6 +188,16 @@ struct PointSet{
                      , std::vector<Point> &part1, std::vector<Point> &part2
                      );
     static Triangulation triangulate(std::vector<Point> &verteces);
+    PointSet(const char *output_filename) {
+        output = std::fopen(output_filename, "a"); // открыть файл для записи в конец файла (append)
+        std::fputs("\n----------------------\n", output);
+        std::fflush(output);
+
+    }
+    ~PointSet() {
+        std::fflush(output);
+        std::fclose(output);
+    }
 };
 
 
@@ -193,9 +209,9 @@ struct Framebuffer {
     PointSet polygon;
     Pixel *canvas = nullptr;
 
-    Framebuffer();
+    Framebuffer(const char *output_filename);
     std::list<ActiveEdge> AET; //Active Edge Table - Список Активных Ребер
-    Framebuffer(GLsizei width, GLsizei height);
+    Framebuffer(GLsizei width, GLsizei height, const char *output_filename);
     ~Framebuffer();
     void reinitBuffer(GLsizei width, GLsizei height);
 

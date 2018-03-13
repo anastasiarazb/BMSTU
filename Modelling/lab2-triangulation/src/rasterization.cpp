@@ -15,13 +15,15 @@
 
 const GLubyte background[4] = {BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, 255};
 
-Framebuffer::Framebuffer()
+Framebuffer::Framebuffer(const char *output_filename)
+    : polygon(output_filename)
 {
     size = 0;
     canvas = nullptr;
 }
 
-Framebuffer::Framebuffer(GLsizei width, GLsizei height)
+Framebuffer::Framebuffer(GLsizei width, GLsizei height, const char *output_filename)
+    : polygon(output_filename)
 {
     this->width = width;
     this->height = height;
@@ -158,26 +160,20 @@ void PointSet::addMousePoint(GLFWwindow *window) //Передача коорди
     //Координаты мыши в с.к. буфера кадра
     //Корректная работа в случае, когда "самодельный" буфер по размеру не совпадает с размером окна
     addPoint(x, height - y, z);
-    printf("addPoint(%d,  %d, %d)\n", x, height - y, z);
+    printf("addPoint(%d,  %d, %d);\n", x, height - y, z);
+    std::fprintf(output, "addPoint(%d,  %d, %d);\n", x, height - y, z);
+    std::fflush(output);
     need_to_redraw = true;
 }
 
 void PointSet::addPoint(GLint x, GLint y, GLint z)
 {
     verteces.emplace_back(x, y, z);
-
 }
 
 void PointSet::addEdge(const Point& a, const Point& b)
 {
     edges.emplace_back(a, b);
-}
-
-void PointSet::clear()
-{
-    verteces.clear();
-    edges.clear();
-//    y_max = 0; //ВСЕ РАВНО РАБОТАЕТ НА ТОМ, ЧТО СПИСОК АКТИВНЫХ РЕБЕР ПУСТ
 }
 
 void PointSet::testPolygon()
@@ -195,13 +191,21 @@ void PointSet::testPolygon()
 //    addPoint(320,  148, 45);
 //    addPoint(213,  240, 19);
 
-    addPoint(340,  286, 10);
-    addPoint(395,  384, 49);
-    addPoint(416,  313, 9);
-    addPoint(418,  273, 34);
-    addPoint(580,  265, 32);
-    addPoint(541,  356, 37);
-    addPoint(595,  415, 37);
+    addPoint(123,  372, 10);
+    addPoint(217,  402, 49);
+    addPoint(214,  341, 9);
+    addPoint(443,  332, 34);
+    addPoint(504,  429, 32);
+    addPoint(563,  377, 37);
+
+
+//    addPoint(340,  286, 10);
+//    addPoint(395,  384, 49);
+//    addPoint(416,  313, 9);
+//    addPoint(418,  273, 34);
+//    addPoint(580,  265, 32);
+//    addPoint(541,  356, 37);
+//    addPoint(595,  415, 37);
 
 //    addPoint(100, 370, 31);
 //    addPoint(191, 356, 19);
@@ -225,7 +229,15 @@ void PointSet::testPolygon()
 
     need_to_redraw = true;
 }
-
+void PointSet::clear()
+{
+    verteces.clear();
+    edges.clear();
+#ifndef TEST_POLYGON
+    std::fprintf(output, "\n--------------------------\n");
+#endif
+//    y_max = 0; //ВСЕ РАВНО РАБОТАЕТ НА ТОМ, ЧТО СПИСОК АКТИВНЫХ РЕБЕР ПУСТ
+}
 /* ___________________PRINT___________________ */
 
 void Framebuffer::loadBuf()

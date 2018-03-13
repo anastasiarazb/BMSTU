@@ -6,7 +6,7 @@
 #include "rasterization.h"
 #include "callbacks.h"
 
-Framebuffer buffer;
+Framebuffer buffer("output.txt");
 
 void draw()
 {
@@ -46,12 +46,13 @@ int main()
 //    glfwSetCursorPosCallback(window, cursor_callback);
 
     resize_callback(window, 800, 600);
-
+//int counter = 0;
     while (!glfwWindowShouldClose(window))
     {
         draw();
 
         glfwSwapBuffers(window);
+//        printf( "%i\n", ++counter );
 
         glfwWaitEvents();
     }

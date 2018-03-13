@@ -178,6 +178,9 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
 
 Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitType orientation)
 {
+#define DEBUG
+#ifdef DEBUG
+
     Triangulation result;
     result.reserve(part1.size() + part2.size());
     result.insert(result.begin(), part1.begin(), part1.end());
@@ -195,13 +198,137 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
     Triangulation::Contour::reverse_iterator R_it_top, L_it_low;
     Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
     Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
-    Point P0 = R_it_top->a;
-    Point P1 = L_it_top->b;
-    Point Q0 = R_it_top->b;
-    Point Q1 = L_it_top->a;
+    auto base_line = [](Triangulation::Contour::iterator L_it_top,
+            Triangulation::Contour::reverse_iterator R_it_top) {
+        return Edge(R_it_top->a, L_it_top->b);
+    };
+    Point P0, P1, Q0, Q1;
     std::cout << "*** top = " << top << " bottom = " << bottom << " P0 = " << P0
-                 << " P1 = " << P1 << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl;
+              << " base_line = " << base_line(L_it_top, R_it_top)
+              << " P1 = " << P1 << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl;
     return result;
+#else
+    std::vector<Edge> L_contour;
+    std::vector<Edge> R_contour;
+    if (orientation == PointSet::SplitType::HORIZONTAL) { // find top
+        L_contour = part1.contour(Point::greaterByX);
+        R_contour = part2.contour(Point::lessByX);
+    } else {
+        L_contour = part1.contour(Point::greaterByY);
+        R_contour = part2.contour(Point::lessByY);
+    }
+    Triangulation::Contour::iterator L_it_top, R_it_low;
+    Triangulation::Contour::reverse_iterator R_it_top, L_it_low;
+    Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
+    Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
+    auto base_line = [](Triangulation::Contour::iterator L_it_top,
+            Triangulation::Contour::reverse_iterator R_it_top) {
+        return Edge(R_it_top->a, L_it_top->b);
+    };
+    Point P0, P1, Q0, Q1;
+    bool exist1, exist2;
+    Triangulation added_list;
+    Triangle T1, T0;
+//    std::cout << "*** top = " << top << " bottom = " << bottom << " P0 = " << P0
+//              << " base_line = " << base_line()
+//              << " P1 = " << P1 << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl;
+
+    int counter = 0;
+    while (base_line(L_it_top, R_it_top) != bottom && counter < 5) {
+        ++counter;
+//        if (counter == 5) exit(1);
+//        if (L_it_top == L_contour.begin()) {
+//            L_it_top = L_contour.end();
+//            --L_it_top;
+//        }
+//        if (R_it_top == R_contour.rbegin()) {
+//            R_it_top = R_contour.rend();
+//            --R_it_top;
+//        }
+        P0 = R_it_top->a;
+        P1 = L_it_top->b;
+        Q0 = R_it_top->b;
+        Q1 = L_it_top->a;
+            std::cout << "*** top = " << top << " bottom = " << bottom
+                      << " base_line = " << base_line(L_it_top, R_it_top)
+                      << " P0 = " << P0 << " P1 = " << P1
+                      << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl << std::endl;
+        exist1 = Triangle::exists(P1, P0, Q1);
+        exist2 = Triangle::exists(Q0, P1, P0);
+        T1.set(P1, P0, Q1);
+        T0.set(Q0, P1, P0);
+        if (exist1 && exist2) {
+            // Choose triangle which min angle is greater
+            // ( <=> max cos is less)
+            if (T1.maxCos() < T0.maxCos()) {
+                added_list.push_back(T1);
+                if (L_it_top == L_contour.begin()) {
+                    L_it_top = L_contour.end();
+                }
+                --L_it_top;
+            } else {
+                added_list.push_back(T0);
+
+                if (R_it_top == R_contour.rbegin()) {
+                    R_it_top = R_contour.rend();
+                }
+                --R_it_top;
+            }
+        } else if (exist1) {
+            added_list.push_back(T1);
+            if (L_it_top == L_contour.begin()) {
+                L_it_top = L_contour.end();
+            }
+            --L_it_top;
+        } else {
+            added_list.push_back(T0);
+
+            if (R_it_top == R_contour.rbegin()) {
+                R_it_top = R_contour.rend();
+            }
+            --R_it_top;
+        } // if (exist1 && exist2)
+    }
+
+
+    added_list.make_CCW();
+    Triangulation result;
+    result.reserve(part1.size() + part2.size() + added_list.size());
+    result.insert(result.begin(), part1.begin(), part1.end());
+    result.insert(result.end(),   part2.begin(), part2.end());
+
+    std::pair<Triangulation::Iterator, Triangulation::Iterator> adjacent_pair;
+    Triangulation::Iterator zero_adjacent = added_list.end();
+    // First pass: insert neighbours flags
+    for (Triangle &T: added_list) {
+        for (int i = 0; i < 3; ++i) {
+            adjacent_pair = added_list.find_both_adjacent(T.edges[i]);
+            if (adjacent_pair.second != zero_adjacent) {
+                T.has_neighbour[i] = true;
+            } else {
+                adjacent_pair = result.find_both_adjacent(T.edges[i]);
+                if (adjacent_pair.second != result.end()) {
+                    T.has_neighbour[i] = true;
+                }
+                }
+        }
+    }
+    // Second pass: flip and add triangles to the main
+    std::cout << "Added list: " << added_list << std::endl;
+    for (Triangle &T: added_list) {
+        for (int i = 0; i < 3; ++i) {
+            adjacent_pair = result.find_both_adjacent(T.edges[i]);
+            if (adjacent_pair.second != result.end()) {
+                T.has_neighbour[i] = true;
+                std::cout << "\nbefore flip : " << *(adjacent_pair.first) << "--" << *(adjacent_pair.second) << std::endl;
+                Triangle::check_and_flip(*(adjacent_pair.first), *(adjacent_pair.second));
+            }
+        }
+    }
+    result.insert(result.end(),   added_list.begin(), added_list.end());
+    std::cout << "*** added = " << added_list << std::endl;
+    return result;
+    #endif
 }
 
 Triangulation PointSet::triangulate(std::vector<Point> &verteces)
@@ -285,7 +412,7 @@ bool Triangle::circumCircleContains(Point const &v) const {
     const Point &A = a();
     const Point &B = b();
     const Point &C = c();
-    float qq = (A.x * A.x) + (A.y * A.y);
+    float qq  = (A.x * A.x) + (A.y * A.y);
     float qqv = (B.x * B.x) + (B.y * B.y);
     float qqc = (C.x * C.x) + (C.y * C.y);
     glm::vec2 M = glm::vec2(((qq * (C.y - B.y) + qqv * (A.y - C.y) + qqc * (B.y - A.y))
@@ -446,6 +573,17 @@ void Triangle::flip(Triangle &A, Triangle &B)
     A.setNeigbours(E4.second, E1.second, true);
     B.set(E2.first.a, E2.first.b, E3.first.b);
     B.setNeigbours(E2.second, E3.second, true);
+}
+
+void Triangle::check_and_flip(Triangle &A, Triangle &B)
+{
+    std::cout << "check&flip: A = " << A << " B = " << B << std::endl;
+    for (int i = 0; i < 3; ++i) {
+        if ((!A.contains(B.points[i])) && A.circumCircleContains(B.points[i])) {
+            flip(A, B);
+            return;
+        }
+    }
 }
 
 void Triangle::set(const Point &a, const Point &b, const Point &c)
@@ -616,14 +754,41 @@ Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
     return P0P1;
 }
 
-std::vector<Triangle>::iterator Triangulation::find_adjacent(const Edge &e)
+//std::vector<Triangle>::iterator Triangulation::find_adjacent(const Edge &e)
+//{
+//    for (std::vector<Triangle>::iterator it = begin(); it != end(); ++it) {
+//        if (it->contains(e)) {
+//            return it;
+//        }
+//    }
+//    return end();
+//}
+
+std::pair<Triangulation::Iterator, Triangulation::Iterator>
+Triangulation::find_both_adjacent(const Edge &e)
 {
-    for (std::vector<Triangle>::iterator it = begin(); it != end(); ++it) {
+    Iterator it;
+    Iterator stop = end();
+    std::pair<Iterator, Iterator> result {stop, stop};
+//    std::cout << "find both adjacent for: " << e << std::endl;
+    for (it = begin(); it != stop; ++it) {
         if (it->contains(e)) {
-            return it;
+            result.first = it;
+//            std::cout << *result.first << std::endl;
+            ++it;
+            break;
         }
     }
-    return end();
+    for (; it != stop; ++it) {
+        if (it->contains(e)) {
+            result.second = it;
+//            std::cout << "yes " << *result.second << std::endl;
+            return result;
+        }
+    }
+//    std::cout << "no " << (result.second == end()) << " " << *result.second << std::endl;
+    return result;
+
 }
 
 

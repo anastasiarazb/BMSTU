@@ -58,12 +58,22 @@ public:
         return e == edges[0] || e == edges[1] || e == edges[2];
     }
 
+    bool contains(const Point &p) const {
+        return p == points[0] || p == points[1] || p == points[2];
+    }
+
     using MarkedEdge = std::pair<Edge, bool>;
 
     static void flip(Triangle &A, Triangle &B);
 
     MarkedEdge getMarkedEdge(int i) {
         return MarkedEdge {edges[i], has_neighbour[i]};
+    }
+
+    static void check_and_flip(Triangle &A, Triangle &B);
+
+    static bool exists(const Point &a, const Point &b, const Point &c) {
+        return Edge::pseudoscalar(a-b, c-b) > 0;
     }
 };
 
@@ -104,6 +114,8 @@ public:
                                Contour::iterator &R_it
                                );
     std::vector<Triangle>::iterator find_adjacent(const Edge &e);
+    using Iterator = std::vector<Triangle>::iterator;
+    std::pair<Iterator, Iterator> find_both_adjacent(const Edge &e);
 };
 
 class BB {
