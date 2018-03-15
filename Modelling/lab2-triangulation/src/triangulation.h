@@ -40,8 +40,8 @@ public:
     bool has_neighbour[3] = {false};
 
     float maxCos() const;
-    bool isInside(const Point &p) const;
-    void set(const Point &a, const Point &b, const Point &c);
+    bool hasInside(const Point &p) const;
+    Triangle &set(const Point &a, const Point &b, const Point &c);
 
     static void setNeigbours(Triangle &M, int NtoMidx, Triangle &N, int MtoNidx) {
         M.has_neighbour[NtoMidx] = true;
@@ -72,14 +72,138 @@ public:
 
     static void check_and_flip(Triangle &A, Triangle &B);
 
-    static bool exists(const Point &a, const Point &b, const Point &c) {
-        return Edge::pseudoscalar(a-b, c-b) > 0;
-    }
+
 };
 
 std::ostream& operator<< (std::ostream& os, const Triangle& x);
 struct Edge;
-class  Triangle;
+
+class Contour: public std::vector<Edge>
+{
+    using Iterator = std::vector<Edge>::iterator;
+    using ReverseIterator = std::vector<Edge>::reverse_iterator;
+
+public:
+    class iterator: public Iterator
+    {
+        Contour *src = nullptr;
+    public:
+        iterator(Iterator iter, Contour *contour) : Iterator(iter), src(contour) {}
+        iterator() = default;
+        iterator(iterator &&other) = default;
+        iterator& operator=(const iterator&) = default;
+        iterator(const iterator &other) = default;
+        iterator &operator++() {
+            if (*this == src->end()) {
+                *this = src->begin();
+            }
+            Iterator::operator++();
+            return *this;
+        }
+        iterator operator+(size_t i) const {
+            size_t delta = src->end()-*this;
+            return i <= delta
+                    ? iterator((Iterator)*this + i, src)
+                    : iterator((Iterator)src->begin() + (i - delta), src);
+        }
+        iterator operator-(size_t i) const {
+            size_t delta = *this - src->begin();
+            return i <= delta
+                    ? iterator((Iterator)*this - i, src)
+                    : iterator((Iterator)src->end() - (i - delta), src);
+        }
+
+        iterator &operator--() {
+            if ((Iterator)*this == src->begin()) {
+                *this = src->end();
+            }
+            Iterator::operator--();
+            return *this;
+        }
+
+        Edge &operator*() {
+            return (Iterator)*this == src->end()
+                    ? *src->begin()
+                    : Iterator::operator*();
+        }
+        Edge *operator->() const {
+            return (Iterator)*this == src->end()
+                    ? src->begin().operator->()
+                    : Iterator::operator->();
+        }
+    };
+    class reverse_iterator: public ReverseIterator
+    {
+        Contour *src = nullptr;
+    public:
+        reverse_iterator(ReverseIterator iter, Contour *contour) : ReverseIterator(iter), src(contour) {}
+        reverse_iterator(reverse_iterator &&other) = default;
+        reverse_iterator() = default;
+        reverse_iterator(const reverse_iterator &other) = default;
+        reverse_iterator& operator=(const reverse_iterator&) = default;
+        reverse_iterator &operator++() {
+            if ((ReverseIterator)(*this) == src->rend()) {
+                *this = reverse_iterator(src->rbegin(), src);
+            }
+            ReverseIterator::operator++();
+            return *this;
+        }
+        reverse_iterator &operator--() {
+            if ((ReverseIterator)(*this) == src->rbegin()) {
+                *this = reverse_iterator(src->rend(), src);
+            }
+            ReverseIterator::operator--();
+            return *this;
+        }
+        reverse_iterator operator+(size_t i) const {
+            size_t delta = src->rend()-*this;
+            return i <= delta
+                    ? reverse_iterator((ReverseIterator)*this + i, src)
+                    : reverse_iterator((ReverseIterator)src->rbegin() + (i - delta), src);
+        }
+        reverse_iterator operator-(size_t i) const {
+            size_t delta = *this - src->rbegin();
+            return i <= delta
+                    ? reverse_iterator((ReverseIterator)*this - i, src)
+                    : reverse_iterator((ReverseIterator)src->rend() - (i - delta), src);
+        }
+        Edge &operator*() {
+            return *this == src->rend()
+                    ? *src->rbegin()
+                    : ReverseIterator::operator*();
+        }
+        Edge *operator->() const {
+            return *this == src->rend()
+                    ? src->rbegin().operator->()
+                    : ReverseIterator::operator->();
+        }
+    };
+    Contour(const Contour &) = default;
+    Contour(Contour &&) = default;
+    Contour &operator=(const Contour &) = default;
+    Contour() : std::vector<Edge>() {}
+    Contour(std::initializer_list<Edge> init): std::vector<Edge>(init) {}
+    Contour &reverse() {
+        for (Edge &e: *this) {
+            std::swap(e.a, e.b);
+        }
+        return *this;
+    }
+
+    iterator begin() {
+        return iterator(std::vector<Edge>::begin(), this);
+    }
+    iterator end() {
+        return iterator(std::vector<Edge>::end(), this);
+    }
+    reverse_iterator rbegin() {
+        return reverse_iterator(std::vector<Edge>::rbegin(), this);
+    }
+    reverse_iterator rend() {
+        return reverse_iterator(std::vector<Edge>::rend(), this);
+    }
+
+};
 
 std::ostream& operator<<(std::ostream& os, const Triangulation &T);
 
@@ -101,12 +225,11 @@ public:
             p.make_CCW();
         }
     }
-    using Contour = std::vector<Edge>;
     Contour contour(Point::Comparator compare = Point::lessByX);
     static Edge findTopTangent(Contour &L_contour,
                                Contour &R_contour,
-                               Contour::iterator &L_it,
-                               Contour::reverse_iterator &R_it
+                               Contour::reverse_iterator &L_it,
+                               Contour::iterator &R_it
                                );
     static Edge findLowTangent(Contour &L_contour,
                                Contour &R_contour,
@@ -117,6 +240,8 @@ public:
     using Iterator = std::vector<Triangle>::iterator;
     std::pair<Iterator, Iterator> find_both_adjacent(const Edge &e);
 };
+
+
 
 class BB {
 public:

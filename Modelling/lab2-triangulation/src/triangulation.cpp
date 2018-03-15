@@ -77,15 +77,15 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
     const Point &a = verteces[1];
     const Point &b = verteces[2];
     const Point &c = verteces[3];
-    std::cout << "triangulate_4:" << std::endl;
-    std::cout << "P = " << p << "; A = " << a
-              << "B = " << b << "; C = " << c << std::endl;
+//    std::cout << "triangulate_4:" << std::endl;
+//    std::cout << "P = " << p << "; A = " << a
+//              << "B = " << b << "; C = " << c << std::endl;
     int count = 0;
     Triangle ABC(a, b, c), PAB, PCA, PBC;
     if (between(p-a, b-a, c-a)) {
         glm::vec3 med = glm::normalize(b-a) + glm::normalize(c-a);
         if (is_inside(p-a, med)) { // case 1 or 3
-            std::cout << "between(p-a, b-a, c-a)" << std::endl;
+//            std::cout << "between(p-a, b-a, c-a)" << std::endl;
             ++count;
             PBC.set(p, b, c);
             Triangle::setNeigbours(ABC, 1, PBC, 1);
@@ -95,32 +95,32 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             Triangle::setNeigbours(ABC, 2, PCA, 1); // share CA
             Triangle::setNeigbours(PCA, 2, PAB, 0); // share PA
             Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
-            std::cout << "Triangulation {ABC, PAB, PCA}" << std::endl;
+//            std::cout << "Triangulation {ABC, PAB, PCA}" << std::endl;
             return Triangulation {ABC, PAB, PCA};
         }
     }
     if (between(p-b, a-b, c-b)) {
         glm::vec3 med = glm::normalize(a-b) + glm::normalize(c-b);
         if (is_inside(p-b, med)) { // case 1 or 3
-            std::cout << "between(p-b, a-b, c-b)" << std::endl;
+//            std::cout << "between(p-b, a-b, c-b)" << std::endl;
             ++count;
             PCA.set(a, p, c);
             Triangle::setNeigbours(ABC, 2, PCA, 2); // share CA
         } else {
-            std::cout << "out(p-b, a-b, c-b)" << std::endl;
+//            std::cout << "out(p-b, a-b, c-b)" << std::endl;
             PAB.set(p, a, b);
             PBC.set(p, b, c);
             Triangle::setNeigbours(ABC, 1, PBC, 1); // share BC
             Triangle::setNeigbours(PBC, 0, PAB, 2); // share PB
             Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
-            std::cout << "Triangulation {ABC, PAB, PBC}" << std::endl;
+//            std::cout << "Triangulation {ABC, PAB, PBC}" << std::endl;
             return Triangulation {ABC, PAB, PBC};
         }
     }
     if (between(p-c, a-c, b-c)) {
         glm::vec3 med = glm::normalize(a-c) + glm::normalize(b-c);
         if (is_inside(p-c, med)) { // case 1 or 3
-            std::cout << "between(p-c, a-c, b-c)" << std::endl;
+//            std::cout << "between(p-c, a-c, b-c)" << std::endl;
             ++count;
             PAB.set(p, a, b);
             Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
@@ -130,7 +130,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
             Triangle::setNeigbours(ABC, 1, PBC, 1); // share BC
             Triangle::setNeigbours(PBC, 2, PCA, 0); // share PC
             Triangle::setNeigbours(ABC, 2, PCA, 1); // share AC
-            std::cout << "Triangulation {ABC, PBC, PCA}" << std::endl;
+//            std::cout << "Triangulation {ABC, PBC, PCA}" << std::endl;
             return Triangulation {ABC, PBC, PCA};
         }
     }
@@ -142,7 +142,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
                 PCA.set(p, c, a);
                 PBC.set(p, c, b);
                 Triangle::setNeigbours(PCA, 0, PBC, 0);
-                std::cout << "count = 1, neighbour = 0";
+//                std::cout << "count = 1, neighbour = 0";
                 return Triangulation {PCA, PBC};
             } else if (ABC.has_neighbour[1]) {
                 PAB.set(p, a, b);
@@ -178,15 +178,15 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
 
 Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitType orientation)
 {
-#define DEBUG
+//#define DEBUG
 #ifdef DEBUG
 
     Triangulation result;
     result.reserve(part1.size() + part2.size());
     result.insert(result.begin(), part1.begin(), part1.end());
     result.insert(result.end(),   part2.begin(), part2.end());
-    std::vector<Edge> L_contour;
-    std::vector<Edge> R_contour;
+    Contour L_contour;
+    Contour R_contour;
     if (orientation == PointSet::SplitType::HORIZONTAL) { // find top
         L_contour = part1.contour(Point::greaterByX);
         R_contour = part2.contour(Point::lessByX);
@@ -194,13 +194,13 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
         L_contour = part1.contour(Point::greaterByY);
         R_contour = part2.contour(Point::lessByY);
     }
-    Triangulation::Contour::iterator L_it_top, R_it_low;
-    Triangulation::Contour::reverse_iterator R_it_top, L_it_low;
+    L_contour.reverse();
+    Contour::reverse_iterator L_it_top, L_it_low;
+    Contour::iterator R_it_top, R_it_low;
     Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
     Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
-    auto base_line = [](Triangulation::Contour::iterator L_it_top,
-            Triangulation::Contour::reverse_iterator R_it_top) {
-        return Edge(R_it_top->a, L_it_top->b);
+    auto base_line = [](Contour::reverse_iterator L_it_top, Contour::iterator R_it_top) {
+        return Edge(R_it_top->a, L_it_top->a);
     };
     Point P0, P1, Q0, Q1;
     std::cout << "*** top = " << top << " bottom = " << bottom << " P0 = " << P0
@@ -208,8 +208,8 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
               << " P1 = " << P1 << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl;
     return result;
 #else
-    std::vector<Edge> L_contour;
-    std::vector<Edge> R_contour;
+    Contour L_contour;
+    Contour R_contour;
     if (orientation == PointSet::SplitType::HORIZONTAL) { // find top
         L_contour = part1.contour(Point::greaterByX);
         R_contour = part2.contour(Point::lessByX);
@@ -217,16 +217,16 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
         L_contour = part1.contour(Point::greaterByY);
         R_contour = part2.contour(Point::lessByY);
     }
-    Triangulation::Contour::iterator L_it_top, R_it_low;
-    Triangulation::Contour::reverse_iterator R_it_top, L_it_low;
-    Edge top    = Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
+    L_contour.reverse();
+    Contour::reverse_iterator L_it_top, L_it_low;
+    Contour::iterator R_it_top, R_it_low;
+    Triangulation::findTopTangent(L_contour, R_contour, L_it_top, R_it_top);
     Edge bottom = Triangulation::findLowTangent(L_contour, R_contour, L_it_low, R_it_low);
-    auto base_line = [](Triangulation::Contour::iterator L_it_top,
-            Triangulation::Contour::reverse_iterator R_it_top) {
-        return Edge(R_it_top->a, L_it_top->b);
+    auto base_line = [&L_it_top, &R_it_top]() {
+        return Edge((*R_it_top).a, (*L_it_top).a);
     };
     Point P0, P1, Q0, Q1;
-    bool exist1, exist2;
+    bool exist1, exist0;
     Triangulation added_list;
     Triangle T1, T0;
 //    std::cout << "*** top = " << top << " bottom = " << bottom << " P0 = " << P0
@@ -234,60 +234,61 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
 //              << " P1 = " << P1 << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl;
 
     int counter = 0;
-    while (base_line(L_it_top, R_it_top) != bottom && counter < 5) {
+    auto exists = [](const Point &a, const Point &b, const Point &c) -> bool {
+        return Edge::pseudoscalar(a-b, c-b) > 0;
+    };
+    while (base_line() != bottom && counter < 5) {
         ++counter;
 //        if (counter == 5) exit(1);
-//        if (L_it_top == L_contour.begin()) {
-//            L_it_top = L_contour.end();
-//            --L_it_top;
-//        }
-//        if (R_it_top == R_contour.rbegin()) {
-//            R_it_top = R_contour.rend();
-//            --R_it_top;
-//        }
-        P0 = R_it_top->a;
-        P1 = L_it_top->b;
-        Q0 = R_it_top->b;
-        Q1 = L_it_top->a;
-            std::cout << "*** top = " << top << " bottom = " << bottom
-                      << " base_line = " << base_line(L_it_top, R_it_top)
-                      << " P0 = " << P0 << " P1 = " << P1
+//        std::cout << "\n^^^R_it_top =" << *R_it_top << "L_it_top=" << *L_it_top;
+        P0 = (*R_it_top).a;
+        P1 = (*L_it_top).a;
+        Q0 = (*R_it_top).b;
+        Q1 = (*L_it_top).b;
+            std::cout << "\n*** base_line = " << base_line()
+                      << "\nP0 = " << P0 << " P1 = " << P1
                       << " Q0 = " << Q0 << " Q1 = " << Q1 << std::endl << std::endl;
-        exist1 = Triangle::exists(P1, P0, Q1);
-        exist2 = Triangle::exists(Q0, P1, P0);
-        T1.set(P1, P0, Q1);
-        T0.set(Q0, P1, P0);
-        if (exist1 && exist2) {
+//        exist1 = exists(P1, P0, Q1) && Edge::pseudoscalar(Q1-P0, Q0-P0) >= 0;
+//        exist2 = exists(Q0, P1, P0) && Edge::pseudoscalar(Q1-P1, Q0-P1) >= 0;
+//        std::cout << "exist1 = " << exist1 << " exist2 = " << exist2 << std::endl;
+//        T1.set(P1, P0, Q1);
+//        T0.set(Q0, P1, P0);
+            T1.set(Q1, P1, P0).make_CCW();
+            T0.set(P1, P0, Q0).make_CCW();
+            exist1 = exists(Q1, P1, P0) && !T1.hasInside(Q0);
+            exist0 = exists(P1, P0, Q0) && !T0.hasInside(Q1);
+//            std::cout << "\nex(Q1, P1, P0) = " << exists(Q1, P1, P0) << ", !T1.hasInside(Q0)=" << !T1.hasInside(Q0) \
+                      << "\nex(P1, P0, Q0) = " << exists(P1, P0, Q0) << ", !T0.hasInside(Q1)=" << !T0.hasInside(Q1) << std::endl;
+
+        if (exist1 && exist0) {
             // Choose triangle which min angle is greater
             // ( <=> max cos is less)
             if (T1.maxCos() < T0.maxCos()) {
                 added_list.push_back(T1);
-                if (L_it_top == L_contour.begin()) {
-                    L_it_top = L_contour.end();
-                }
-                --L_it_top;
+                ++L_it_top;
+//                std::cout << "exist1&&exist2 && T1.maxCos()<T0.maxCos()=> ++L_it_top =" << *L_it_top \
+                          << "R_it_top=" << *R_it_top;
             } else {
                 added_list.push_back(T0);
-
-                if (R_it_top == R_contour.rbegin()) {
-                    R_it_top = R_contour.rend();
-                }
-                --R_it_top;
+                ++R_it_top;
+//                std::cout << "exist1 && exist0 && T1.maxCos() >= T0.maxCos() => ++R_it_top =" << *R_it_top \
+                          << "L_it_top=" << *L_it_top;
             }
         } else if (exist1) {
             added_list.push_back(T1);
-            if (L_it_top == L_contour.begin()) {
-                L_it_top = L_contour.end();
-            }
-            --L_it_top;
-        } else {
+            ++L_it_top;
+            std::cout << "exist1 => ++L_it_top =" << *L_it_top << "R_it_top=" << *R_it_top;
+        } else if (exist0) {
             added_list.push_back(T0);
+            ++R_it_top;
+            std::cout << "exist0 => ++R_it_top =" << *R_it_top << "L_it_top=" << *L_it_top;
+        } else {
+//            std::cout << "!exist1 && !exist0:" \
+                      << "\nex(Q1, P1, P0) = " << exists(Q1, P1, P0) << ", x(Q1-P0, Q0-P0)=" << Edge::pseudoscalar(Q1-P0, Q0-P0) \
+                      << "\nex(P1, P0, Q0) = " << exists(P1, P0, Q0) << ", x(Q1-P1, Q0-P1)=" << Edge::pseudoscalar(Q1-P1, Q0-P1) << std::endl;
+            throw std::exception();
+        }// if (exist1 && exist2)
 
-            if (R_it_top == R_contour.rbegin()) {
-                R_it_top = R_contour.rend();
-            }
-            --R_it_top;
-        } // if (exist1 && exist2)
     }
 
 
@@ -298,34 +299,50 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
     result.insert(result.end(),   part2.begin(), part2.end());
 
     std::pair<Triangulation::Iterator, Triangulation::Iterator> adjacent_pair;
-    Triangulation::Iterator zero_adjacent = added_list.end();
     // First pass: insert neighbours flags
-    for (Triangle &T: added_list) {
-        for (int i = 0; i < 3; ++i) {
-            adjacent_pair = added_list.find_both_adjacent(T.edges[i]);
-            if (adjacent_pair.second != zero_adjacent) {
-                T.has_neighbour[i] = true;
-            } else {
-                adjacent_pair = result.find_both_adjacent(T.edges[i]);
-                if (adjacent_pair.second != result.end()) {
-                    T.has_neighbour[i] = true;
-                }
-                }
-        }
-    }
+//    for (Triangle &T: added_list) {
+//        for (int i = 0; i < 3; ++i) {
+//            adjacent_pair = added_list.find_both_adjacent(T.edges[i]);
+//            if (adjacent_pair.second != added_list.end()) {
+//                T.has_neighbour[i] = true;
+//            } else {
+//                adjacent_pair = result.find_both_adjacent(T.edges[i]);
+//                if (adjacent_pair.first != result.end()) {
+//                    T.has_neighbour[i] = true;
+//                }
+//            }
+//        }
+//    }
     // Second pass: flip and add triangles to the main
     std::cout << "Added list: " << added_list << std::endl;
     for (Triangle &T: added_list) {
         for (int i = 0; i < 3; ++i) {
             adjacent_pair = result.find_both_adjacent(T.edges[i]);
-            if (adjacent_pair.second != result.end()) {
+            if (adjacent_pair.first != result.end()) {
                 T.has_neighbour[i] = true;
-                std::cout << "\nbefore flip : " << *(adjacent_pair.first) << "--" << *(adjacent_pair.second) << std::endl;
-                Triangle::check_and_flip(*(adjacent_pair.first), *(adjacent_pair.second));
+                std::cout << "\nbefore flip from result: " << *(adjacent_pair.first) << "--" << T << std::endl;
+                Triangle::check_and_flip(*(adjacent_pair.first), T);
+            } else {
+                adjacent_pair = added_list.find_both_adjacent(T.edges[i]);
+                if (adjacent_pair.second != added_list.end()) {
+                    T.has_neighbour[i] = true;
+                    std::cout << "\nbefore flip from added: " << *(adjacent_pair.first) << "--" << *(adjacent_pair.second) << std::endl;
+                    Triangle::check_and_flip(*(adjacent_pair.first), *(adjacent_pair.second));
+                }
             }
+
         }
     }
     result.insert(result.end(),   added_list.begin(), added_list.end());
+    for (Triangle &T: result) {
+        for (int i = 0; i < 3; ++i) {
+            adjacent_pair = result.find_both_adjacent(T.edges[i]);
+            if (adjacent_pair.second != result.end()) {
+                T.has_neighbour[i] = true;
+            }
+        }
+    }
+
     std::cout << "*** added = " << added_list << std::endl;
     return result;
     #endif
@@ -514,8 +531,7 @@ std::set<Edge> Triangulation::edges()
     std::set<Edge> edges;
     for (const Triangle &tr: *this) {
         edges.insert(tr.edges, tr.edges + 3);
-        std::cout << "Triangulation::edges(): "
-                  << tr.edges[0] << " " << tr.edges[1] << " " << tr.edges[2] << std::endl;
+//        std::cout << "Triangulation::edges(): " << tr.edges[0] << " " << tr.edges[1] << " " << tr.edges[2] << std::endl;
     }
     return edges;
 }
@@ -528,11 +544,11 @@ float Triangle::maxCos() const
     return std::max(cosA, std::max(cosB, cosC));
 }
 
-bool Triangle::isInside(const Point &p) const
+bool Triangle::hasInside(const Point &p) const
 {
     bool sign1 = Edge::pseudoscalar(p-a(), b()-a()) > 0;
     bool sign2 = Edge::pseudoscalar(p-b(), c()-b()) > 0;
-    bool sign3 = Edge::pseudoscalar(p-c(), c()-a()) > 0;
+    bool sign3 = Edge::pseudoscalar(p-c(), a()-c()) > 0;
     if (sign1 == sign2 && sign2 == sign3) {
         return true;
     }
@@ -559,6 +575,7 @@ void Triangle::flip(Triangle &A, Triangle &B)
                 ? B.getMarkedEdge(1)
                 : B.getMarkedEdge(0);
     // We want order: E1->E2 & E3->E4
+    std::cout << "E1 = " << E1.first << " E2 = " << E2.first << " E3 = " << E3.first << " E4 = " << E4.first << std::endl;
     if (E2.first.b == E1.first.a) std::swap(E1, E2);
     if (E4.first.b == E3.first.a) std::swap(E3, E4);
     if (E4.first.b != E1.first.a) {
@@ -579,14 +596,15 @@ void Triangle::check_and_flip(Triangle &A, Triangle &B)
 {
     std::cout << "check&flip: A = " << A << " B = " << B << std::endl;
     for (int i = 0; i < 3; ++i) {
-        if ((!A.contains(B.points[i])) && A.circumCircleContains(B.points[i])) {
+        if (((!A.contains(B.points[i])) && A.circumCircleContains(B.points[i]))
+                || ((!B.contains(A.points[i])) && B.circumCircleContains(A.points[i]))) {
             flip(A, B);
             return;
         }
     }
 }
 
-void Triangle::set(const Point &a, const Point &b, const Point &c)
+Triangle &Triangle::set(const Point &a, const Point &b, const Point &c)
 {
     points[0] = a;
     points[1] = b;
@@ -597,6 +615,7 @@ void Triangle::set(const Point &a, const Point &b, const Point &c)
     guides[0] = glm::normalize(b-a);
     guides[1] = glm::normalize(c-b);
     guides[2] = glm::normalize(a-c);
+    return *this;
 }
 
 const char* BB::orientation_to_string()
@@ -639,65 +658,10 @@ std::ostream& operator<<(std::ostream& os, const Triangulation &T)
     return os;
 }
 
-Edge Triangulation::findTopTangent(Triangulation::Contour &L_contour,
-                                   Triangulation::Contour &R_contour,
-                                   Triangulation::Contour::iterator &L_it,
-                                   Triangulation::Contour::reverse_iterator &R_it
-                                   )
-{
-
-    auto is_convex = [](const Edge &u, const glm::vec3 &p, const Edge &v)->bool {
-        return Edge::pseudoscalar((glm::vec3)u, p) >= 0
-                && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
-    };
-         L_it  = L_contour.begin();
-    auto L_end = L_contour.end();
-         R_it  = R_contour.rbegin();
-    auto R_end = R_contour.rend();
-    // Find the most right point of left part and the most left point of the right one
-    // and move up until contour is convex
-    Edge *L_prev = &L_contour.back();
-    Edge *L_next = &L_contour.front();
-    Edge *R_prev = &R_contour.back();
-    Edge *R_next = &R_contour.front();
-    Edge P0P1(R_prev->b, L_next->a);
-    std::cout << "findTopTangent_A " << std::endl;
-    std::cout << "L_prev = " << *L_prev << std::endl;
-    std::cout << "L_next = " << *L_next  << std::endl;
-    std::cout << "P0P1 = " << P0P1 << std::endl;
-    std::cout << "R_prev = " << *R_prev << std::endl;
-    std::cout << "R_next = " << *R_next << std::endl;
-    while((!is_convex(*L_prev, P0P1, *L_next) || !is_convex(*R_prev, P0P1, *R_next))
-         && L_it != L_end && R_it != R_end ) {
-        if (!is_convex(*L_prev, P0P1, *L_next)) {
-            L_prev = L_next; // Step towards contour direction
-            ++L_it;
-            L_next = &(*L_it);
-            P0P1.set(R_prev->b, L_next->a);
-        }
-        if (!is_convex(*R_prev, P0P1, *R_next)) {
-            R_next = R_prev; // Step backwards contour direction
-            ++R_it;
-            R_prev = &(*R_it);
-            P0P1.set(R_prev->b, L_next->a);
-        }
-        std::cout << "L_prev = " << *L_prev << std::endl;
-        std::cout << "L_next = " << *L_next  << std::endl;
-        std::cout << "P0P1 = " << P0P1 << std::endl;
-        std::cout << "R_prev = " << *R_prev << std::endl;
-        std::cout << "R_next = " << *R_next << std::endl;
-    }
-    std::cout << "findTopTangent:" << std::endl;
-    --L_it;
-    --R_it;
-    std::cout << P0P1 << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
-    return P0P1;
-}
-
-Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
-                                   Triangulation::Contour &R_contour,
-                                   Triangulation::Contour::reverse_iterator &L_it,
-                                   Triangulation::Contour::iterator &R_it
+Edge Triangulation::findTopTangent(Contour &L_contour,
+                                   Contour &R_contour,
+                                   Contour::reverse_iterator &L_it,
+                                   Contour::iterator &R_it
                                    )
 {
 
@@ -706,52 +670,78 @@ Edge Triangulation::findLowTangent(Triangulation::Contour &L_contour,
                 && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
     };
          L_it  = L_contour.rbegin();
-    auto L_end = L_contour.rend();
+//    auto L_end = L_contour.rend();
          R_it  = R_contour.begin();
-    auto R_end = R_contour.end();
+//    auto R_end = R_contour.end();
     // Find the most right point of left part and the most left point of the right one
     // and move up until contour is convex
-    const Edge *L_prev = &L_contour.back();
-    const Edge *L_next = &L_contour.front();
-    const Edge *R_prev = &R_contour.back();
-    const Edge *R_next = &R_contour.front();
-    Edge P0P1(L_next->a, R_prev->b);
-    std::cout << "findLowTangent_A " << std::endl;
-    std::cout << "L_prev = " << *L_prev << std::endl;
-    std::cout << "L_next = " << *L_next << std::endl;
-    std::cout << "P0P1 = " << P0P1 << std::endl;
-    std::cout << "R_prev = " << *R_prev << std::endl;
-    std::cout << "R_next = " << *R_next << std::endl;
-    ++L_it, ++R_it;
-    while((!is_convex(*L_prev, P0P1, *L_next) || !is_convex(*R_prev, P0P1, *R_next))
-         && L_it != L_end && R_it != R_end ) {
-        if (!is_convex(*R_prev, P0P1, *R_next)) {
-            R_prev = R_next; // Step towards contour direction
-            R_next = &(*R_it);
-            ++R_it;
-            P0P1.set(L_next->a, R_prev->b);
+    auto L_prev = [&]() { return *(L_it-1);};
+    auto L_next = [&]() { return *(L_it);};
+    auto R_prev = [&]() { return *(R_it-1);};
+    auto R_next = [&]() { return *(R_it);};
+    Edge RL(R_next().a, L_next().a);
+    //    std::cout << "findTopTangent_A:\n" << "\nL_prev = " << *(L_it-1) << "\nL_next = " << *(L_it);
+    //    std::cout << "\nRL = " << RL       << "\nR_prev = " << *(R_it-1) << "\nR_next = " << *(R_it) << std::endl;
+    while((!is_convex(L_prev(), RL, L_next()) || !is_convex(R_prev(), RL, R_next()))
+//         && L_it != L_end && R_it != R_end
+          ) {
+        if (!is_convex(L_prev(), RL, L_next())) {
+            --L_it;
+            RL.set(R_next().a, L_next().a); // Can't put this out, because of using in next "if"
         }
-        if (!is_convex(*L_prev, P0P1, *L_next)) {
-            L_next = L_prev; // Step backwards contour direction
-            L_prev = &(*L_it);
+        if (!is_convex(R_prev(), RL, R_next())) {
+            --R_it;
+            RL.set(R_next().a, L_next().a);
+        }
+        //        std::cout << "\nL_prev = " << L_prev() << "\nL_next = " << L_next();
+        //        std::cout << "\nRL = " << RL;
+        //        std::cout << "\nR_prev = " << R_prev() << "\nR_next = " << R_next() << std::endl;
+    }
+    std::cout << "findTopTangent: " << RL << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
+    return RL;
+}
+
+Edge Triangulation::findLowTangent(Contour &L_contour,
+                                   Contour &R_contour,
+                                   Contour::reverse_iterator &L_it,
+                                   Contour::iterator &R_it
+                                   )
+{
+
+    auto is_convex = [](const Edge &u, const glm::vec3 &p, const Edge &v)->bool {
+        return Edge::pseudoscalar((glm::vec3)u, p) >= 0
+                && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
+    };
+         L_it  = L_contour.rbegin();
+//    auto L_end = L_contour.rend();
+         R_it  = R_contour.begin();
+//    auto R_end = R_contour.end();
+    // Find the most right point of left part and the most left point of the right one
+    // and move up until contour is convex
+    auto L_prev = [&]() { return *(L_it-1);};
+    auto L_next = [&]() { return *(L_it);};
+    auto R_prev = [&]() { return *(R_it-1);};
+    auto R_next = [&]() { return *(R_it);};
+    Edge RL(R_next().a, L_next().a);
+//    std::cout << "findLowTangent_A:\n" << "\nL_prev = " << *(L_it-1) << "\nL_next = " << *(L_it);
+//    std::cout << "\nRL = " << RL       << "\nR_prev = " << *(R_it-1) << "\nR_next = " << *(R_it) << std::endl;
+    while((!is_convex(L_next(), RL, L_prev()) || !is_convex(R_next(), RL, R_prev()))
+//         && L_it != L_end && R_it != R_end
+          ) {
+        if (!is_convex(L_next(), RL, L_prev())) {
             ++L_it;
-            P0P1.set(L_next->a, R_prev->b);
+            RL.set(R_next().a, L_next().a); // Can't put this out, because of using in next "if"
         }
-        std::cout << "L_prev = " << *L_prev << std::endl;
-        std::cout << "L_next = " << *L_next << std::endl;
-        std::cout << "P0P1 = " << P0P1 << std::endl;
-        std::cout << "R_prev = " << *R_prev << std::endl;
-        std::cout << "R_next = " << *R_next << std::endl;
+        if (!is_convex(R_next(), RL, R_prev())) {
+            ++R_it;
+            RL.set(R_next().a, L_next().a);
+        }
+//        std::cout << "\nL_prev = " << L_prev() << "\nL_next = " << L_next();
+//        std::cout << "\nRL = " << RL;
+//        std::cout << "\nR_prev = " << R_prev() << "\nR_next = " << R_next() << std::endl;
     }
-    std::cout << "findLowTangent:" << std::endl;
-    if (L_it == L_end) {
-        std::cout << P0P1 << "; L_it == L_end"<< std::endl;
-    }
-    if (R_it == R_end) {
-        std::cout << P0P1 << "; R_it == R_end"<< std::endl;
-    }
-    std::cout << P0P1 << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
-    return P0P1;
+    std::cout << "findLowTangent: " << RL << "; L=" <<  *L_it <<  "; R=" <<  *R_it << std::endl;
+    return RL;
 }
 
 //std::vector<Triangle>::iterator Triangulation::find_adjacent(const Edge &e)
@@ -792,7 +782,7 @@ Triangulation::find_both_adjacent(const Edge &e)
 }
 
 
-Triangulation::Contour Triangulation::contour(Point::Comparator compare)
+Contour Triangulation::contour(Point::Comparator compare)
 {
     // std::map: search, removal, and insertion operations have logarithmic complexity
     // tie edge with its start point
@@ -809,7 +799,7 @@ Triangulation::Contour Triangulation::contour(Point::Comparator compare)
             }
         }
     }
-    std::vector<Edge> result; // using Countour = std::vector<EdgeTriPair>
+    Contour result; // using Countour = std::vector<EdgeTriPair>
     result.reserve(edge_set.size());
     // find start point of contour with point_comp condition
     result.push_back(edge_set.begin()->second);

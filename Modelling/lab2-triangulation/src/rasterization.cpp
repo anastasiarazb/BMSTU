@@ -180,23 +180,39 @@ void PointSet::testPolygon()
 {
     clear();
 #define TEST_POLYGON
+
+    addPoint(165,  333, 10);
+    addPoint(200,  422, 49);
+    addPoint(279,  338, 9);
+    addPoint(401,  328, 34);
+    addPoint(432,  427, 32);
+    addPoint(490,  318, 37);
+    addPoint(322,  287, 37);
+    addPoint(273,  465, 48);
+    addPoint(503,  502, 45);
+
+//    addPoint(213,  240, 19);
 //    addPoint(297,  322, 10);
 //    addPoint(310,  372, 49);
-//    addPoint(414,  250, 9);
+
+//    addPoint(320,  148, 45);
+//    addPoint(482,  158, 48);
 //    addPoint(564,  237, 34);
+
+//    addPoint(414,  250, 9);
 //    addPoint(581,  336, 32);
 //    addPoint(515,  419, 37);
 //    addPoint(474,  300, 37);
-//    addPoint(482,  158, 48);
-//    addPoint(320,  148, 45);
-//    addPoint(213,  240, 19);
 
-    addPoint(123,  372, 10);
-    addPoint(217,  402, 49);
-    addPoint(214,  341, 9);
-    addPoint(443,  332, 34);
-    addPoint(504,  429, 32);
-    addPoint(563,  377, 37);
+
+
+
+//    addPoint(123,  372, 10);
+//    addPoint(217,  402, 49);
+//    addPoint(214,  341, 9);
+//    addPoint(443,  332, 34);
+//    addPoint(504,  429, 32);
+//    addPoint(563,  377, 37);
 
 
 //    addPoint(340,  286, 10);
