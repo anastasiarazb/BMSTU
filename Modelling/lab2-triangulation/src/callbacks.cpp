@@ -12,8 +12,17 @@ void mouse_callback(GLFWwindow* window, int button, int action, int /*mods*/)
 {
     if(button == GLFW_MOUSE_BUTTON_RIGHT)
     {
-        if(action == GLFW_PRESS) glfwSetInputMode( window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-        if(action == GLFW_RELEASE) glfwSetInputMode( window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        if(action == GLFW_PRESS){
+            double xpos, ypos;
+            glfwGetCursorPos (window, &xpos, &ypos);
+            int x = (int)floor(xpos);
+            int y = (int)floor(ypos);
+            int width, height;
+            glfwGetFramebufferSize(window, &width, &height);
+            //Координаты мыши в с.к. буфера кадра
+            //Корректная работа в случае, когда "самодельный" буфер по размеру не совпадает с размером окна
+            printf("mouse at (%d, %d);\n", x, height - y);
+        }
     }
 
     if(button == GLFW_MOUSE_BUTTON_LEFT)

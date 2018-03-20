@@ -137,12 +137,12 @@ class Edge {
         }
 
         static bool intersect(const Point &a, const Point &b, const Point &c, const Point &d);
-        static float pseudoscalar(const glm::vec3 &u, const glm::vec3 &v) {
+        static float cross2d(const glm::vec3 &u, const glm::vec3 &v) {
             return u.x*v.y - v.x*u.y;
         }
 
         static bool less180(const glm::vec3 &u, const glm::vec3 &v) {
-            return pseudoscalar(u, v) > 0;
+            return cross2d(u, v) > 0;
         }
 };
 

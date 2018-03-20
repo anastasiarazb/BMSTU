@@ -1,6 +1,7 @@
 #define GLFW_INCLUDE_GLU
 #include "rasterization.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -168,7 +169,14 @@ void PointSet::addMousePoint(GLFWwindow *window) //Передача коорди
 
 void PointSet::addPoint(GLint x, GLint y, GLint z)
 {
-    verteces.emplace_back(x, y, z);
+    auto f = std::find_if(verteces.begin(), verteces.end(),
+                      [&](const Point &p) {return p.x == x && p.y == y;});
+    if (f == verteces.end()) {
+        verteces.emplace_back(x, y, z);
+        return;
+    } else {
+        std::cout << "found same point " << *f << ", ignore it\n";
+    }
 }
 
 void PointSet::addEdge(const Point& a, const Point& b)
@@ -180,29 +188,117 @@ void PointSet::testPolygon()
 {
     clear();
 #define TEST_POLYGON
+    addPoint(98,  336, 10);
+    addPoint(185,  408, 49);
+    addPoint(226,  338, 9);
+    addPoint(160,  265, 34);
+    addPoint(206,  255, 32);
+    addPoint(240,  276, 37);
+    addPoint(270,  365, 37);
+    addPoint(309,  378, 48);
+    addPoint(326,  322, 45);
+    addPoint(320,  292, 19);
+    addPoint(267,  272, 5);
+    addPoint(223,  234, 31);
+    addPoint(204,  194, 20);
+    addPoint(139,  199, 19);
+    addPoint(89,  258, 29);
+    addPoint(81,  349, 22);
+    addPoint(106,  424, 45);
+    addPoint(157,  450, 30);
+    addPoint(272,  457, 40);
+    addPoint(389,  405, 31);
+    addPoint(433,  330, 35);
+    addPoint(413,  198, 8);
+    addPoint(374,  157, 36);
+    addPoint(267,  146, 39);
+    addPoint(158,  137, 14);
+    addPoint(95,  181, 5);
+    addPoint(34,  263, 8);
+    addPoint(40,  368, 4);
+    addPoint(61,  466, 31);
+    addPoint(151,  510, 28);
 
-    addPoint(165,  333, 10);
-    addPoint(200,  422, 49);
-    addPoint(279,  338, 9);
-    addPoint(401,  328, 34);
-    addPoint(432,  427, 32);
-    addPoint(490,  318, 37);
-    addPoint(322,  287, 37);
-    addPoint(273,  465, 48);
-    addPoint(503,  502, 45);
+//    addPoint(51,  377, 10);
+//    addPoint(143,  417, 49);
+//    addPoint(164,  365, 9);
+//    addPoint(143,  284, 34);
+//    addPoint(236,  287, 32);
+//    addPoint(255,  344, 37);
+//    addPoint(318,  457, 37);
+//    addPoint(412,  354, 48);
+//    addPoint(387,  309, 45);
+//    addPoint(351,  273, 19);
+//    addPoint(581,  241, 5);
+//    addPoint(583,  414, 31);
+//    addPoint(520,  442, 20);
+//    addPoint(441,  480, 19);
 
+//    addPoint(241,  376, 10);
+//    addPoint(358,  473, 49);
+//    addPoint(131,  461, 9);
+//    addPoint(129,  352, 34);
+//    addPoint(185,  310, 32);
+//    addPoint(378,  300, 37);
+//    addPoint(470,  371, 37);
+//    addPoint(512,  475, 48);
+//    addPoint(626,  345, 45);
+//    addPoint(516,  232, 19);
+//    addPoint(368,  190, 5);
+//    addPoint(318,  195, 31);
+//    addPoint(239,  222, 20);
+//    addPoint(162,  230, 19);
+//    addPoint(223,  179, 29);
+//    addPoint(372,  122, 22);
+//    addPoint(473,  138, 45);
+//    addPoint(548,  146, 30);
+//    addPoint(605,  195, 40);
+//    addPoint(663,  275, 31);
+//    addPoint(706,  376, 35);
+//    addPoint(657,  463, 8);
+//    addPoint(673,  222, 36);
+//    addPoint(662,  165, 39);
+//    addPoint(584,  129, 14);
+//    addPoint(484,  100, 5);
+//    addPoint(415,  96, 8);
+//    addPoint(270,  90, 4);
+//    addPoint(166,  87, 31);
+//    addPoint(115,  134, 28);
+
+//    addPoint(200,  422, 49);
+//    addPoint(401,  328, 34);
+//    addPoint(490,  318, 37);
 //    addPoint(213,  240, 19);
 //    addPoint(297,  322, 10);
 //    addPoint(310,  372, 49);
-
-//    addPoint(320,  148, 45);
 //    addPoint(482,  158, 48);
 //    addPoint(564,  237, 34);
-
 //    addPoint(414,  250, 9);
 //    addPoint(581,  336, 32);
 //    addPoint(515,  419, 37);
-//    addPoint(474,  300, 37);
+
+//        addPoint(165,  333, 10);
+//        addPoint(200,  422, 49);
+//        addPoint(279,  338, 9);
+//        addPoint(401,  328, 34);
+//        addPoint(432,  427, 32);
+//        addPoint(490,  318, 37);
+//        addPoint(322,  287, 37);
+//        addPoint(273,  465, 48);
+//        addPoint(503,  502, 45);
+
+//        addPoint(213,  240, 19);
+//        addPoint(297,  322, 10);
+//        addPoint(310,  372, 49);
+
+//        addPoint(320,  148, 45);
+//        addPoint(482,  158, 48);
+//        addPoint(564,  237, 34);
+
+//        addPoint(414,  250, 9);
+//        addPoint(581,  336, 32);
+//        addPoint(515,  419, 37);
+//        addPoint(474,  300, 37);
 
 
 

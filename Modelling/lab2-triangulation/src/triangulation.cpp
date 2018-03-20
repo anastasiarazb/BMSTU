@@ -63,29 +63,35 @@ BB::BB(const Triangle &tr)
 Triangulation triangulate_4(std::vector<Point> &verteces)
 {
     auto between = [](const glm::vec3 &ap, const glm::vec3 &ab, const glm::vec3 &ac) {
-        return Edge::pseudoscalar(ab, ap)*Edge::pseudoscalar(ap, ac) >= 0;
+        return Edge::cross2d(ab, ap)*Edge::cross2d(ap, ac) >= 0;
 //        std::cout << glm::dot(glm::cross(ab, ap), glm::cross(ap, ac)) << std::endl;
 //        return glm::dot(glm::cross(ab, ap), glm::cross(ap, ac)) >= 0;
     };
 
     auto is_inside = [](const glm::vec3 &u, const glm::vec3 &v) {
-        return glm::dot(u, v) > 0;
-//        return (u.x*v.x + u.y*v.y) > 0;
+//        return glm::dot(u, v) > 0;
+        return (u.x*v.x + u.y*v.y) > 0;
     };
 
-    const Point &p = verteces[0];
-    const Point &a = verteces[1];
-    const Point &b = verteces[2];
-    const Point &c = verteces[3];
-//    std::cout << "triangulate_4:" << std::endl;
-//    std::cout << "P = " << p << "; A = " << a
-//              << "B = " << b << "; C = " << c << std::endl;
-    int count = 0;
+    Point &p = verteces[0];
+    Point &a = verteces[1];
+    Point &b = verteces[2];
+    Point &c = verteces[3];
     Triangle ABC(a, b, c), PAB, PCA, PBC;
+//    std::cout << "max_cos = " << ABC.maxCos() << std::endl;
+    if (ABC.is_degenerate()) {
+        std::swap(p, a);
+        ABC.set(a, b, c);
+    }
+//    std::cout << "triangulate_4: " << "P = " << p << "; A = " << a << "B = " << b << "; C = " << c << std::endl;
+    int count = 0;
+//    std::cout << "(b-a)x(p-a)=" << Edge::cross2d(b-a, p-a) << " (p-a, c-a)=" << Edge::cross2d(p-a, c-a) <<std::endl;
+
     if (between(p-a, b-a, c-a)) {
+//        std::cout << "between(p-a, b-a, c-a)" << std::endl;
         glm::vec3 med = glm::normalize(b-a) + glm::normalize(c-a);
         if (is_inside(p-a, med)) { // case 1 or 3
-//            std::cout << "between(p-a, b-a, c-a)" << std::endl;
+
             ++count;
             PBC.set(p, b, c);
             Triangle::setNeigbours(ABC, 1, PBC, 1);
@@ -100,9 +106,10 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
         }
     }
     if (between(p-b, a-b, c-b)) {
+//        std::cout << "between(p-b, a-b, c-b)" << std::endl;
         glm::vec3 med = glm::normalize(a-b) + glm::normalize(c-b);
         if (is_inside(p-b, med)) { // case 1 or 3
-//            std::cout << "between(p-b, a-b, c-b)" << std::endl;
+
             ++count;
             PCA.set(a, p, c);
             Triangle::setNeigbours(ABC, 2, PCA, 2); // share CA
@@ -118,9 +125,9 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
         }
     }
     if (between(p-c, a-c, b-c)) {
+//        std::cout << "between(p-c, a-c, b-c)" << std::endl;
         glm::vec3 med = glm::normalize(a-c) + glm::normalize(b-c);
         if (is_inside(p-c, med)) { // case 1 or 3
-//            std::cout << "between(p-c, a-c, b-c)" << std::endl;
             ++count;
             PAB.set(p, a, b);
             Triangle::setNeigbours(ABC, 0, PAB, 1); // share AB
@@ -173,6 +180,7 @@ Triangulation triangulate_4(std::vector<Point> &verteces)
     }
     // count == 3 => case 3, swap p with any point and get case 2
     std::swap(verteces.front(), verteces.back());
+//    std::cout << "case 3" << std::endl;
     return triangulate_4(verteces);
 }
 
@@ -235,9 +243,9 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
 
     int counter = 0;
     auto exists = [](const Point &a, const Point &b, const Point &c) -> bool {
-        return Edge::pseudoscalar(a-b, c-b) > 0;
+        return Edge::cross2d(a-b, c-b) > 0;
     };
-    while (base_line() != bottom && counter < 5) {
+    while (base_line() != bottom /*&& counter < 5*/) {
         ++counter;
 //        if (counter == 5) exit(1);
 //        std::cout << "\n^^^R_it_top =" << *R_it_top << "L_it_top=" << *L_it_top;
@@ -315,25 +323,35 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
 //    }
     // Second pass: flip and add triangles to the main
     std::cout << "Added list: " << added_list << std::endl;
-    for (Triangle &T: added_list) {
+//    for (Triangle &T: added_list) {
+//        for (int i = 0; i < 3; ++i) {
+//            adjacent_pair = result.find_both_adjacent(T.edges[i]);
+//            if (adjacent_pair.first != result.end()) {
+//                T.has_neighbour[i] = true;
+//                std::cout << "\nbefore flip from result: " << *(adjacent_pair.first) << "--" << T << std::endl;
+//                Triangle::check_and_flip(*(adjacent_pair.first), T);
+//            } else {
+//                adjacent_pair = added_list.find_both_adjacent(T.edges[i]);
+//                if (adjacent_pair.second != added_list.end()) {
+//                    T.has_neighbour[i] = true;
+//                    std::cout << "\nbefore flip from added: " << *(adjacent_pair.first) << "--" << *(adjacent_pair.second) << std::endl;
+//                    Triangle::check_and_flip(*(adjacent_pair.first), *(adjacent_pair.second));
+//                }
+//            }
+
+//        }
+//    }
+    result.insert(result.end(),   added_list.begin(), added_list.end());
+    for (Triangle &T: result) {
         for (int i = 0; i < 3; ++i) {
             adjacent_pair = result.find_both_adjacent(T.edges[i]);
-            if (adjacent_pair.first != result.end()) {
+            if (adjacent_pair.second != result.end()) {
                 T.has_neighbour[i] = true;
-                std::cout << "\nbefore flip from result: " << *(adjacent_pair.first) << "--" << T << std::endl;
-                Triangle::check_and_flip(*(adjacent_pair.first), T);
-            } else {
-                adjacent_pair = added_list.find_both_adjacent(T.edges[i]);
-                if (adjacent_pair.second != added_list.end()) {
-                    T.has_neighbour[i] = true;
-                    std::cout << "\nbefore flip from added: " << *(adjacent_pair.first) << "--" << *(adjacent_pair.second) << std::endl;
-                    Triangle::check_and_flip(*(adjacent_pair.first), *(adjacent_pair.second));
-                }
+                Triangle::check_and_flip(*(adjacent_pair.first), *(adjacent_pair.second));
             }
-
         }
     }
-    result.insert(result.end(),   added_list.begin(), added_list.end());
+
     for (Triangle &T: result) {
         for (int i = 0; i < 3; ++i) {
             adjacent_pair = result.find_both_adjacent(T.edges[i]);
@@ -546,9 +564,9 @@ float Triangle::maxCos() const
 
 bool Triangle::hasInside(const Point &p) const
 {
-    bool sign1 = Edge::pseudoscalar(p-a(), b()-a()) > 0;
-    bool sign2 = Edge::pseudoscalar(p-b(), c()-b()) > 0;
-    bool sign3 = Edge::pseudoscalar(p-c(), a()-c()) > 0;
+    bool sign1 = Edge::cross2d(p-a(), b()-a()) > 0;
+    bool sign2 = Edge::cross2d(p-b(), c()-b()) > 0;
+    bool sign3 = Edge::cross2d(p-c(), a()-c()) > 0;
     if (sign1 == sign2 && sign2 == sign3) {
         return true;
     }
@@ -573,7 +591,7 @@ void Triangle::flip(Triangle &A, Triangle &B)
             : B.getMarkedEdge(0);
     std::pair<Edge, bool> E4 = A.contains(B.edges[2])   // Can be e1 or e2 of B
                 ? B.getMarkedEdge(1)
-                : B.getMarkedEdge(0);
+                : B.getMarkedEdge(2);
     // We want order: E1->E2 & E3->E4
     std::cout << "E1 = " << E1.first << " E2 = " << E2.first << " E3 = " << E3.first << " E4 = " << E4.first << std::endl;
     if (E2.first.b == E1.first.a) std::swap(E1, E2);
@@ -639,7 +657,7 @@ Triangle &Triangle::make_CCW()
     const Point &b = points[1];
     const Point &c = points[2];
 //    std::cout << "make_CCW " << *this <<  Edge::pseudoscalar(b-a, c-a);
-    if (Edge::pseudoscalar(b-a, c-a) > 0) {
+    if (Edge::cross2d(b-a, c-a) > 0) {
 //        std::cout << "> 0 " << std::endl;
         return *this;
     }
@@ -666,8 +684,8 @@ Edge Triangulation::findTopTangent(Contour &L_contour,
 {
 
     auto is_convex = [](const Edge &u, const glm::vec3 &p, const Edge &v)->bool {
-        return Edge::pseudoscalar((glm::vec3)u, p) >= 0
-                && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
+        return Edge::cross2d((glm::vec3)u, p) >= 0
+                && Edge::cross2d(p, (glm::vec3)v) >= 0;
     };
          L_it  = L_contour.rbegin();
 //    auto L_end = L_contour.rend();
@@ -709,8 +727,8 @@ Edge Triangulation::findLowTangent(Contour &L_contour,
 {
 
     auto is_convex = [](const Edge &u, const glm::vec3 &p, const Edge &v)->bool {
-        return Edge::pseudoscalar((glm::vec3)u, p) >= 0
-                && Edge::pseudoscalar(p, (glm::vec3)v) >= 0;
+        return Edge::cross2d((glm::vec3)u, p) >= 0
+                && Edge::cross2d(p, (glm::vec3)v) >= 0;
     };
          L_it  = L_contour.rbegin();
 //    auto L_end = L_contour.rend();
@@ -790,9 +808,12 @@ Contour Triangulation::contour(Point::Comparator compare)
     for (Triangle &T : *this) {
         std::cout << "contour of  = " << T << std::endl;
     }
+    std::pair<Triangulation::Iterator, Triangulation::Iterator> adjacent_pair;
     for (Triangle &T : *this) {
         for (int i = 0; i < 3; ++i) {
-            if (!T.has_neighbour[i]) {
+            adjacent_pair = this->find_both_adjacent(T.edges[i]);
+            if (adjacent_pair.second == end()) {
+//            if (!T.has_neighbour[i]) {
 //                EdgeTriPair watafuk(&(T.edges[i]), &T);
 //                std::cout << "Emplace = " << T << std::endl;
                 edge_set.emplace(T.edges[i].a, T.edges[i]);

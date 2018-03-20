@@ -71,7 +71,9 @@ public:
     }
 
     static void check_and_flip(Triangle &A, Triangle &B);
-
+    bool is_degenerate() const {
+        return maxCos() > 0.9;
+    }
 
 };
 
@@ -215,8 +217,7 @@ public:
     Triangulation(std::initializer_list<Triangle> init): std::vector<Triangle>(init) {initialize();}
     void initialize() {
         make_CCW();
-//        std::cout << "Triangulation::initialize()" << std::endl;
-//        std::cout << *this << std::endl;
+        std::cout << "Triangulation::initialize()" << *this << std::endl;
     }
 
     std::set<Edge> edges();
