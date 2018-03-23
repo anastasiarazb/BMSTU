@@ -15,13 +15,16 @@ void mouse_callback(GLFWwindow* window, int button, int action, int /*mods*/)
         if(action == GLFW_PRESS){
             double xpos, ypos;
             glfwGetCursorPos (window, &xpos, &ypos);
-            int x = (int)floor(xpos);
-            int y = (int)floor(ypos);
             int width, height;
             glfwGetFramebufferSize(window, &width, &height);
             //Координаты мыши в с.к. буфера кадра
-            //Корректная работа в случае, когда "самодельный" буфер по размеру не совпадает с размером окна
-            printf("mouse at (%d, %d);\n", x, height - y);
+            int x = (int)floor(xpos);
+            int y = height - (int)floor(ypos);
+            std::string message("L-lined. C-contrast colors. E-erase. Q/Esc-close. RBM-show coords. Last mouse pose (");
+            message.reserve(message.size() + 9);
+            message.append(std::to_string(x)).append(", ").append(std::to_string(y)).append(")");
+            glfwSetWindowTitle(window, message.c_str());
+            printf("mouse at (%d, %d);\n", x, y);
         }
     }
 
