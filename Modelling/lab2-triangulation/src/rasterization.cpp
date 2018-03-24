@@ -428,38 +428,33 @@ void Framebuffer::printPolygon()
     printVerteces();
 //    BB bb(polygon.verteces);
 //    std::cout << bb.orientation_to_string() << std::endl;
-    std::vector<Point> part1, part2;
-    PointSet::SplitType parts_num = PointSet::split(polygon.verteces, part1, part2);
-    if (parts_num == PointSet::SplitType::VERTICAL || parts_num == PointSet::SplitType::HORIZONTAL) {
-        std::cout << "PART1:\n";
-        for (const Point &p : part1) {
-            std::cout << p << "\n";
-        }
-        std::cout << "PART2:\n";
-        for (const Point &p : part2) {
-            std::cout << p << "\n";
-        }
-    }
+//    std::vector<Point> part1, part2;
+//    PointSet::SplitType parts_num = PointSet::split(polygon.verteces, part1, part2);
+//    if (parts_num == PointSet::SplitType::VERTICAL || parts_num == PointSet::SplitType::HORIZONTAL) {
+//        std::cout << "PART1:\n";
+//        for (const Point &p : part1) {
+//            std::cout << p << "\n";
+//        }
+//        std::cout << "PART2:\n";
+//        for (const Point &p : part2) {
+//            std::cout << p << "\n";
+//        }
+//    }
 
     polygon.foregroundColor = polygon.contrast ? red : green;
 
     if (polygon.need_to_redraw) {
         polygon.edges.clear();
+        while (polygon.verteces.size() < 100) {
+            Triangulation triangulation = PointSet::triangulate(polygon.verteces);
+            for (const Triangle &T: triangulation) {
+                polygon.verteces.push_back(T.centerOfGravity());
+            }
+            polygon.need_to_redraw = false;
+        }
         Triangulation triangulation = PointSet::triangulate(polygon.verteces);
         std::set<Edge> tr_edges = triangulation.edges();
         polygon.edges.insert(polygon.edges.begin(), tr_edges.begin(), tr_edges.end());
-//        Point a, b;
-//        for (size_t i = 1; i < polygon.verteces.size(); ++i)
-//        {
-//            a = polygon.verteces.at(i-1);
-//            b = polygon.verteces.at(i);
-//            polygon.addEdge(a, b);
-//        }
-//        if (polygon.verteces.size() > 2)
-//        {   //дорисовать замыкающую линию
-//            polygon.addEdge(polygon.verteces.back(), polygon.verteces.front());
-//        }
-        polygon.need_to_redraw = false;
     }
     if (polygon.lined)
     {

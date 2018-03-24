@@ -74,7 +74,18 @@ public:
     bool is_degenerate() const {
         return maxCos() > 0.9;
     }
-
+    Point centerOfGravity() const {
+        float x1 = points[0].x;
+        float x2 = points[1].x;
+        float x3 = points[2].x;
+        float y1 = points[0].y;
+        float y2 = points[1].y;
+        float y3 = points[2].y;
+        float z1 = points[0].z;
+        float z2 = points[1].z;
+        float z3 = points[2].z;
+        return Point((x1+x2+x3)/3, (y1+y2+y3)/3, (z1+z2+z3)/3);
+    }
 };
 
 std::ostream& operator<< (std::ostream& os, const Triangle& x);
