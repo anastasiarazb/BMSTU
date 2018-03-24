@@ -358,7 +358,15 @@ Triangulation merge(Triangulation part1, Triangulation part2, PointSet::SplitTyp
             if (adjacent_pair.second != result.end()) {
                 T.has_neighbour[i] = true;
             }
+//            if (T.edges[i] == Edge({34,  263, 8}, {160,  265, 34})) {
+//                exit(1);
+//            }
         }
+//        for (Triangle &M: result) {
+//            if (T.sharesEdgeWith(M)) {
+//                Triangle::check_and_flip(T, M);
+//            }
+//        }
     }
 
     std::cout << "*** added = " << added_list << std::endl;
@@ -440,6 +448,18 @@ bool Triangle::sharesVertexWith(Triangle const &triangle) const {
     if ( c().x == triangle.a().x && c().y == triangle.a().y ) return true;
     if ( c().x == triangle.b().x && c().y == triangle.b().y ) return true;
     if ( c().x == triangle.c().x && c().y == triangle.c().y ) return true;
+    return false;
+}
+
+bool Triangle::sharesEdgeWith(Triangle const &triangle) const
+{
+    for (int i = 0; i < 3; ++i) {
+        for(int j = 0; j < 3; ++j) {
+            if (edges[i] == triangle.edges[j]) {
+                return true;
+            }
+        }
+    }
     return false;
 }
 

@@ -13,6 +13,7 @@
 #define LINE_COLOR GREEN
 #define BACKGR_BRIGHTNESS 100
 #define FOREGROUND_COLOR RED
+#define MODEL
 
 const GLubyte background[4] = {BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, 255};
 
@@ -187,8 +188,7 @@ void PointSet::addEdge(const Point& a, const Point& b)
 void PointSet::testPolygon()
 {
     clear();
-#define TEST_POLYGON
-
+#ifdef MODEL
     addPoint(10.95,    0.37,   0);
     addPoint(9.72,     5.12,   4.11);
     addPoint(9.24,     5.32,   5.24);
@@ -204,7 +204,8 @@ void PointSet::testPolygon()
         p.x *= 50;
         p.y *= 50;
     }
-
+#endif
+#define TEST_POLYGON
 //    addPoint(34,  263, 8);
 ////    addPoint(98,  336, 10);
 //    addPoint(160,  265, 34);
@@ -228,18 +229,18 @@ void PointSet::testPolygon()
 //    addPoint(81,  349, 22);
 //    addPoint(106,  424, 45);
 //    addPoint(157,  450, 30);
-////    addPoint(272,  457, 40);
-////    addPoint(389,  405, 31);
-////    addPoint(433,  330, 35);
-////    addPoint(413,  198, 8);
-////    addPoint(374,  157, 36);
+//    addPoint(272,  457, 40);
+//    addPoint(389,  405, 31);
+//    addPoint(433,  330, 35);
+//    addPoint(413,  198, 8);
+//    addPoint(374,  157, 36);
 //    addPoint(267,  146, 39);
 //    addPoint(158,  137, 14);
-////    addPoint(95,  181, 5);
-////    addPoint(34,  263, 8);
-////    addPoint(40,  368, 4);
-////    addPoint(61,  466, 31);
-////    addPoint(151,  510, 28);
+//    addPoint(95,  181, 5);
+//    addPoint(34,  263, 8);
+//    addPoint(40,  368, 4);
+//    addPoint(61,  466, 31);
+//    addPoint(151,  510, 28);
 
 //    addPoint(51,  377, 10);
 //    addPoint(143,  417, 49);
@@ -360,7 +361,7 @@ void PointSet::testPolygon()
 //    addPoint(337, 394, 48);
 //    addPoint(344, 457, 37);
 //    addPoint(336, 537, 37);
-
+//#endif
     need_to_redraw = true;
 }
 void PointSet::clear()
@@ -445,16 +446,18 @@ void Framebuffer::printPolygon()
 
     if (polygon.need_to_redraw) {
         polygon.edges.clear();
+#ifdef MODEL
         while (polygon.verteces.size() < 100) {
             Triangulation triangulation = PointSet::triangulate(polygon.verteces);
             for (const Triangle &T: triangulation) {
                 polygon.verteces.push_back(T.centerOfGravity());
             }
-            polygon.need_to_redraw = false;
         }
+#endif
         Triangulation triangulation = PointSet::triangulate(polygon.verteces);
         std::set<Edge> tr_edges = triangulation.edges();
         polygon.edges.insert(polygon.edges.begin(), tr_edges.begin(), tr_edges.end());
+        polygon.need_to_redraw = false;
     }
     if (polygon.lined)
     {

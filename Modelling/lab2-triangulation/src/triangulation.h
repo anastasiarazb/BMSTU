@@ -21,6 +21,7 @@ public:
     Triangle() = default;
 
     bool sharesVertexWith(Triangle const &triangle) const;
+    bool sharesEdgeWith(Triangle const &triangle) const;
 
     Edge getNextEdge(const Edge &e);
 
