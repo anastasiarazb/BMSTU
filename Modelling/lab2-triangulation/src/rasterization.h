@@ -181,7 +181,7 @@ struct PointSet{
 
     void clear();
     void testPolygon();
-    void addPoint(GLint x, GLint y, GLint z);
+    void addPoint(GLfloat x, GLfloat y, GLfloat z);
     void addMousePoint(GLFWwindow* window);
     void addEdge(const Point& a, const Point& b);
     static SplitType split(std::vector<Point> &verteces
