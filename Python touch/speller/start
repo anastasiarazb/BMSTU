@@ -1,0 +1,3 @@
+#!/bin/bash
+konsole --noclose -e ./speller.py dictionary misspell
+
