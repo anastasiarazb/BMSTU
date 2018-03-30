@@ -203,6 +203,7 @@ void PointSet::testPolygon()
     for (Point &p: verteces) {
         p.x *= 50;
         p.y *= 50;
+        p.z *= 50;
     }
 #endif
 #define TEST_POLYGON
@@ -483,6 +484,14 @@ void Framebuffer::drawPoint(GLint x, GLint y, GLubyte *v3color)
     }
 }
 
+void Framebuffer::drawPoint(GLint x, GLint y, GLfloat z)
+{
+    if (inBuffer(x, y)) {
+        GLubyte brightness = std::round(z);
+        access(x, y).set(brightness, brightness, brightness);
+    }
+}
+
 void Framebuffer::drawPointPlusBackgr(GLint x, GLint y, const GLubyte *v3color, int alpha, const GLubyte *backgr_color)
 {
     if (inBuffer(x, y)) {
@@ -522,10 +531,10 @@ inline void shiftXY(int &x, int &y, int &error, int signX, int signY, int max_er
 
 void Framebuffer::Bresenham(const Edge& e)
 {
-    Bresenham(e.a.x, e.a.y, e.b.x, e.b.y);
+    Bresenham(e.a.x, e.a.y, e.a.z, e.b.x, e.b.y, e.b.z);
 }
 
-void Framebuffer::Bresenham(GLint x1, GLint y1, GLint x2, GLint y2)
+void Framebuffer::Bresenham(GLint x1, GLint y1, GLfloat z1, GLint x2, GLint y2, GLfloat z2)
 {
     int dX = std::abs(x2 - x1);
     int dY = std::abs(y2 - y1);
@@ -538,7 +547,8 @@ void Framebuffer::Bresenham(GLint x1, GLint y1, GLint x2, GLint y2)
         swap = true;
     }
     int error = - dX;
-    drawPoint(x1, y1, polygon.lineColor);
+    drawPoint(x1, y1, z1);
+    float r0 = std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); // Цвет
     while(x1 != x2 || y1 != y2) { //наивный алгоритм, где выбор изменяемых величин производится на месте
         error += 2*dY;
         if (swap) {
@@ -555,7 +565,10 @@ void Framebuffer::Bresenham(GLint x1, GLint y1, GLint x2, GLint y2)
             error -= 2*dX;
         }
 
-        drawPoint(x1, y1, polygon.lineColor);
+//        drawPoint(x1, y1, polygon.lineColor);
+        float r = std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); // Цвет
+        drawPoint(x1, y1, z2-(z2-z1)*r/r0);
+        printf("z1=%f, z2=%f, z=%f\n", z1, z2, z2-(z2-z1)*r/r0);
     }
 }
 

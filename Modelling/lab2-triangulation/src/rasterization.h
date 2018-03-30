@@ -221,6 +221,7 @@ struct Framebuffer {
     void printPolygon();
     void drawPoint(GLint x, GLint y);
     void drawPoint(GLint x, GLint y, GLubyte *v3color);
+    void drawPoint(GLint x, GLint y, GLfloat z);
     void drawPointPlusBackgr(GLint x, GLint y, const GLubyte *v3color, int alpha, const GLubyte *backgr_color);
     void drawLine(GLint y, GLint x1, GLint x2);
     void printVerteces();
@@ -228,7 +229,7 @@ struct Framebuffer {
     inline void updateX();
     void fillLines();
 
-    void Bresenham(GLint x1, GLint y1, GLint x2, GLint y2);
+    void Bresenham(GLint x1, GLint y1, GLfloat z1, GLint x2, GLint y2, GLfloat z2);
     void Bresenham(const Edge& e);
     void clearCanvas();
     void deletePoint();
