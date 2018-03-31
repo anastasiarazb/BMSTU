@@ -14,6 +14,7 @@
 #define BACKGR_BRIGHTNESS 100
 #define FOREGROUND_COLOR RED
 #define MODEL
+//#define DETALIZE
 
 const GLubyte background[4] = {BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, 255};
 
@@ -447,7 +448,7 @@ void Framebuffer::printPolygon()
 
     if (polygon.need_to_redraw) {
         polygon.edges.clear();
-#ifdef MODEL
+#ifdef DETALIZE
         while (polygon.verteces.size() < 100) {
             Triangulation triangulation = PointSet::triangulate(polygon.verteces);
             for (const Triangle &T: triangulation) {
@@ -568,7 +569,7 @@ void Framebuffer::Bresenham(GLint x1, GLint y1, GLfloat z1, GLint x2, GLint y2, 
 //        drawPoint(x1, y1, polygon.lineColor);
         float r = std::sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)); // Цвет
         drawPoint(x1, y1, z2-(z2-z1)*r/r0);
-        printf("z1=%f, z2=%f, z=%f\n", z1, z2, z2-(z2-z1)*r/r0);
+//        printf("z1=%f, z2=%f, z=%f\n", z1, z2, z2-(z2-z1)*r/r0);
     }
 }
 
