@@ -11,10 +11,10 @@
 #include "triangulation.h"
 
 #define LINE_COLOR GREEN
-#define BACKGR_BRIGHTNESS 100
+#define BACKGR_BRIGHTNESS 255 //100
 #define FOREGROUND_COLOR RED
 #define MODEL
-//#define DETALIZE
+#define DETALIZE
 
 const GLubyte background[4] = {BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, 255};
 
@@ -204,7 +204,7 @@ void PointSet::testPolygon()
     for (Point &p: verteces) {
         p.x *= 50;
         p.y *= 50;
-        p.z *= 50;
+        p.z *= 35;
     }
 #endif
 #define TEST_POLYGON
@@ -390,18 +390,23 @@ void Framebuffer::loadBuf()
 
 void Framebuffer::printVerteces()
 {
-    int rad = 2;
-    int rad_x, rad_y;
+    int diam = 7;
+    int rad_left = diam/2;
+    int rad_right = diam-rad_left;
+    int left_bound, right_bound, upper_bound, low_bound;
     for (auto dot: polygon.verteces)
     {
         if(inBuffer(dot)){
-            rad_x = std::min((int)dot.x, rad); //Расширение влево от мыши => можно выйти за границу только при x-i<0
-            rad_y = std::min(height - (int)dot.y, rad); //Расширение вверх от мыши => может быть только y+j > height
-            for (int i = 0; i < rad_x; ++i)
+            left_bound  = std::max(0, (int)dot.x-rad_left);
+            right_bound = std::min(width-1, (int)dot.x+rad_right);
+            low_bound   = std::max(0, (int)dot.y-rad_left);
+            upper_bound = std::min(height-1, (int)dot.y+rad_right);
+            for (int i = left_bound; i < right_bound; ++i)
             {
-                for (int j = 0; j < rad_y; ++j)
+                for (int j = low_bound; j < upper_bound; ++j)
                 {
-                    access(dot.x - i, dot.y + j).set(RED);
+                    GLubyte brightness = std::round(dot.z);
+                    access(i, j).set(brightness, brightness, brightness);
                 }
             }
         }
@@ -489,6 +494,10 @@ void Framebuffer::drawPoint(GLint x, GLint y, GLfloat z)
 {
     if (inBuffer(x, y)) {
         GLubyte brightness = std::round(z);
+//        printf("z=%f, brightness=%u\n", z, brightness);
+
+//        access(x, y).set(255-brightness, 255, 255);
+//        access(x, y).set(100, brightness, 100);
         access(x, y).set(brightness, brightness, brightness);
     }
 }
