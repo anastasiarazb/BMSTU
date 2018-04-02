@@ -14,7 +14,6 @@
 #define BACKGR_BRIGHTNESS 255 //100
 #define FOREGROUND_COLOR RED
 #define MODEL
-#define DETALIZE
 
 const GLubyte background[4] = {BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, BACKGR_BRIGHTNESS, 255};
 
@@ -390,7 +389,7 @@ void Framebuffer::loadBuf()
 
 void Framebuffer::printVerteces()
 {
-    int diam = 7;
+    int diam = 6;
     int rad_left = diam/2;
     int rad_right = diam-rad_left;
     int left_bound, right_bound, upper_bound, low_bound;
@@ -433,7 +432,6 @@ void Framebuffer::printPolygon()
     if (polygon.verteces.size() == 0) {
         return;
     }
-    printVerteces();
 //    BB bb(polygon.verteces);
 //    std::cout << bb.orientation_to_string() << std::endl;
 //    std::vector<Point> part1, part2;
@@ -449,18 +447,18 @@ void Framebuffer::printPolygon()
 //        }
 //    }
 
-    polygon.foregroundColor = polygon.contrast ? red : green;
+    polygon.foregroundColor = polygon.concentrate ? red : green;
 
     if (polygon.need_to_redraw) {
         polygon.edges.clear();
-#ifdef DETALIZE
-        while (polygon.verteces.size() < 100) {
-            Triangulation triangulation = PointSet::triangulate(polygon.verteces);
-            for (const Triangle &T: triangulation) {
-                polygon.verteces.push_back(T.centerOfGravity());
+        if(polygon.concentrate) {
+            while (polygon.verteces.size() < 100) {
+                Triangulation triangulation = PointSet::triangulate(polygon.verteces);
+                for (const Triangle &T: triangulation) {
+                    polygon.verteces.push_back(T.centerOfGravity());
+                }
             }
         }
-#endif
         Triangulation triangulation = PointSet::triangulate(polygon.verteces);
         std::set<Edge> tr_edges = triangulation.edges();
         polygon.edges.insert(polygon.edges.begin(), tr_edges.begin(), tr_edges.end());
@@ -474,6 +472,7 @@ void Framebuffer::printPolygon()
         }
 //        printf("printPolygon: %lu edges\n", polygon.edges.size());
     }
+    printVerteces();
 }
 
 void Framebuffer::drawPoint(GLint x, GLint y)

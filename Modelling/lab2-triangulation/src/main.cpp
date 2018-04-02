@@ -7,6 +7,7 @@
 #include "callbacks.h"
 
 Framebuffer buffer("output.txt");
+const char* HEADER_MESSAGE = "L-lined. C-concentrate. E-erase. Q/Esc-close. RBM-show coords.";
 
 void draw()
 {
@@ -25,7 +26,7 @@ int main()
     glfwSetErrorCallback(error_callback);
 
     GLFWwindow* window;
-    window = glfwCreateWindow(800, 600, "L-lined. C-contrast colors. E-erase. Q/Esc-close. RBM-show coords.", NULL, NULL);
+    window = glfwCreateWindow(800, 600, HEADER_MESSAGE, NULL, NULL);
     if (window == NULL)
     {
         printf("glfwOpenWindow failed.\n");

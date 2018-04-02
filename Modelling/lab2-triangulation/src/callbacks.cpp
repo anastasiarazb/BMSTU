@@ -1,4 +1,5 @@
 #include "callbacks.h"
+#include <cstring>
 #include "rasterization.h"
 
 extern Framebuffer buffer;
@@ -8,6 +9,7 @@ void cursor_callback(GLFWwindow* , double, double)
 
 }
 
+extern const char *HEADER_MESSAGE;
 void mouse_callback(GLFWwindow* window, int button, int action, int /*mods*/)
 {
     if(button == GLFW_MOUSE_BUTTON_RIGHT)
@@ -20,9 +22,11 @@ void mouse_callback(GLFWwindow* window, int button, int action, int /*mods*/)
             //Координаты мыши в с.к. буфера кадра
             int x = (int)floor(xpos);
             int y = height - (int)floor(ypos);
-            std::string message("L-lined. C-contrast colors. E-erase. Q/Esc-close. RBM-show coords. Last mouse pose (");
-            message.reserve(message.size() + 9);
-            message.append(std::to_string(x)).append(", ").append(std::to_string(y)).append(")");
+            std::string message(HEADER_MESSAGE);
+            message.reserve(message.size()
+                            + std::strlen(" Last mouse pose (xxx, xxx)"));
+            message.append(" Last mouse pose (").append(std::to_string(x))
+                    .append(", ").append(std::to_string(y)).append(")");
             glfwSetWindowTitle(window, message.c_str());
             printf("mouse at (%d, %d);\n", x, y);
         }
@@ -50,13 +54,14 @@ void resize_callback(GLFWwindow* , int width, int height)
 
 }
 
+
 void keyboard_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/)
 {
     if (action == GLFW_PRESS) {
         switch(key) //GLFW_KEY_ESCAPE GLFW_KEY_LEFT GLFW_KEY_RIGHT GLFW_KEY_SPACE
         {
         case(GLFW_KEY_C):  //C - contrast color
-            buffer.polygon.contrast = !buffer.polygon.contrast;
+            buffer.polygon.concentrate = !buffer.polygon.concentrate;
             return;
         case(GLFW_KEY_L): //L - lined
             buffer.polygon.lined = !buffer.polygon.lined;

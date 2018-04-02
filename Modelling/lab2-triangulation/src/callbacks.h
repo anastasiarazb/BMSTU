@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "rasterization.h"
 
-
 void cursor_callback(GLFWwindow* /*window*/, double /*x*/, double /*y*/);
 
 void mouse_callback(GLFWwindow* window, int button, int action, int /*mods*/);

@@ -173,7 +173,7 @@ struct PointSet{
     std::list<Edge> edges;
     int y_max = 0;
     bool lined = true;
-    bool contrast = false;
+    bool concentrate = false;
     bool need_to_redraw = false;
 
     GLubyte *lineColor = green;
