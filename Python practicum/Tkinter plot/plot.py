@@ -1,16 +1,18 @@
 from tkinter import *
+from tkinter import font  # интерпретатор видит все модули из tkinter, кроме этого
+from tkinter import messagebox
 from funcs import *
 from math import *
-root=Tk()
+root = Tk()
 root.title("Plot")
 root.geometry('800x400')
 
 font_x_y = font.Font(family="Helvetica", size=10, slant=font.ITALIC)
 def draw_graph():
-    try :
+    try:
         x_min = float(field2.get())
         x_max = float(field3.get())
-    except :
+    except:
         messagebox.showerror("Wrong Bounds",
                              "Неверные границы построения!")
         return

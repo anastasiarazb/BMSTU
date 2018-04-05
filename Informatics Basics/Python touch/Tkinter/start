@@ -1,3 +1,0 @@
-#!/bin/bash
-konsole --noclose -e ./plot.py
-
