@@ -1,0 +1,26 @@
+find_cycle(100, 100000000, &real_steps, &right);
+epsilon*steps = 5,96046, 1-epsilon*steps = -4,96046, (epsilon*x) = 5,96046e-06
+dx = 1,20159e-06 
+counter = 0, x = 100
+
+find_cycle(100, 10000000, &real_steps, &right);
+epsilon*steps = 0,596046, 1-epsilon*steps = 0,403954, (epsilon*x) = 5,96046e-06
+dx = 1,47553e-05 
+counter = 10223616, x = 256
+
+find_cycle(1, 10000000, &real_steps, &right);
+epsilon*steps = 0,596046, 1-epsilon*steps = 0,403954, (epsilon*x) = 5,96046e-08
+dx = 1,47553e-07 
+counter = 16777216, x = 4
+
+find_cycle(1, 10, &real_steps, &right);
+epsilon*steps = 5,96046e-07, 1-epsilon*steps = 0,999999, (epsilon*x) = 5,96046e-08
+dx = 5,96047e-08 
+counter = 8388608, x = 2
+
+find_cycle(100, 10, &real_steps, &right);
+epsilon*steps = 5,96046e-07, 1-epsilon*steps = 0,999999, (epsilon*x) = 5,96046e-06
+dx = 5,96047e-06 
+counter = 3670016, x = 128
+
+

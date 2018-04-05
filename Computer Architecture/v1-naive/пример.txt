@@ -1,0 +1,55 @@
+#ifndef АНТОН_TXT
+#define АНТОН_TXT
+#define _USE_MATH_DEFINES
+#define _GNU_SOURCE
+#include <string.h>
+#include <stdio.h>
+#include <math.h>
+#include <float.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <locale.h>
+
+double f(double x)
+{
+    return cos(x);
+}
+
+double F(double x)
+{
+    return sin(x);
+}
+
+double integrate(double left, double right, ulong steps, double (*func)(double))
+{
+    double sum = 0;
+    double x = left;
+    double dx = (right-left)/steps;
+    while(x < right)
+    {
+        sum += 0.5 * (func(x) + func(x + dx)) * dx;
+        x += dx;
+    }
+    return sum;
+}
+
+int main()
+{
+    long n;
+    double L = -M_PI, R = M_PI;
+    double V, V0 = F( R ) - F( L );
+    /* точное решение */
+    setlocale( LC_ALL, "" );
+    /* использовать , или . для отделения дробной части */
+
+    printf("Число шагов;Результат программы;Ожидаемый результат;ХЗ погрешность\n");
+    for( n = 1; n < 30; n += 1){
+        V = integrate( L, R, n, f );
+        /* приближенное решение для n шагов */
+        printf( "%ld;%.""15lf"";""%.15lf"";%.15G\n", n, V, V0, (V-V0)/V0 );
+        /* n и относительная ошибка */
+    }
+    return 0;
+}
+
+#endif // АНТОН_TXT

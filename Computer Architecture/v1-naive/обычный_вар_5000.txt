@@ -1,0 +1,9 @@
+dx = 0,125664
+dx == 0: false
+left = 0
+right = 12,5664
+right > left: true
+x = 12,5664
+x == left: false
+counter = 100
+INTEGRATE: 31,8199577331543
