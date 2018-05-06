@@ -1,0 +1,795 @@
+     0  *ast.File {
+     1  .  Doc: nil
+     2  .  Package: hello.go:1:1
+     3  .  Name: *ast.Ident {
+     4  .  .  NamePos: hello.go:1:9
+     5  .  .  Name: "main"
+     6  .  .  Obj: nil
+     7  .  }
+     8  .  Decls: []ast.Decl (len = 3) {
+     9  .  .  0: *ast.GenDecl {
+    10  .  .  .  Doc: nil
+    11  .  .  .  TokPos: hello.go:2:1
+    12  .  .  .  Tok: import
+    13  .  .  .  Lparen: -
+    14  .  .  .  Specs: []ast.Spec (len = 1) {
+    15  .  .  .  .  0: *ast.ImportSpec {
+    16  .  .  .  .  .  Doc: nil
+    17  .  .  .  .  .  Name: nil
+    18  .  .  .  .  .  Path: *ast.BasicLit {
+    19  .  .  .  .  .  .  ValuePos: hello.go:2:8
+    20  .  .  .  .  .  .  Kind: STRING
+    21  .  .  .  .  .  .  Value: "\"fmt\""
+    22  .  .  .  .  .  }
+    23  .  .  .  .  .  Comment: nil
+    24  .  .  .  .  .  EndPos: -
+    25  .  .  .  .  }
+    26  .  .  .  }
+    27  .  .  .  Rparen: -
+    28  .  .  }
+    29  .  .  1: *ast.FuncDecl {
+    30  .  .  .  Doc: nil
+    31  .  .  .  Recv: nil
+    32  .  .  .  Name: *ast.Ident {
+    33  .  .  .  .  NamePos: hello.go:4:6
+    34  .  .  .  .  Name: "generate"
+    35  .  .  .  .  Obj: *ast.Object {
+    36  .  .  .  .  .  Kind: func
+    37  .  .  .  .  .  Name: "generate"
+    38  .  .  .  .  .  Decl: *(obj @ 29)
+    39  .  .  .  .  .  Data: nil
+    40  .  .  .  .  .  Type: nil
+    41  .  .  .  .  }
+    42  .  .  .  }
+    43  .  .  .  Type: *ast.FuncType {
+    44  .  .  .  .  Func: hello.go:4:1
+    45  .  .  .  .  Params: *ast.FieldList {
+    46  .  .  .  .  .  Opening: hello.go:4:15
+    47  .  .  .  .  .  List: []*ast.Field (len = 2) {
+    48  .  .  .  .  .  .  0: *ast.Field {
+    49  .  .  .  .  .  .  .  Doc: nil
+    50  .  .  .  .  .  .  .  Names: []*ast.Ident (len = 2) {
+    51  .  .  .  .  .  .  .  .  0: *ast.Ident {
+    52  .  .  .  .  .  .  .  .  .  NamePos: hello.go:4:17
+    53  .  .  .  .  .  .  .  .  .  Name: "start"
+    54  .  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+    55  .  .  .  .  .  .  .  .  .  .  Kind: var
+    56  .  .  .  .  .  .  .  .  .  .  Name: "start"
+    57  .  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 48)
+    58  .  .  .  .  .  .  .  .  .  .  Data: nil
+    59  .  .  .  .  .  .  .  .  .  .  Type: nil
+    60  .  .  .  .  .  .  .  .  .  }
+    61  .  .  .  .  .  .  .  .  }
+    62  .  .  .  .  .  .  .  .  1: *ast.Ident {
+    63  .  .  .  .  .  .  .  .  .  NamePos: hello.go:4:25
+    64  .  .  .  .  .  .  .  .  .  Name: "finish"
+    65  .  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+    66  .  .  .  .  .  .  .  .  .  .  Kind: var
+    67  .  .  .  .  .  .  .  .  .  .  Name: "finish"
+    68  .  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 48)
+    69  .  .  .  .  .  .  .  .  .  .  Data: nil
+    70  .  .  .  .  .  .  .  .  .  .  Type: nil
+    71  .  .  .  .  .  .  .  .  .  }
+    72  .  .  .  .  .  .  .  .  }
+    73  .  .  .  .  .  .  .  }
+    74  .  .  .  .  .  .  .  Type: *ast.Ident {
+    75  .  .  .  .  .  .  .  .  NamePos: hello.go:4:32
+    76  .  .  .  .  .  .  .  .  Name: "int"
+    77  .  .  .  .  .  .  .  .  Obj: nil
+    78  .  .  .  .  .  .  .  }
+    79  .  .  .  .  .  .  .  Tag: nil
+    80  .  .  .  .  .  .  .  Comment: nil
+    81  .  .  .  .  .  .  }
+    82  .  .  .  .  .  .  1: *ast.Field {
+    83  .  .  .  .  .  .  .  Doc: nil
+    84  .  .  .  .  .  .  .  Names: []*ast.Ident (len = 1) {
+    85  .  .  .  .  .  .  .  .  0: *ast.Ident {
+    86  .  .  .  .  .  .  .  .  .  NamePos: hello.go:4:38
+    87  .  .  .  .  .  .  .  .  .  Name: "out"
+    88  .  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+    89  .  .  .  .  .  .  .  .  .  .  Kind: var
+    90  .  .  .  .  .  .  .  .  .  .  Name: "out"
+    91  .  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 82)
+    92  .  .  .  .  .  .  .  .  .  .  Data: nil
+    93  .  .  .  .  .  .  .  .  .  .  Type: nil
+    94  .  .  .  .  .  .  .  .  .  }
+    95  .  .  .  .  .  .  .  .  }
+    96  .  .  .  .  .  .  .  }
+    97  .  .  .  .  .  .  .  Type: *ast.ChanType {
+    98  .  .  .  .  .  .  .  .  Begin: hello.go:4:42
+    99  .  .  .  .  .  .  .  .  Arrow: -
+   100  .  .  .  .  .  .  .  .  Dir: 3
+   101  .  .  .  .  .  .  .  .  Value: *ast.Ident {
+   102  .  .  .  .  .  .  .  .  .  NamePos: hello.go:4:47
+   103  .  .  .  .  .  .  .  .  .  Name: "int"
+   104  .  .  .  .  .  .  .  .  .  Obj: nil
+   105  .  .  .  .  .  .  .  .  }
+   106  .  .  .  .  .  .  .  }
+   107  .  .  .  .  .  .  .  Tag: nil
+   108  .  .  .  .  .  .  .  Comment: nil
+   109  .  .  .  .  .  .  }
+   110  .  .  .  .  .  }
+   111  .  .  .  .  .  Closing: hello.go:4:51
+   112  .  .  .  .  }
+   113  .  .  .  .  Results: nil
+   114  .  .  .  }
+   115  .  .  .  Body: *ast.BlockStmt {
+   116  .  .  .  .  Lbrace: hello.go:4:53
+   117  .  .  .  .  List: []ast.Stmt (len = 2) {
+   118  .  .  .  .  .  0: *ast.ForStmt {
+   119  .  .  .  .  .  .  For: hello.go:5:5
+   120  .  .  .  .  .  .  Init: *ast.AssignStmt {
+   121  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   122  .  .  .  .  .  .  .  .  0: *ast.Ident {
+   123  .  .  .  .  .  .  .  .  .  NamePos: hello.go:5:9
+   124  .  .  .  .  .  .  .  .  .  Name: "i"
+   125  .  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+   126  .  .  .  .  .  .  .  .  .  .  Kind: var
+   127  .  .  .  .  .  .  .  .  .  .  Name: "i"
+   128  .  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 120)
+   129  .  .  .  .  .  .  .  .  .  .  Data: nil
+   130  .  .  .  .  .  .  .  .  .  .  Type: nil
+   131  .  .  .  .  .  .  .  .  .  }
+   132  .  .  .  .  .  .  .  .  }
+   133  .  .  .  .  .  .  .  }
+   134  .  .  .  .  .  .  .  TokPos: hello.go:5:11
+   135  .  .  .  .  .  .  .  Tok: :=
+   136  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   137  .  .  .  .  .  .  .  .  0: *ast.Ident {
+   138  .  .  .  .  .  .  .  .  .  NamePos: hello.go:5:14
+   139  .  .  .  .  .  .  .  .  .  Name: "start"
+   140  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 54)
+   141  .  .  .  .  .  .  .  .  }
+   142  .  .  .  .  .  .  .  }
+   143  .  .  .  .  .  .  }
+   144  .  .  .  .  .  .  Cond: *ast.BinaryExpr {
+   145  .  .  .  .  .  .  .  X: *ast.Ident {
+   146  .  .  .  .  .  .  .  .  NamePos: hello.go:5:22
+   147  .  .  .  .  .  .  .  .  Name: "i"
+   148  .  .  .  .  .  .  .  .  Obj: *(obj @ 125)
+   149  .  .  .  .  .  .  .  }
+   150  .  .  .  .  .  .  .  OpPos: hello.go:5:24
+   151  .  .  .  .  .  .  .  Op: <=
+   152  .  .  .  .  .  .  .  Y: *ast.Ident {
+   153  .  .  .  .  .  .  .  .  NamePos: hello.go:5:27
+   154  .  .  .  .  .  .  .  .  Name: "finish"
+   155  .  .  .  .  .  .  .  .  Obj: *(obj @ 65)
+   156  .  .  .  .  .  .  .  }
+   157  .  .  .  .  .  .  }
+   158  .  .  .  .  .  .  Post: *ast.IncDecStmt {
+   159  .  .  .  .  .  .  .  X: *ast.Ident {
+   160  .  .  .  .  .  .  .  .  NamePos: hello.go:5:36
+   161  .  .  .  .  .  .  .  .  Name: "i"
+   162  .  .  .  .  .  .  .  .  Obj: *(obj @ 125)
+   163  .  .  .  .  .  .  .  }
+   164  .  .  .  .  .  .  .  TokPos: hello.go:5:38
+   165  .  .  .  .  .  .  .  Tok: ++
+   166  .  .  .  .  .  .  }
+   167  .  .  .  .  .  .  Body: *ast.BlockStmt {
+   168  .  .  .  .  .  .  .  Lbrace: hello.go:5:41
+   169  .  .  .  .  .  .  .  List: []ast.Stmt (len = 1) {
+   170  .  .  .  .  .  .  .  .  0: *ast.SendStmt {
+   171  .  .  .  .  .  .  .  .  .  Chan: *ast.Ident {
+   172  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:6:9
+   173  .  .  .  .  .  .  .  .  .  .  Name: "out"
+   174  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 88)
+   175  .  .  .  .  .  .  .  .  .  }
+   176  .  .  .  .  .  .  .  .  .  Arrow: hello.go:6:13
+   177  .  .  .  .  .  .  .  .  .  Value: *ast.Ident {
+   178  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:6:16
+   179  .  .  .  .  .  .  .  .  .  .  Name: "i"
+   180  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 125)
+   181  .  .  .  .  .  .  .  .  .  }
+   182  .  .  .  .  .  .  .  .  }
+   183  .  .  .  .  .  .  .  }
+   184  .  .  .  .  .  .  .  Rbrace: hello.go:7:5
+   185  .  .  .  .  .  .  }
+   186  .  .  .  .  .  }
+   187  .  .  .  .  .  1: *ast.ExprStmt {
+   188  .  .  .  .  .  .  X: *ast.CallExpr {
+   189  .  .  .  .  .  .  .  Fun: *ast.Ident {
+   190  .  .  .  .  .  .  .  .  NamePos: hello.go:8:5
+   191  .  .  .  .  .  .  .  .  Name: "close"
+   192  .  .  .  .  .  .  .  .  Obj: nil
+   193  .  .  .  .  .  .  .  }
+   194  .  .  .  .  .  .  .  Lparen: hello.go:8:11
+   195  .  .  .  .  .  .  .  Args: []ast.Expr (len = 1) {
+   196  .  .  .  .  .  .  .  .  0: *ast.Ident {
+   197  .  .  .  .  .  .  .  .  .  NamePos: hello.go:8:13
+   198  .  .  .  .  .  .  .  .  .  Name: "out"
+   199  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 88)
+   200  .  .  .  .  .  .  .  .  }
+   201  .  .  .  .  .  .  .  }
+   202  .  .  .  .  .  .  .  Ellipsis: -
+   203  .  .  .  .  .  .  .  Rparen: hello.go:8:17
+   204  .  .  .  .  .  .  }
+   205  .  .  .  .  .  }
+   206  .  .  .  .  }
+   207  .  .  .  .  Rbrace: hello.go:9:1
+   208  .  .  .  }
+   209  .  .  }
+   210  .  .  2: *ast.FuncDecl {
+   211  .  .  .  Doc: nil
+   212  .  .  .  Recv: nil
+   213  .  .  .  Name: *ast.Ident {
+   214  .  .  .  .  NamePos: hello.go:11:6
+   215  .  .  .  .  Name: "main"
+   216  .  .  .  .  Obj: *ast.Object {
+   217  .  .  .  .  .  Kind: func
+   218  .  .  .  .  .  Name: "main"
+   219  .  .  .  .  .  Decl: *(obj @ 210)
+   220  .  .  .  .  .  Data: nil
+   221  .  .  .  .  .  Type: nil
+   222  .  .  .  .  }
+   223  .  .  .  }
+   224  .  .  .  Type: *ast.FuncType {
+   225  .  .  .  .  Func: hello.go:11:1
+   226  .  .  .  .  Params: *ast.FieldList {
+   227  .  .  .  .  .  Opening: hello.go:11:11
+   228  .  .  .  .  .  List: nil
+   229  .  .  .  .  .  Closing: hello.go:11:12
+   230  .  .  .  .  }
+   231  .  .  .  .  Results: nil
+   232  .  .  .  }
+   233  .  .  .  Body: *ast.BlockStmt {
+   234  .  .  .  .  Lbrace: hello.go:11:14
+   235  .  .  .  .  List: []ast.Stmt (len = 5) {
+   236  .  .  .  .  .  0: *ast.ExprStmt {
+   237  .  .  .  .  .  .  X: *ast.CallExpr {
+   238  .  .  .  .  .  .  .  Fun: *ast.SelectorExpr {
+   239  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   240  .  .  .  .  .  .  .  .  .  NamePos: hello.go:12:5
+   241  .  .  .  .  .  .  .  .  .  Name: "fmt"
+   242  .  .  .  .  .  .  .  .  .  Obj: nil
+   243  .  .  .  .  .  .  .  .  }
+   244  .  .  .  .  .  .  .  .  Sel: *ast.Ident {
+   245  .  .  .  .  .  .  .  .  .  NamePos: hello.go:12:9
+   246  .  .  .  .  .  .  .  .  .  Name: "Printf"
+   247  .  .  .  .  .  .  .  .  .  Obj: nil
+   248  .  .  .  .  .  .  .  .  }
+   249  .  .  .  .  .  .  .  }
+   250  .  .  .  .  .  .  .  Lparen: hello.go:12:16
+   251  .  .  .  .  .  .  .  Args: []ast.Expr (len = 1) {
+   252  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   253  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:12:17
+   254  .  .  .  .  .  .  .  .  .  Kind: STRING
+   255  .  .  .  .  .  .  .  .  .  Value: "\"Hello, World!\\n\""
+   256  .  .  .  .  .  .  .  .  }
+   257  .  .  .  .  .  .  .  }
+   258  .  .  .  .  .  .  .  Ellipsis: -
+   259  .  .  .  .  .  .  .  Rparen: hello.go:12:34
+   260  .  .  .  .  .  .  }
+   261  .  .  .  .  .  }
+   262  .  .  .  .  .  1: *ast.IfStmt {
+   263  .  .  .  .  .  .  If: hello.go:13:5
+   264  .  .  .  .  .  .  Init: nil
+   265  .  .  .  .  .  .  Cond: *ast.BinaryExpr {
+   266  .  .  .  .  .  .  .  X: *ast.BasicLit {
+   267  .  .  .  .  .  .  .  .  ValuePos: hello.go:13:8
+   268  .  .  .  .  .  .  .  .  Kind: INT
+   269  .  .  .  .  .  .  .  .  Value: "5"
+   270  .  .  .  .  .  .  .  }
+   271  .  .  .  .  .  .  .  OpPos: hello.go:13:10
+   272  .  .  .  .  .  .  .  Op: >
+   273  .  .  .  .  .  .  .  Y: *ast.BasicLit {
+   274  .  .  .  .  .  .  .  .  ValuePos: hello.go:13:12
+   275  .  .  .  .  .  .  .  .  Kind: INT
+   276  .  .  .  .  .  .  .  .  Value: "4"
+   277  .  .  .  .  .  .  .  }
+   278  .  .  .  .  .  .  }
+   279  .  .  .  .  .  .  Body: *ast.BlockStmt {
+   280  .  .  .  .  .  .  .  Lbrace: hello.go:13:14
+   281  .  .  .  .  .  .  .  List: []ast.Stmt (len = 4) {
+   282  .  .  .  .  .  .  .  .  0: *ast.AssignStmt {
+   283  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   284  .  .  .  .  .  .  .  .  .  .  0: *ast.Ident {
+   285  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:14:9
+   286  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   287  .  .  .  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+   288  .  .  .  .  .  .  .  .  .  .  .  .  Kind: var
+   289  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   290  .  .  .  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 282)
+   291  .  .  .  .  .  .  .  .  .  .  .  .  Data: nil
+   292  .  .  .  .  .  .  .  .  .  .  .  .  Type: nil
+   293  .  .  .  .  .  .  .  .  .  .  .  }
+   294  .  .  .  .  .  .  .  .  .  .  }
+   295  .  .  .  .  .  .  .  .  .  }
+   296  .  .  .  .  .  .  .  .  .  TokPos: hello.go:14:11
+   297  .  .  .  .  .  .  .  .  .  Tok: :=
+   298  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   299  .  .  .  .  .  .  .  .  .  .  0: *ast.CallExpr {
+   300  .  .  .  .  .  .  .  .  .  .  .  Fun: *ast.Ident {
+   301  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:14:14
+   302  .  .  .  .  .  .  .  .  .  .  .  .  Name: "make"
+   303  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   304  .  .  .  .  .  .  .  .  .  .  .  }
+   305  .  .  .  .  .  .  .  .  .  .  .  Lparen: hello.go:14:19
+   306  .  .  .  .  .  .  .  .  .  .  .  Args: []ast.Expr (len = 2) {
+   307  .  .  .  .  .  .  .  .  .  .  .  .  0: *ast.MapType {
+   308  .  .  .  .  .  .  .  .  .  .  .  .  .  Map: hello.go:14:20
+   309  .  .  .  .  .  .  .  .  .  .  .  .  .  Key: *ast.Ident {
+   310  .  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:14:24
+   311  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "string"
+   312  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   313  .  .  .  .  .  .  .  .  .  .  .  .  .  }
+   314  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: *ast.Ident {
+   315  .  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:14:32
+   316  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "int"
+   317  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   318  .  .  .  .  .  .  .  .  .  .  .  .  .  }
+   319  .  .  .  .  .  .  .  .  .  .  .  .  }
+   320  .  .  .  .  .  .  .  .  .  .  .  .  1: *ast.BasicLit {
+   321  .  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:14:37
+   322  .  .  .  .  .  .  .  .  .  .  .  .  .  Kind: INT
+   323  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: "28"
+   324  .  .  .  .  .  .  .  .  .  .  .  .  }
+   325  .  .  .  .  .  .  .  .  .  .  .  }
+   326  .  .  .  .  .  .  .  .  .  .  .  Ellipsis: -
+   327  .  .  .  .  .  .  .  .  .  .  .  Rparen: hello.go:14:39
+   328  .  .  .  .  .  .  .  .  .  .  }
+   329  .  .  .  .  .  .  .  .  .  }
+   330  .  .  .  .  .  .  .  .  }
+   331  .  .  .  .  .  .  .  .  1: *ast.AssignStmt {
+   332  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   333  .  .  .  .  .  .  .  .  .  .  0: *ast.IndexExpr {
+   334  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   335  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:15:9
+   336  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   337  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 287)
+   338  .  .  .  .  .  .  .  .  .  .  .  }
+   339  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:15:10
+   340  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   341  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:15:11
+   342  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   343  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"alpha\""
+   344  .  .  .  .  .  .  .  .  .  .  .  }
+   345  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:15:18
+   346  .  .  .  .  .  .  .  .  .  .  }
+   347  .  .  .  .  .  .  .  .  .  }
+   348  .  .  .  .  .  .  .  .  .  TokPos: hello.go:15:20
+   349  .  .  .  .  .  .  .  .  .  Tok: =
+   350  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   351  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   352  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:15:22
+   353  .  .  .  .  .  .  .  .  .  .  .  Kind: INT
+   354  .  .  .  .  .  .  .  .  .  .  .  Value: "10"
+   355  .  .  .  .  .  .  .  .  .  .  }
+   356  .  .  .  .  .  .  .  .  .  }
+   357  .  .  .  .  .  .  .  .  }
+   358  .  .  .  .  .  .  .  .  2: *ast.AssignStmt {
+   359  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   360  .  .  .  .  .  .  .  .  .  .  0: *ast.IndexExpr {
+   361  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   362  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:16:9
+   363  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   364  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 287)
+   365  .  .  .  .  .  .  .  .  .  .  .  }
+   366  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:16:10
+   367  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   368  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:16:11
+   369  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   370  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"alpha\""
+   371  .  .  .  .  .  .  .  .  .  .  .  }
+   372  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:16:18
+   373  .  .  .  .  .  .  .  .  .  .  }
+   374  .  .  .  .  .  .  .  .  .  }
+   375  .  .  .  .  .  .  .  .  .  TokPos: hello.go:16:20
+   376  .  .  .  .  .  .  .  .  .  Tok: =
+   377  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   378  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   379  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:16:22
+   380  .  .  .  .  .  .  .  .  .  .  .  Kind: INT
+   381  .  .  .  .  .  .  .  .  .  .  .  Value: "20"
+   382  .  .  .  .  .  .  .  .  .  .  }
+   383  .  .  .  .  .  .  .  .  .  }
+   384  .  .  .  .  .  .  .  .  }
+   385  .  .  .  .  .  .  .  .  3: *ast.ExprStmt {
+   386  .  .  .  .  .  .  .  .  .  X: *ast.CallExpr {
+   387  .  .  .  .  .  .  .  .  .  .  Fun: *ast.SelectorExpr {
+   388  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   389  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:17:9
+   390  .  .  .  .  .  .  .  .  .  .  .  .  Name: "fmt"
+   391  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   392  .  .  .  .  .  .  .  .  .  .  .  }
+   393  .  .  .  .  .  .  .  .  .  .  .  Sel: *ast.Ident {
+   394  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:17:13
+   395  .  .  .  .  .  .  .  .  .  .  .  .  Name: "Printf"
+   396  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   397  .  .  .  .  .  .  .  .  .  .  .  }
+   398  .  .  .  .  .  .  .  .  .  .  }
+   399  .  .  .  .  .  .  .  .  .  .  Lparen: hello.go:17:20
+   400  .  .  .  .  .  .  .  .  .  .  Args: []ast.Expr (len = 3) {
+   401  .  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   402  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:17:21
+   403  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   404  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"%d %d \\n\""
+   405  .  .  .  .  .  .  .  .  .  .  .  }
+   406  .  .  .  .  .  .  .  .  .  .  .  1: *ast.IndexExpr {
+   407  .  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   408  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:17:34
+   409  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   410  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 287)
+   411  .  .  .  .  .  .  .  .  .  .  .  .  }
+   412  .  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:17:35
+   413  .  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   414  .  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:17:36
+   415  .  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   416  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"alpha\""
+   417  .  .  .  .  .  .  .  .  .  .  .  .  }
+   418  .  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:17:43
+   419  .  .  .  .  .  .  .  .  .  .  .  }
+   420  .  .  .  .  .  .  .  .  .  .  .  2: *ast.IndexExpr {
+   421  .  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   422  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:17:46
+   423  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   424  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 287)
+   425  .  .  .  .  .  .  .  .  .  .  .  .  }
+   426  .  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:17:47
+   427  .  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   428  .  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:17:48
+   429  .  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   430  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"beta\""
+   431  .  .  .  .  .  .  .  .  .  .  .  .  }
+   432  .  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:17:54
+   433  .  .  .  .  .  .  .  .  .  .  .  }
+   434  .  .  .  .  .  .  .  .  .  .  }
+   435  .  .  .  .  .  .  .  .  .  .  Ellipsis: -
+   436  .  .  .  .  .  .  .  .  .  .  Rparen: hello.go:17:55
+   437  .  .  .  .  .  .  .  .  .  }
+   438  .  .  .  .  .  .  .  .  }
+   439  .  .  .  .  .  .  .  }
+   440  .  .  .  .  .  .  .  Rbrace: hello.go:18:5
+   441  .  .  .  .  .  .  }
+   442  .  .  .  .  .  .  Else: *ast.BlockStmt {
+   443  .  .  .  .  .  .  .  Lbrace: hello.go:18:12
+   444  .  .  .  .  .  .  .  List: []ast.Stmt (len = 4) {
+   445  .  .  .  .  .  .  .  .  0: *ast.AssignStmt {
+   446  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   447  .  .  .  .  .  .  .  .  .  .  0: *ast.Ident {
+   448  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:19:9
+   449  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   450  .  .  .  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+   451  .  .  .  .  .  .  .  .  .  .  .  .  Kind: var
+   452  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   453  .  .  .  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 445)
+   454  .  .  .  .  .  .  .  .  .  .  .  .  Data: nil
+   455  .  .  .  .  .  .  .  .  .  .  .  .  Type: nil
+   456  .  .  .  .  .  .  .  .  .  .  .  }
+   457  .  .  .  .  .  .  .  .  .  .  }
+   458  .  .  .  .  .  .  .  .  .  }
+   459  .  .  .  .  .  .  .  .  .  TokPos: hello.go:19:11
+   460  .  .  .  .  .  .  .  .  .  Tok: :=
+   461  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   462  .  .  .  .  .  .  .  .  .  .  0: *ast.CallExpr {
+   463  .  .  .  .  .  .  .  .  .  .  .  Fun: *ast.Ident {
+   464  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:19:14
+   465  .  .  .  .  .  .  .  .  .  .  .  .  Name: "make"
+   466  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   467  .  .  .  .  .  .  .  .  .  .  .  }
+   468  .  .  .  .  .  .  .  .  .  .  .  Lparen: hello.go:19:19
+   469  .  .  .  .  .  .  .  .  .  .  .  Args: []ast.Expr (len = 1) {
+   470  .  .  .  .  .  .  .  .  .  .  .  .  0: *ast.MapType {
+   471  .  .  .  .  .  .  .  .  .  .  .  .  .  Map: hello.go:19:20
+   472  .  .  .  .  .  .  .  .  .  .  .  .  .  Key: *ast.Ident {
+   473  .  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:19:24
+   474  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "string"
+   475  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   476  .  .  .  .  .  .  .  .  .  .  .  .  .  }
+   477  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: *ast.Ident {
+   478  .  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:19:32
+   479  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "int"
+   480  .  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   481  .  .  .  .  .  .  .  .  .  .  .  .  .  }
+   482  .  .  .  .  .  .  .  .  .  .  .  .  }
+   483  .  .  .  .  .  .  .  .  .  .  .  }
+   484  .  .  .  .  .  .  .  .  .  .  .  Ellipsis: -
+   485  .  .  .  .  .  .  .  .  .  .  .  Rparen: hello.go:19:35
+   486  .  .  .  .  .  .  .  .  .  .  }
+   487  .  .  .  .  .  .  .  .  .  }
+   488  .  .  .  .  .  .  .  .  }
+   489  .  .  .  .  .  .  .  .  1: *ast.AssignStmt {
+   490  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   491  .  .  .  .  .  .  .  .  .  .  0: *ast.IndexExpr {
+   492  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   493  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:20:9
+   494  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   495  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 450)
+   496  .  .  .  .  .  .  .  .  .  .  .  }
+   497  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:20:10
+   498  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   499  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:20:11
+   500  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   501  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"alpha\""
+   502  .  .  .  .  .  .  .  .  .  .  .  }
+   503  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:20:18
+   504  .  .  .  .  .  .  .  .  .  .  }
+   505  .  .  .  .  .  .  .  .  .  }
+   506  .  .  .  .  .  .  .  .  .  TokPos: hello.go:20:20
+   507  .  .  .  .  .  .  .  .  .  Tok: =
+   508  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   509  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   510  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:20:22
+   511  .  .  .  .  .  .  .  .  .  .  .  Kind: INT
+   512  .  .  .  .  .  .  .  .  .  .  .  Value: "10"
+   513  .  .  .  .  .  .  .  .  .  .  }
+   514  .  .  .  .  .  .  .  .  .  }
+   515  .  .  .  .  .  .  .  .  }
+   516  .  .  .  .  .  .  .  .  2: *ast.AssignStmt {
+   517  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   518  .  .  .  .  .  .  .  .  .  .  0: *ast.IndexExpr {
+   519  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   520  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:21:9
+   521  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   522  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 450)
+   523  .  .  .  .  .  .  .  .  .  .  .  }
+   524  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:21:10
+   525  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   526  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:21:11
+   527  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   528  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"alpha\""
+   529  .  .  .  .  .  .  .  .  .  .  .  }
+   530  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:21:18
+   531  .  .  .  .  .  .  .  .  .  .  }
+   532  .  .  .  .  .  .  .  .  .  }
+   533  .  .  .  .  .  .  .  .  .  TokPos: hello.go:21:20
+   534  .  .  .  .  .  .  .  .  .  Tok: =
+   535  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   536  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   537  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:21:22
+   538  .  .  .  .  .  .  .  .  .  .  .  Kind: INT
+   539  .  .  .  .  .  .  .  .  .  .  .  Value: "20"
+   540  .  .  .  .  .  .  .  .  .  .  }
+   541  .  .  .  .  .  .  .  .  .  }
+   542  .  .  .  .  .  .  .  .  }
+   543  .  .  .  .  .  .  .  .  3: *ast.ExprStmt {
+   544  .  .  .  .  .  .  .  .  .  X: *ast.CallExpr {
+   545  .  .  .  .  .  .  .  .  .  .  Fun: *ast.SelectorExpr {
+   546  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   547  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:22:9
+   548  .  .  .  .  .  .  .  .  .  .  .  .  Name: "fmt"
+   549  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   550  .  .  .  .  .  .  .  .  .  .  .  }
+   551  .  .  .  .  .  .  .  .  .  .  .  Sel: *ast.Ident {
+   552  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:22:13
+   553  .  .  .  .  .  .  .  .  .  .  .  .  Name: "Printf"
+   554  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   555  .  .  .  .  .  .  .  .  .  .  .  }
+   556  .  .  .  .  .  .  .  .  .  .  }
+   557  .  .  .  .  .  .  .  .  .  .  Lparen: hello.go:22:20
+   558  .  .  .  .  .  .  .  .  .  .  Args: []ast.Expr (len = 3) {
+   559  .  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   560  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:22:21
+   561  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   562  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"%d %d \\n\""
+   563  .  .  .  .  .  .  .  .  .  .  .  }
+   564  .  .  .  .  .  .  .  .  .  .  .  1: *ast.IndexExpr {
+   565  .  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   566  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:22:34
+   567  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   568  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 450)
+   569  .  .  .  .  .  .  .  .  .  .  .  .  }
+   570  .  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:22:35
+   571  .  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   572  .  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:22:36
+   573  .  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   574  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"alpha\""
+   575  .  .  .  .  .  .  .  .  .  .  .  .  }
+   576  .  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:22:43
+   577  .  .  .  .  .  .  .  .  .  .  .  }
+   578  .  .  .  .  .  .  .  .  .  .  .  2: *ast.IndexExpr {
+   579  .  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   580  .  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:22:46
+   581  .  .  .  .  .  .  .  .  .  .  .  .  .  Name: "a"
+   582  .  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 450)
+   583  .  .  .  .  .  .  .  .  .  .  .  .  }
+   584  .  .  .  .  .  .  .  .  .  .  .  .  Lbrack: hello.go:22:47
+   585  .  .  .  .  .  .  .  .  .  .  .  .  Index: *ast.BasicLit {
+   586  .  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:22:48
+   587  .  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   588  .  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"beta\""
+   589  .  .  .  .  .  .  .  .  .  .  .  .  }
+   590  .  .  .  .  .  .  .  .  .  .  .  .  Rbrack: hello.go:22:54
+   591  .  .  .  .  .  .  .  .  .  .  .  }
+   592  .  .  .  .  .  .  .  .  .  .  }
+   593  .  .  .  .  .  .  .  .  .  .  Ellipsis: -
+   594  .  .  .  .  .  .  .  .  .  .  Rparen: hello.go:22:55
+   595  .  .  .  .  .  .  .  .  .  }
+   596  .  .  .  .  .  .  .  .  }
+   597  .  .  .  .  .  .  .  }
+   598  .  .  .  .  .  .  .  Rbrace: hello.go:23:5
+   599  .  .  .  .  .  .  }
+   600  .  .  .  .  .  }
+   601  .  .  .  .  .  2: *ast.AssignStmt {
+   602  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   603  .  .  .  .  .  .  .  0: *ast.Ident {
+   604  .  .  .  .  .  .  .  .  NamePos: hello.go:25:5
+   605  .  .  .  .  .  .  .  .  Name: "ch"
+   606  .  .  .  .  .  .  .  .  Obj: *ast.Object {
+   607  .  .  .  .  .  .  .  .  .  Kind: var
+   608  .  .  .  .  .  .  .  .  .  Name: "ch"
+   609  .  .  .  .  .  .  .  .  .  Decl: *(obj @ 601)
+   610  .  .  .  .  .  .  .  .  .  Data: nil
+   611  .  .  .  .  .  .  .  .  .  Type: nil
+   612  .  .  .  .  .  .  .  .  }
+   613  .  .  .  .  .  .  .  }
+   614  .  .  .  .  .  .  }
+   615  .  .  .  .  .  .  TokPos: hello.go:25:8
+   616  .  .  .  .  .  .  Tok: :=
+   617  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   618  .  .  .  .  .  .  .  0: *ast.CallExpr {
+   619  .  .  .  .  .  .  .  .  Fun: *ast.Ident {
+   620  .  .  .  .  .  .  .  .  .  NamePos: hello.go:25:11
+   621  .  .  .  .  .  .  .  .  .  Name: "make"
+   622  .  .  .  .  .  .  .  .  .  Obj: nil
+   623  .  .  .  .  .  .  .  .  }
+   624  .  .  .  .  .  .  .  .  Lparen: hello.go:25:16
+   625  .  .  .  .  .  .  .  .  Args: []ast.Expr (len = 1) {
+   626  .  .  .  .  .  .  .  .  .  0: *ast.ChanType {
+   627  .  .  .  .  .  .  .  .  .  .  Begin: hello.go:25:18
+   628  .  .  .  .  .  .  .  .  .  .  Arrow: -
+   629  .  .  .  .  .  .  .  .  .  .  Dir: 3
+   630  .  .  .  .  .  .  .  .  .  .  Value: *ast.Ident {
+   631  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:25:23
+   632  .  .  .  .  .  .  .  .  .  .  .  Name: "int"
+   633  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   634  .  .  .  .  .  .  .  .  .  .  }
+   635  .  .  .  .  .  .  .  .  .  }
+   636  .  .  .  .  .  .  .  .  }
+   637  .  .  .  .  .  .  .  .  Ellipsis: -
+   638  .  .  .  .  .  .  .  .  Rparen: hello.go:25:27
+   639  .  .  .  .  .  .  .  }
+   640  .  .  .  .  .  .  }
+   641  .  .  .  .  .  }
+   642  .  .  .  .  .  3: *ast.GoStmt {
+   643  .  .  .  .  .  .  Go: hello.go:26:5
+   644  .  .  .  .  .  .  Call: *ast.CallExpr {
+   645  .  .  .  .  .  .  .  Fun: *ast.Ident {
+   646  .  .  .  .  .  .  .  .  NamePos: hello.go:26:8
+   647  .  .  .  .  .  .  .  .  Name: "generate"
+   648  .  .  .  .  .  .  .  .  Obj: *(obj @ 35)
+   649  .  .  .  .  .  .  .  }
+   650  .  .  .  .  .  .  .  Lparen: hello.go:26:17
+   651  .  .  .  .  .  .  .  Args: []ast.Expr (len = 3) {
+   652  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   653  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:26:18
+   654  .  .  .  .  .  .  .  .  .  Kind: INT
+   655  .  .  .  .  .  .  .  .  .  Value: "1"
+   656  .  .  .  .  .  .  .  .  }
+   657  .  .  .  .  .  .  .  .  1: *ast.BasicLit {
+   658  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:26:22
+   659  .  .  .  .  .  .  .  .  .  Kind: INT
+   660  .  .  .  .  .  .  .  .  .  Value: "10"
+   661  .  .  .  .  .  .  .  .  }
+   662  .  .  .  .  .  .  .  .  2: *ast.Ident {
+   663  .  .  .  .  .  .  .  .  .  NamePos: hello.go:26:27
+   664  .  .  .  .  .  .  .  .  .  Name: "ch"
+   665  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 606)
+   666  .  .  .  .  .  .  .  .  }
+   667  .  .  .  .  .  .  .  }
+   668  .  .  .  .  .  .  .  Ellipsis: -
+   669  .  .  .  .  .  .  .  Rparen: hello.go:26:29
+   670  .  .  .  .  .  .  }
+   671  .  .  .  .  .  }
+   672  .  .  .  .  .  4: *ast.RangeStmt {
+   673  .  .  .  .  .  .  For: hello.go:27:5
+   674  .  .  .  .  .  .  Key: *ast.Ident {
+   675  .  .  .  .  .  .  .  NamePos: hello.go:27:9
+   676  .  .  .  .  .  .  .  Name: "x"
+   677  .  .  .  .  .  .  .  Obj: *ast.Object {
+   678  .  .  .  .  .  .  .  .  Kind: var
+   679  .  .  .  .  .  .  .  .  Name: "x"
+   680  .  .  .  .  .  .  .  .  Decl: *ast.AssignStmt {
+   681  .  .  .  .  .  .  .  .  .  Lhs: []ast.Expr (len = 1) {
+   682  .  .  .  .  .  .  .  .  .  .  0: *(obj @ 674)
+   683  .  .  .  .  .  .  .  .  .  }
+   684  .  .  .  .  .  .  .  .  .  TokPos: hello.go:27:11
+   685  .  .  .  .  .  .  .  .  .  Tok: :=
+   686  .  .  .  .  .  .  .  .  .  Rhs: []ast.Expr (len = 1) {
+   687  .  .  .  .  .  .  .  .  .  .  0: *ast.UnaryExpr {
+   688  .  .  .  .  .  .  .  .  .  .  .  OpPos: hello.go:27:14
+   689  .  .  .  .  .  .  .  .  .  .  .  Op: range
+   690  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   691  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:27:20
+   692  .  .  .  .  .  .  .  .  .  .  .  .  Name: "ch"
+   693  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 606)
+   694  .  .  .  .  .  .  .  .  .  .  .  }
+   695  .  .  .  .  .  .  .  .  .  .  }
+   696  .  .  .  .  .  .  .  .  .  }
+   697  .  .  .  .  .  .  .  .  }
+   698  .  .  .  .  .  .  .  .  Data: nil
+   699  .  .  .  .  .  .  .  .  Type: nil
+   700  .  .  .  .  .  .  .  }
+   701  .  .  .  .  .  .  }
+   702  .  .  .  .  .  .  Value: nil
+   703  .  .  .  .  .  .  TokPos: hello.go:27:11
+   704  .  .  .  .  .  .  Tok: :=
+   705  .  .  .  .  .  .  X: *(obj @ 690)
+   706  .  .  .  .  .  .  Body: *ast.BlockStmt {
+   707  .  .  .  .  .  .  .  Lbrace: hello.go:27:23
+   708  .  .  .  .  .  .  .  List: []ast.Stmt (len = 1) {
+   709  .  .  .  .  .  .  .  .  0: *ast.ExprStmt {
+   710  .  .  .  .  .  .  .  .  .  X: *ast.CallExpr {
+   711  .  .  .  .  .  .  .  .  .  .  Fun: *ast.SelectorExpr {
+   712  .  .  .  .  .  .  .  .  .  .  .  X: *ast.Ident {
+   713  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:28:9
+   714  .  .  .  .  .  .  .  .  .  .  .  .  Name: "fmt"
+   715  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   716  .  .  .  .  .  .  .  .  .  .  .  }
+   717  .  .  .  .  .  .  .  .  .  .  .  Sel: *ast.Ident {
+   718  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:28:13
+   719  .  .  .  .  .  .  .  .  .  .  .  .  Name: "Printf"
+   720  .  .  .  .  .  .  .  .  .  .  .  .  Obj: nil
+   721  .  .  .  .  .  .  .  .  .  .  .  }
+   722  .  .  .  .  .  .  .  .  .  .  }
+   723  .  .  .  .  .  .  .  .  .  .  Lparen: hello.go:28:19
+   724  .  .  .  .  .  .  .  .  .  .  Args: []ast.Expr (len = 2) {
+   725  .  .  .  .  .  .  .  .  .  .  .  0: *ast.BasicLit {
+   726  .  .  .  .  .  .  .  .  .  .  .  .  ValuePos: hello.go:28:20
+   727  .  .  .  .  .  .  .  .  .  .  .  .  Kind: STRING
+   728  .  .  .  .  .  .  .  .  .  .  .  .  Value: "\"%d \""
+   729  .  .  .  .  .  .  .  .  .  .  .  }
+   730  .  .  .  .  .  .  .  .  .  .  .  1: *ast.Ident {
+   731  .  .  .  .  .  .  .  .  .  .  .  .  NamePos: hello.go:28:27
+   732  .  .  .  .  .  .  .  .  .  .  .  .  Name: "x"
+   733  .  .  .  .  .  .  .  .  .  .  .  .  Obj: *(obj @ 677)
+   734  .  .  .  .  .  .  .  .  .  .  .  }
+   735  .  .  .  .  .  .  .  .  .  .  }
+   736  .  .  .  .  .  .  .  .  .  .  Ellipsis: -
+   737  .  .  .  .  .  .  .  .  .  .  Rparen: hello.go:28:29
+   738  .  .  .  .  .  .  .  .  .  }
+   739  .  .  .  .  .  .  .  .  }
+   740  .  .  .  .  .  .  .  }
+   741  .  .  .  .  .  .  .  Rbrace: hello.go:29:5
+   742  .  .  .  .  .  .  }
+   743  .  .  .  .  .  }
+   744  .  .  .  .  }
+   745  .  .  .  .  Rbrace: hello.go:30:1
+   746  .  .  .  }
+   747  .  .  }
+   748  .  }
+   749  .  Scope: *ast.Scope {
+   750  .  .  Outer: nil
+   751  .  .  Objects: map[string]*ast.Object (len = 2) {
+   752  .  .  .  "generate": *(obj @ 35)
+   753  .  .  .  "main": *(obj @ 216)
+   754  .  .  }
+   755  .  }
+   756  .  Imports: []*ast.ImportSpec (len = 1) {
+   757  .  .  0: *(obj @ 15)
+   758  .  }
+   759  .  Unresolved: []*ast.Ident (len = 15) {
+   760  .  .  0: *(obj @ 74)
+   761  .  .  1: *(obj @ 101)
+   762  .  .  2: *(obj @ 189)
+   763  .  .  3: *(obj @ 239)
+   764  .  .  4: *(obj @ 300)
+   765  .  .  5: *(obj @ 309)
+   766  .  .  6: *(obj @ 314)
+   767  .  .  7: *(obj @ 388)
+   768  .  .  8: *(obj @ 463)
+   769  .  .  9: *(obj @ 472)
+   770  .  .  10: *(obj @ 477)
+   771  .  .  11: *(obj @ 546)
+   772  .  .  12: *(obj @ 619)
+   773  .  .  13: *(obj @ 630)
+   774  .  .  14: *(obj @ 712)
+   775  .  }
+   776  .  Comments: []*ast.CommentGroup (len = 2) {
+   777  .  .  0: *ast.CommentGroup {
+   778  .  .  .  List: []*ast.Comment (len = 1) {
+   779  .  .  .  .  0: *ast.Comment {
+   780  .  .  .  .  .  Slash: hello.go:19:37
+   781  .  .  .  .  .  Text: "//тут будет подставлено 16"
+   782  .  .  .  .  }
+   783  .  .  .  }
+   784  .  .  }
+   785  .  .  1: *ast.CommentGroup {
+   786  .  .  .  List: []*ast.Comment (len = 1) {
+   787  .  .  .  .  0: *ast.Comment {
+   788  .  .  .  .  .  Slash: hello.go:25:29
+   789  .  .  .  .  .  Text: "//Тут не будет изменений"
+   790  .  .  .  .  }
+   791  .  .  .  }
+   792  .  .  }
+   793  .  }
+   794  }

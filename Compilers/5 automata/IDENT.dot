@@ -1,0 +1,37 @@
+digraph Ggraph{
+rankdir=LR;
+overlap=false;
+node [fontname="Liberation Serif"];
+edge [fontname="Liberation Serif"];
+  
+zero [style="invis"]
+S [label=<i>][shape="circle"][style="bold"]
+zero->S
+
+
+//Ident [shape="doublecircle", xlabel="IDENT"]
+Ident [shape="doublecircle"]
+IDENT [shape="plaintext"]
+Ident->IDENT [style="invis", len=0]
+S->Ident [label="[a-dghjkmo-sv-zA-Z0-9]"]
+Ident->Ident [label="[a-dghjkmo-sv-zA-Z0-9efilntu]"]
+
+Keyword [shape="doublecircle"]
+KEYWORD [shape="plaintext"]
+Keyword->KEYWORD [style="invis"]
+CharF, CharIU [shape="circle"]
+S->CharF   [label="f"]
+CharF->CharIU [label="u"]
+CharF->Ident   [label="[a-dghjkmo-sv-zA-Z0-9efilnt]"]
+CharIU->Keyword   [label="n"]
+CharIU->Ident   [label="[a-dghjkmo-sv-zA-Z0-9efiltu]"]
+Keyword->Ident     [label="[a-dghjkmo-sv-zA-Z0-9efilntu]"]
+CharL, CharE [shape="circle"]
+S->CharL   [label="l"]
+CharL->CharE [label="e"]
+CharL->Ident   [label="[a-dghjkmo-sv-zA-Z0-9filntu]"]
+CharE->Keyword   [label="t"]
+CharE->Ident   [label="[a-dghjkmo-sv-zA-Z0-9efilnu]"]
+
+S->CharIU   [label="i"]
+}

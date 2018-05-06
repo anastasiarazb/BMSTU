@@ -1,0 +1,186 @@
+//FROM Library
+$EXTERN WriteLine, Arg, Add, Sub;
+
+//FROM LibraryEx
+$EXTERN Inc, Dec, Fetch, LoadFile, Map, Reduce;
+
+$ENTRY Go {
+    //= <WriteLine <LoadFile <Arg 1>>>;
+    = <Scan (1 1) <LoadFile <Arg 1>> >; //'prog.txt'
+}
+
+Scan {
+    (s.line s.pos) = ;
+    (s.line s.pos) e.src = <Fetch <NextToken (s.line s.pos) e.src> {
+        (e.token) t.coord e.tail = <PrintConsole e.token>
+                                   <Scan t.coord e.tail>;
+        (e.token) t.coord = <PrintConsole e.token>;
+        }>;
+}
+
+PrintConsole {
+    #IDENT        (e.image) (s.lineS s.posS) (s.lineE s.posE) 
+        = <WriteLine 'IDENT        ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' e.image>;
+    #NUMBER       (e.image) (s.lineS s.posS) (s.lineE s.posE) 
+        = <WriteLine 'NUMBER       ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' e.image>;
+    #SYNTAX_ERROR (e.image) (s.lineS s.posS) (s.lineE s.posE) 
+        = <WriteLine 'SYNTAX_ERROR ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' e.image>;
+    #OPERATION    (e.image) (s.lineS s.posS) (s.lineE s.posE)  
+        = <WriteLine 'OPERATION    ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' e.image>;
+    #NUM_START    (e.image) (s.lineS s.posS) (s.lineE s.posE)  
+        = <WriteLine 'NUM_START    ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' e.image>;
+    #NUM_END    (e.image) (s.lineS s.posS) (s.lineE s.posE)  
+        = <WriteLine 'NUM_END      ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' e.image>;
+    #EOF          (e.image) (s.lineS s.posS) (s.lineE s.posE)  
+        = <WriteLine 'EOF          ( 's.lineS ', ' s.posS') - ( 's.lineE ', ' s.posE') : ' '-1'>;
+}
+
+//Position.Cp
+GetSymbol {                             /* (Символ) (позиция) (конец_строки) оставшиеся_строки*/
+    (s.line s.pos) ()                  = ('-1')    (s.line s.pos); /* EOF */
+    (s.line s.pos) ('<=' e.str) e.last = ('<=')    (s.line <Add s.pos 2>) (e.str) e.last;
+    (s.line s.pos) ('==' e.str) e.last = ('==')    (s.line <Add s.pos 2>) (e.str) e.last;
+    (s.line s.pos) (s.1  e.str) e.last = (s.1)     (s.line <Inc s.pos>)   (e.str) e.last;
+    (s.line s.pos) ()           e.last =   ()      (<Inc s.line>     1)    e.last;
+}
+
+PutBack {
+    ()    = ();
+    ('-1') e.last = ();
+    () e.last = () e.last;
+    (e.symbol) (e.str) e.last = (e.symbol e.str) e.last;
+}
+
+//Вход:  (начало) конец_строки
+//Токен: (#тэг (образ) (начало) (конец))
+//Выход: Токен (конец) конец_строки
+NextToken {
+    t.pos       = ;
+    (e.posS) e.src = <Fetch <GetSymbol (e.posS) e.src> {
+        (e.symbol) (e.posF) e.last = <Fetch <ClassifyChar e.symbol> {
+            #LETTER = <AccumIdent (e.posS) (e.posF) (e.symbol) e.last>;
+            #DIGIT  = <AccumIdent (e.posS) (e.posF) (e.symbol) e.last>;
+            #OPERATION = (#OPERATION (e.symbol) (e.posS) (e.posF)) /*token*/
+                      (e.posF)
+                      e.last;
+            #LESS_SIGN = <AccumNumber (e.posS) (e.posF) (e.symbol) e.last>;
+            #SPACE     = <NextToken (e.posF) e.last>;
+            #UNDEFINED = (#SYNTAX_ERROR (e.symbol ' [Undefined symbol]') (e.posS) (e.posF)) /*token*/
+                      (e.posF)
+                      e.last;
+            #EOF       = (#EOF () (e.posS) (e.posF)) /*token*/
+                      (e.posF); //e.last пусто
+            e.x       = (#SYNTAX_ERROR (e.symbol ' [Unexpected symbol]') (e.posS) (e.posF)) /*token*/
+                      (e.posF)
+                      e.last;
+            /* #GREATER_SIGN = (#NUM_START (e.symbol) (e.posS) (e.posF))
+                      (e.posF)
+                      e.last; */
+            }>;
+        }>;
+        
+}
+
+/* ---------- Идентификатор: последовательность латинских букв и десятичных цифр, оканчивающаяся на цифру ---------- */
+
+//Фрагмент: координаты начала и конца - t.posS t.posF ::= '('s.lineStart s.posStart') - ('s.lineFollow s.posFollow)
+//Вход:  (начало) (текущая_координата) (считанная часть слова) конец_строки
+//Токен: (#тэг (образ) (начало) (конец))
+//Выход: Токен (конец) конец_строки
+AccumIdent {
+    t.posS t.posCur (e.word) e.src =  <Fetch <GetSymbol t.posCur e.src> {
+       (e.symbol) t.posF e.last = <Fetch <ClassifyChar e.symbol> {
+            #LETTER = <AccumIdent t.posS t.posF (e.word e.symbol) e.last>;
+            #DIGIT  = <AccumIdent t.posS t.posF (e.word e.symbol) e.last>;
+            e.x     = <ReturnIdent t.posS t.posCur (e.word)> t.posCur <PutBack (e.symbol) e.last>;
+            }>;
+        }>;
+    
+}
+
+//Вход: Фрагмент (координаты начала и конца) и предполагаемый идентификатор.
+//Выход: токен идентификатор либо сообщение об ошибке
+ReturnIdent {
+    t.posS t.posCur (e.word s.last) = <Fetch <IsDigit s.last> {
+        #TRUE  = (#IDENT (e.word s.last) t.posS t.posCur);
+        #FALSE = (#SYNTAX_ERROR (e.word s.last ' [Expected decimal at the end of token]') t.posS t.posCur);
+    }>;
+}
+
+/* ---------- Числовые литералы: последовательности десятичных цифр, ограниченные знаками '<' и '>' ---------- */
+
+//Фрагмент: координаты начала и конца - t.posS t.posF ::= '('s.lineStart s.posStart') - ('s.lineFollow s.posFollow)
+//Вход:  (начало) (текущая_координата) (считанная часть слова) конец_строки
+//Токен: (#тэг (образ) (начало) (конец))
+//Выход: Токен (конец) конец_строки
+AccumNumber {
+    t.posS t.posCur (e.word) e.src =  <Fetch <GetSymbol t.posCur e.src> {
+       (e.symbol) t.posF e.last = <Fetch <ClassifyChar e.symbol> {
+            #DIGIT  = <AccumNumber t.posS t.posF (e.word e.symbol) e.last>;
+            #GREATER_SIGN = <ReturnNumber (e.word e.symbol) t.posS t.posF> /*token*/
+                      t.posF
+                      e.last;
+            e.x     = (#SYNTAX_ERROR (e.word e.symbol ' [Expected > at the end of number, got ' e.symbol ']')
+                      t.posS t.posCur)
+                      t.posCur <PutBack (e.symbol) e.last>;
+            }>;
+        }>;
+}
+
+ReturnNumber {
+    ('<>') t.posS t.posCur = (#SYNTAX_ERROR ('<> [Empty number]') t.posS t.posCur);
+    ('<' e.x '>') t.posS t.posCur = (#NUMBER ('<' e.x '>')        t.posS t.posCur);
+}
+
+// -------------- Функции сравнения символов --------------
+Or {
+    #TRUE  #TRUE  = #TRUE;
+    #TRUE  #FALSE = #TRUE;
+    #FALSE #TRUE  = #TRUE;
+    #FALSE #FALSE = #FALSE;
+}
+
+IsIn {
+    s.a e.1 = <Reduce Or #FALSE <Map (Cmp s.a) e.1>>;
+}
+
+//Функция сравнения символов
+Cmp {
+        s.a s.a = #TRUE;
+        e.1 = #FALSE;
+}
+
+IsLetter {
+        s.a = <IsIn s.a 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'>;
+        e.1 = #FALSE;
+}
+
+IsSpace {
+        s.a = <IsIn s.a '\n\t '>;
+        e.1 = #FALSE;
+}
+
+IsDigit {
+        s.a = <IsIn s.a '0123456789'>;
+        e.1 = #FALSE;
+}
+
+ClassifyChar {
+             = #SPACE;
+    '-1'     = #EOF;
+    '>'      = #GREATER_SIGN;
+    '<'      = #LESS_SIGN;
+    '='      = #OPERATION; //Операции: <=, =, ==
+    '<='     = #OPERATION;
+    '=='     = #OPERATION;
+    s.symbol = <Fetch <IsLetter s.symbol> {
+            #TRUE  = #LETTER;
+            #FALSE = <Fetch <IsDigit s.symbol> {
+                #TRUE  = #DIGIT;
+                #FALSE = <Fetch <IsSpace s.symbol> {
+                    #TRUE  = #SPACE;
+                    #FALSE = #UNDEFINED;
+                    }>;
+                }>;
+        }>;
+}

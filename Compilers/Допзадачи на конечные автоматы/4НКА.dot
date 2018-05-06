@@ -1,0 +1,18 @@
+digraph Ggraph{
+rankdir=LR;
+zero [style="invis"]
+S [shape="circle"][style="bold"]
+zero->S
+f [shape="doublecircle"]
+iter [shape="circle"]
+1 [shape="circle"]
+2 [shape="circle"]
+
+S->f [label="A"]
+S->iter [label="e"]
+iter->iter [label="A, B, C"]
+iter->1 [label="A, B"]
+iter->2 [label="C"]
+1->f [label="A"]
+2->f[label="B"]
+}

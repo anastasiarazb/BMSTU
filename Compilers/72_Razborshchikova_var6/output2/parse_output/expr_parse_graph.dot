@@ -1,0 +1,93 @@
+digraph {
+1 [label="E"][color=green]
+2 [label="T"][color=green]
+3 [label="F"][color=green]
+4 [label="lex_analyze.Token \"n\" (1, 1)-(1, 2) <n>"][color=red]
+3->4
+2->3
+5 [label="T'"][color=green]
+2->5
+1->2
+6 [label="E'"][color=green]
+7 [label="lex_analyze.Token \"+\" (1, 2)-(1, 3) <+>"][color=red]
+6->7
+8 [label="T"][color=green]
+9 [label="F"][color=green]
+10 [label="lex_analyze.Token \"(\" (1, 3)-(1, 4) <(>"][color=red]
+9->10
+11 [label="E"][color=green]
+12 [label="T"][color=green]
+13 [label="F"][color=green]
+14 [label="lex_analyze.Token \"n\" (1, 4)-(1, 5) <n>"][color=red]
+13->14
+12->13
+15 [label="T'"][color=green]
+12->15
+11->12
+16 [label="E'"][color=green]
+17 [label="lex_analyze.Token \"+\" (1, 6)-(1, 7) <+>"][color=red]
+16->17
+18 [label="T"][color=green]
+19 [label="F"][color=green]
+20 [label="lex_analyze.Token \"n\" (1, 8)-(1, 9) <n>"][color=red]
+19->20
+18->19
+21 [label="T'"][color=green]
+22 [label="lex_analyze.Token \"*\" (1, 10)-(1, 11) <*>"][color=red]
+21->22
+23 [label="F"][color=green]
+24 [label="lex_analyze.Token \"n\" (1, 12)-(1, 13) <n>"][color=red]
+23->24
+21->23
+25 [label="T'"][color=green]
+21->25
+18->21
+16->18
+26 [label="E'"][color=green]
+16->26
+11->16
+9->11
+27 [label="lex_analyze.Token \")\" (1, 13)-(1, 14) <)>"][color=red]
+9->27
+8->9
+28 [label="T'"][color=green]
+29 [label="lex_analyze.Token \"*\" (1, 15)-(1, 16) <*>"][color=red]
+28->29
+30 [label="F"][color=green]
+31 [label="lex_analyze.Token \"(\" (1, 17)-(1, 18) <(>"][color=red]
+30->31
+32 [label="E"][color=green]
+33 [label="T"][color=green]
+34 [label="F"][color=green]
+35 [label="lex_analyze.Token \"n\" (1, 18)-(1, 19) <n>"][color=red]
+34->35
+33->34
+36 [label="T'"][color=green]
+33->36
+32->33
+37 [label="E'"][color=green]
+38 [label="lex_analyze.Token \"+\" (1, 20)-(1, 21) <+>"][color=red]
+37->38
+39 [label="T"][color=green]
+40 [label="F"][color=green]
+41 [label="lex_analyze.Token \"n\" (1, 22)-(1, 23) <n>"][color=red]
+40->41
+39->40
+42 [label="T'"][color=green]
+39->42
+37->39
+43 [label="E'"][color=green]
+37->43
+32->37
+30->32
+44 [label="lex_analyze.Token \")\" (1, 23)-(1, 24) <)>"][color=red]
+30->44
+28->30
+45 [label="T'"][color=green]
+28->45
+8->28
+6->8
+48 [label="lex_analyze.Token \"$\" (2, 1)-(2, 1) <>"][color=red]
+6->48
+1->6
+}

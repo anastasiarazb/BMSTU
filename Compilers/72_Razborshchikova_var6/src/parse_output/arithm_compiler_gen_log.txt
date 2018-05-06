@@ -1,0 +1,35 @@
+Terms: [+, *, n, (, ), $]
+Nonterms: [E, E', T, T', F]
+Axiom: <E>
+FIRST: {E'=[, +], T'=[, *], T=[(, n], E=[(, n], F=[(, n]}
+FOLLOWS: {E'=[$, )], T'=[$, ), +], T=[$, ), +], E=[$, )], F=[$, ), *, +]}
+q[E][+] = ERROR
+q[E][*] = ERROR
+q[E][n] = [<T>, <E'>]
+q[E][(] = [<T>, <E'>]
+q[E][)] = ERROR
+q[E][$] = ERROR
+q[E'][+] = ["+", <T>, <E'>]
+q[E'][*] = ERROR
+q[E'][n] = ERROR
+q[E'][(] = ERROR
+q[E'][)] = []
+q[E'][$] = []
+q[T][+] = ERROR
+q[T][*] = ERROR
+q[T][n] = [<F>, <T'>]
+q[T][(] = [<F>, <T'>]
+q[T][)] = ERROR
+q[T][$] = ERROR
+q[T'][+] = []
+q[T'][*] = ["*", <F>, <T'>]
+q[T'][n] = ERROR
+q[T'][(] = ERROR
+q[T'][)] = []
+q[T'][$] = []
+q[F][+] = ERROR
+q[F][*] = ERROR
+q[F][n] = ["n"]
+q[F][(] = ["(", <E>, ")"]
+q[F][)] = ERROR
+q[F][$] = ERROR

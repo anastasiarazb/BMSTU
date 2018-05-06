@@ -1,0 +1,31 @@
+digraph Ggraph{
+rankdir=LR;
+zero [style="invis"]
+S [shape="circle"][style="bold"]
+zero->S
+
+4 [shape="doublecircle"]
+3 [shape="doublecircle"]
+2 [shape="doublecircle"]
+1 [shape="doublecircle"]
+5 [shape="doublecircle"]
+6 [shape="doublecircle"]
+65 [shape="doublecircle"]
+655 [shape="doublecircle"]
+6553 [shape="doublecircle"]
+S->4 [label="[7-9]"]
+S->5 [label="[0-5]"]
+S->6 [label="[6]"]
+4->3 [label="[0-9]"]
+3->2 [label="[0-9]"]
+2->1 [label="[0-9]"]
+
+5->4 [label="[0-9]"]
+6->4 [label="[0-4]"]
+6->65 [label="[5]"]
+65->3 [label="[0-4]"]
+65->655 [label="[5]"]
+655->2 [label="[0-2]"]
+655->6553 [label="[3]"]
+6553->1 [label="[0-5]"]
+}

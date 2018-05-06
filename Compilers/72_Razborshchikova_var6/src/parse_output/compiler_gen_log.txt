@@ -1,0 +1,11 @@
+Terms: [b, a, $]
+Nonterms: [S, Y]
+Axiom: <S>
+FIRST: {S=[, a, b], Y=[a]}
+FOLLOWS: {S=[$], Y=[a, b, $]}
+q[S][b] = ["b"]
+q[S][a] = [<Y>, <S>]
+q[S][$] = []
+q[Y][b] = ERROR
+q[Y][a] = ["a"]
+q[Y][$] = ERROR

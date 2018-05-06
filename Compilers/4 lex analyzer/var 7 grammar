@@ -1,0 +1,4 @@
+CHAR  ::= A |...| z .
+DIGIT ::= 0 |...| 9 .
+IDENT ::= CHAR SIDENT | DIGIT IDENT | DIGIT.
+DECIMAL ::= '<' DIGIT  NUM_STAR '>'

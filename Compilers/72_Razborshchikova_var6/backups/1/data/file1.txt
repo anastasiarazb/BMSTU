@@ -1,0 +1,13 @@
+DEF, {S}, R', DPREF, AXIOM, DSUFF, R, E', E, SYM', SYM
+
+[ S    : DEF R']
+[AXIOM : "{" "N" "}"]
+[DEF   : DPREF AXIOM DSUFF]
+[DPREF : "N" "," DPREF : @]
+[DSUFF : "," "N" DSUFF : @]
+[R' : R R' : @]
+[R:"[" "N" ":" E E'"]"]
+[E'  : ":" E E' : @]
+[E    : SYM SYM' : "@"]
+[SYM' : SYM SYM' : @]
+[SYM    : "N" : "T" ]

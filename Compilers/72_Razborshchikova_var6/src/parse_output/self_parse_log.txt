@@ -1,0 +1,250 @@
+["$", <S>]-----------lex_analyze.Token "N" (1, 1)-(1, 4) <DEF>
+["$", <R_LST>, <DEF>]-----------lex_analyze.Token "N" (1, 1)-(1, 4) <DEF>
+["$", <R_LST>, <D_SUFF>, <AXIOM>, <D_PREF>]-----------lex_analyze.Token "N" (1, 1)-(1, 4) <DEF>
+["$", <R_LST>, <D_SUFF>, <AXIOM>, <D_PREF>, "COMMA", "N"]-----------lex_analyze.Token "N" (1, 1)-(1, 4) <DEF>
+["$", <R_LST>, <D_SUFF>, <AXIOM>, <D_PREF>, "COMMA"]-----------lex_analyze.Token "COMMA" (1, 4)-(1, 5) <,>
+["$", <R_LST>, <D_SUFF>, <AXIOM>, <D_PREF>]-----------lex_analyze.Token "LBRACE" (1, 6)-(1, 7) <{>
+["$", <R_LST>, <D_SUFF>, <AXIOM>]-----------lex_analyze.Token "LBRACE" (1, 6)-(1, 7) <{>
+["$", <R_LST>, <D_SUFF>, "RBRACE", "N", "LBRACE"]-----------lex_analyze.Token "LBRACE" (1, 6)-(1, 7) <{>
+["$", <R_LST>, <D_SUFF>, "RBRACE", "N"]-----------lex_analyze.Token "N" (1, 7)-(1, 8) <S>
+["$", <R_LST>, <D_SUFF>, "RBRACE"]-----------lex_analyze.Token "RBRACE" (1, 8)-(1, 9) <}>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 9)-(1, 10) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 9)-(1, 10) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 11)-(1, 13) <R'>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 13)-(1, 14) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 13)-(1, 14) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 15)-(1, 20) <DPREF>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 20)-(1, 21) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 20)-(1, 21) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 22)-(1, 27) <AXIOM>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 27)-(1, 28) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 27)-(1, 28) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 29)-(1, 34) <DSUFF>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 34)-(1, 35) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 34)-(1, 35) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 36)-(1, 37) <R>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 37)-(1, 38) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 37)-(1, 38) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 39)-(1, 41) <E'>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 41)-(1, 42) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 41)-(1, 42) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 43)-(1, 44) <E>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 44)-(1, 45) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 44)-(1, 45) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 46)-(1, 50) <SYM'>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "COMMA" (1, 50)-(1, 51) <,>
+["$", <R_LST>, <D_SUFF>, "N", "COMMA"]-----------lex_analyze.Token "COMMA" (1, 50)-(1, 51) <,>
+["$", <R_LST>, <D_SUFF>, "N"]-----------lex_analyze.Token "N" (1, 52)-(1, 55) <SYM>
+["$", <R_LST>, <D_SUFF>]-----------lex_analyze.Token "LBRACKET" (3, 1)-(3, 2) <[>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (3, 1)-(3, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (3, 1)-(3, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (3, 1)-(3, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (3, 3)-(3, 4) <S>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (3, 8)-(3, 9) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "N" (3, 10)-(3, 13) <DEF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (3, 10)-(3, 13) <DEF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (3, 10)-(3, 13) <DEF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (3, 14)-(3, 16) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (3, 14)-(3, 16) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (3, 14)-(3, 16) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "RBRACKET" (3, 16)-(3, 17) <]>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (3, 16)-(3, 17) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (3, 16)-(3, 17) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (4, 1)-(4, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (4, 1)-(4, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (4, 1)-(4, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (4, 2)-(4, 7) <AXIOM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (4, 8)-(4, 9) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (4, 10)-(4, 13) <"{">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (4, 10)-(4, 13) <"{">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (4, 10)-(4, 13) <"{">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (4, 14)-(4, 17) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (4, 14)-(4, 17) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (4, 14)-(4, 17) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (4, 18)-(4, 21) <"}">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (4, 18)-(4, 21) <"}">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (4, 18)-(4, 21) <"}">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "RBRACKET" (4, 21)-(4, 22) <]>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (4, 21)-(4, 22) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (4, 21)-(4, 22) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (5, 1)-(5, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (5, 1)-(5, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (5, 1)-(5, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (5, 2)-(5, 5) <DEF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (5, 8)-(5, 9) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "N" (5, 10)-(5, 15) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (5, 10)-(5, 15) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (5, 10)-(5, 15) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (5, 16)-(5, 21) <AXIOM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (5, 16)-(5, 21) <AXIOM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (5, 16)-(5, 21) <AXIOM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (5, 22)-(5, 27) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (5, 22)-(5, 27) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (5, 22)-(5, 27) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "RBRACKET" (5, 27)-(5, 28) <]>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (5, 27)-(5, 28) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (5, 27)-(5, 28) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (6, 1)-(6, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (6, 1)-(6, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (6, 1)-(6, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (6, 2)-(6, 7) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (6, 8)-(6, 9) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (6, 10)-(6, 13) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (6, 10)-(6, 13) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (6, 10)-(6, 13) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (6, 14)-(6, 17) <",">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (6, 14)-(6, 17) <",">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (6, 14)-(6, 17) <",">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (6, 18)-(6, 23) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (6, 18)-(6, 23) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (6, 18)-(6, 23) <DPREF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (6, 24)-(6, 25) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (6, 24)-(6, 25) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (6, 24)-(6, 25) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "AT" (6, 26)-(6, 27) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>, "AT"]-----------lex_analyze.Token "AT" (6, 26)-(6, 27) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (6, 27)-(6, 28) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (6, 27)-(6, 28) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (7, 1)-(7, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (7, 1)-(7, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (7, 1)-(7, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (7, 2)-(7, 7) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (7, 8)-(7, 9) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (7, 10)-(7, 13) <",">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (7, 10)-(7, 13) <",">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (7, 10)-(7, 13) <",">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (7, 14)-(7, 17) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (7, 14)-(7, 17) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (7, 14)-(7, 17) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (7, 18)-(7, 23) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (7, 18)-(7, 23) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (7, 18)-(7, 23) <DSUFF>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (7, 24)-(7, 25) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (7, 24)-(7, 25) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (7, 24)-(7, 25) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "AT" (7, 26)-(7, 27) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>, "AT"]-----------lex_analyze.Token "AT" (7, 26)-(7, 27) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (7, 27)-(7, 28) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (7, 27)-(7, 28) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (8, 1)-(8, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (8, 1)-(8, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (8, 1)-(8, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (8, 2)-(8, 4) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (8, 5)-(8, 6) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "N" (8, 7)-(8, 8) <R>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (8, 7)-(8, 8) <R>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (8, 7)-(8, 8) <R>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (8, 9)-(8, 11) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (8, 9)-(8, 11) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (8, 9)-(8, 11) <R'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (8, 12)-(8, 13) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (8, 12)-(8, 13) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (8, 12)-(8, 13) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "AT" (8, 14)-(8, 15) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>, "AT"]-----------lex_analyze.Token "AT" (8, 14)-(8, 15) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (8, 15)-(8, 16) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (8, 15)-(8, 16) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (9, 1)-(9, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (9, 1)-(9, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (9, 1)-(9, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (9, 2)-(9, 3) <R>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (9, 3)-(9, 4) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (9, 4)-(9, 7) <"[">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (9, 4)-(9, 7) <"[">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (9, 4)-(9, 7) <"[">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (9, 8)-(9, 11) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (9, 8)-(9, 11) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (9, 8)-(9, 11) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (9, 12)-(9, 15) <":">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (9, 12)-(9, 15) <":">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (9, 12)-(9, 15) <":">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (9, 16)-(9, 17) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (9, 16)-(9, 17) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (9, 16)-(9, 17) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (9, 18)-(9, 20) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (9, 18)-(9, 20) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (9, 18)-(9, 20) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "T" (9, 20)-(9, 23) <"]">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (9, 20)-(9, 23) <"]">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (9, 20)-(9, 23) <"]">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "RBRACKET" (9, 23)-(9, 24) <]>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (9, 23)-(9, 24) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (9, 23)-(9, 24) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (10, 1)-(10, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (10, 1)-(10, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (10, 1)-(10, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (10, 2)-(10, 4) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (10, 6)-(10, 7) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (10, 8)-(10, 11) <":">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (10, 8)-(10, 11) <":">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (10, 8)-(10, 11) <":">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (10, 12)-(10, 13) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (10, 12)-(10, 13) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (10, 12)-(10, 13) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (10, 14)-(10, 16) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (10, 14)-(10, 16) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (10, 14)-(10, 16) <E'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (10, 17)-(10, 18) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (10, 17)-(10, 18) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (10, 17)-(10, 18) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "AT" (10, 19)-(10, 20) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>, "AT"]-----------lex_analyze.Token "AT" (10, 19)-(10, 20) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (10, 20)-(10, 21) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (10, 20)-(10, 21) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (11, 1)-(11, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (11, 1)-(11, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (11, 1)-(11, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (11, 2)-(11, 3) <E>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (11, 7)-(11, 8) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "N" (11, 9)-(11, 12) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (11, 9)-(11, 12) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (11, 9)-(11, 12) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (11, 13)-(11, 17) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (11, 13)-(11, 17) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (11, 13)-(11, 17) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (11, 18)-(11, 19) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (11, 18)-(11, 19) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (11, 18)-(11, 19) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (11, 20)-(11, 23) <"@">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (11, 20)-(11, 23) <"@">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (11, 20)-(11, 23) <"@">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "RBRACKET" (11, 23)-(11, 24) <]>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (11, 23)-(11, 24) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (11, 23)-(11, 24) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (12, 1)-(12, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (12, 1)-(12, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (12, 1)-(12, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (12, 2)-(12, 6) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (12, 7)-(12, 8) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "N" (12, 9)-(12, 12) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (12, 9)-(12, 12) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (12, 9)-(12, 12) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "N" (12, 13)-(12, 17) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "N" (12, 13)-(12, 17) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "N"]-----------lex_analyze.Token "N" (12, 13)-(12, 17) <SYM'>
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (12, 18)-(12, 19) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (12, 18)-(12, 19) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (12, 18)-(12, 19) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "AT" (12, 20)-(12, 21) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>, "AT"]-----------lex_analyze.Token "AT" (12, 20)-(12, 21) <@>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (12, 21)-(12, 22) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (12, 21)-(12, 22) <]>
+["$", <R_LST>]-----------lex_analyze.Token "LBRACKET" (13, 1)-(13, 2) <[>
+["$", <R_LST>, <R>]-----------lex_analyze.Token "LBRACKET" (13, 1)-(13, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N", "LBRACKET"]-----------lex_analyze.Token "LBRACKET" (13, 1)-(13, 2) <[>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON", "N"]-----------lex_analyze.Token "N" (13, 2)-(13, 5) <SYM>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (13, 9)-(13, 10) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (13, 11)-(13, 14) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (13, 11)-(13, 14) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (13, 11)-(13, 14) <"N">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "COLON" (13, 15)-(13, 16) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "COLON" (13, 15)-(13, 16) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>, "COLON"]-----------lex_analyze.Token "COLON" (13, 15)-(13, 16) <:>
+["$", <R_LST>, "RBRACKET", <E_LST>, <E>]-----------lex_analyze.Token "T" (13, 17)-(13, 20) <"T">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, <SYM>]-----------lex_analyze.Token "T" (13, 17)-(13, 20) <"T">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>, "T"]-----------lex_analyze.Token "T" (13, 17)-(13, 20) <"T">
+["$", <R_LST>, "RBRACKET", <E_LST>, <SYM_LST>]-----------lex_analyze.Token "RBRACKET" (13, 21)-(13, 22) <]>
+["$", <R_LST>, "RBRACKET", <E_LST>]-----------lex_analyze.Token "RBRACKET" (13, 21)-(13, 22) <]>
+["$", <R_LST>, "RBRACKET"]-----------lex_analyze.Token "RBRACKET" (13, 21)-(13, 22) <]>
+["$", <R_LST>]-----------lex_analyze.Token "$" (14, 1)-(14, 1) <>
+["$"]-----------lex_analyze.Token "$" (14, 1)-(14, 1) <>

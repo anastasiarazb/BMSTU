@@ -1,0 +1,27 @@
+digraph Ggraph{
+rankdir=LR;
+zero [style="invis"]
+S [label="{S,iter}"][shape="circle"][style="bold"]
+zero->S
+
+1 [label="{iter, 1}"][shape="circle"]
+2 [label="{iter, 2}"][shape="circle"]
+3 [label="{iter,1,f}"][shape="doublecircle"]
+
+S->3 [label="A"]
+S->1 [label="B"]
+S->2 [label="C"]
+
+3->3 [label="A"] //Стрелки из 3 и 1 совпадают, так как из f они никуда не шли
+3->1 [label="B"]
+3->2 [label="C"]
+
+1->3 [label="A"]
+1->1 [label="B"]
+1->2 [label="C"]
+
+//Стрелки из 1 и 2 похожи, но A и B меняются родями, так как из f они никуда не шли
+2->1 [label="A"]
+2->3 [label="B"]
+2->2 [label="C"]
+}

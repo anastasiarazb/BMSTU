@@ -1,0 +1,13 @@
+//FROM Library
+$EXTERN WriteLine, Arg;
+
+//FROM LibraryEx
+$EXTERN Inc, Dec, Fetch, LoadFile, Map, Reduce;
+
+Lol {
+    t.a = <WriteLine t.a>;
+}
+
+$ENTRY Go {
+    = <Lol (<Arg 1>)>;
+}

@@ -1,0 +1,95 @@
+digraph {
+1 [label="S"][color=green]
+2 [label="DEF"][color=green]
+3 [label="D_PREF"][color=green]
+2->3
+4 [label="AXIOM"][color=green]
+5 [label="lex_analyze.Token \"LBRACE\" (1, 1)-(1, 2) <{>"][color=red]
+4->5
+6 [label="lex_analyze.Token \"N\" (1, 2)-(1, 3) <S>"][color=red]
+4->6
+7 [label="lex_analyze.Token \"RBRACE\" (1, 3)-(1, 4) <}>"][color=red]
+4->7
+2->4
+8 [label="D_SUFF"][color=green]
+9 [label="lex_analyze.Token \"COMMA\" (1, 4)-(1, 5) <,>"][color=red]
+8->9
+10 [label="lex_analyze.Token \"N\" (1, 6)-(1, 7) <Y>"][color=red]
+8->10
+11 [label="D_SUFF"][color=green]
+8->11
+2->8
+1->2
+12 [label="R_LST"][color=green]
+13 [label="R"][color=green]
+14 [label="lex_analyze.Token \"LBRACKET\" (2, 1)-(2, 2) <[>"][color=red]
+13->14
+15 [label="lex_analyze.Token \"N\" (2, 2)-(2, 3) <S>"][color=red]
+13->15
+16 [label="lex_analyze.Token \"COLON\" (2, 3)-(2, 4) <:>"][color=red]
+13->16
+17 [label="E"][color=green]
+18 [label="SYM"][color=green]
+19 [label="lex_analyze.Token \"N\" (2, 5)-(2, 6) <Y>"][color=red]
+18->19
+17->18
+20 [label="SYM_LST"][color=green]
+21 [label="SYM"][color=green]
+22 [label="lex_analyze.Token \"N\" (2, 7)-(2, 8) <S>"][color=red]
+21->22
+20->21
+23 [label="SYM_LST"][color=green]
+20->23
+17->20
+13->17
+24 [label="E_LST"][color=green]
+25 [label="lex_analyze.Token \"COLON\" (2, 8)-(2, 9) <:>"][color=red]
+24->25
+26 [label="E"][color=green]
+27 [label="SYM"][color=green]
+28 [label="lex_analyze.Token \"T\" (2, 10)-(2, 13) <\"b\">"][color=red]
+27->28
+26->27
+29 [label="SYM_LST"][color=green]
+26->29
+24->26
+30 [label="E_LST"][color=green]
+31 [label="lex_analyze.Token \"COLON\" (2, 14)-(2, 15) <:>"][color=red]
+30->31
+32 [label="E"][color=green]
+33 [label="lex_analyze.Token \"AT\" (2, 16)-(2, 17) <@>"][color=red]
+32->33
+30->32
+34 [label="E_LST"][color=green]
+30->34
+24->30
+13->24
+35 [label="lex_analyze.Token \"RBRACKET\" (2, 17)-(2, 18) <]>"][color=red]
+13->35
+12->13
+36 [label="R_LST"][color=green]
+37 [label="R"][color=green]
+38 [label="lex_analyze.Token \"LBRACKET\" (3, 1)-(3, 2) <[>"][color=red]
+37->38
+39 [label="lex_analyze.Token \"N\" (3, 2)-(3, 3) <Y>"][color=red]
+37->39
+40 [label="lex_analyze.Token \"COLON\" (3, 3)-(3, 4) <:>"][color=red]
+37->40
+41 [label="E"][color=green]
+42 [label="SYM"][color=green]
+43 [label="lex_analyze.Token \"T\" (3, 5)-(3, 8) <\"a\">"][color=red]
+42->43
+41->42
+44 [label="SYM_LST"][color=green]
+41->44
+37->41
+45 [label="E_LST"][color=green]
+37->45
+46 [label="lex_analyze.Token \"RBRACKET\" (3, 8)-(3, 9) <]>"][color=red]
+37->46
+36->37
+49 [label="lex_analyze.Token \"$\" (4, 1)-(4, 1) <>"][color=red]
+36->49
+12->36
+1->12
+}

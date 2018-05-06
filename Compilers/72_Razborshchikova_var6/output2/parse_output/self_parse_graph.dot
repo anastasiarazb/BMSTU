@@ -1,0 +1,499 @@
+digraph {
+1 [label="S"][color=green]
+2 [label="DEF"][color=green]
+3 [label="D_PREF"][color=green]
+4 [label="lex_analyze.Token \"N\" (1, 1)-(1, 4) <DEF>"][color=red]
+3->4
+5 [label="lex_analyze.Token \"COMMA\" (1, 4)-(1, 5) <,>"][color=red]
+3->5
+6 [label="D_PREF"][color=green]
+3->6
+2->3
+7 [label="AXIOM"][color=green]
+8 [label="lex_analyze.Token \"LBRACE\" (1, 6)-(1, 7) <{>"][color=red]
+7->8
+9 [label="lex_analyze.Token \"N\" (1, 7)-(1, 8) <S>"][color=red]
+7->9
+10 [label="lex_analyze.Token \"RBRACE\" (1, 8)-(1, 9) <}>"][color=red]
+7->10
+2->7
+11 [label="D_SUFF"][color=green]
+12 [label="lex_analyze.Token \"COMMA\" (1, 9)-(1, 10) <,>"][color=red]
+11->12
+13 [label="lex_analyze.Token \"N\" (1, 11)-(1, 13) <R'>"][color=red]
+11->13
+14 [label="D_SUFF"][color=green]
+15 [label="lex_analyze.Token \"COMMA\" (1, 13)-(1, 14) <,>"][color=red]
+14->15
+16 [label="lex_analyze.Token \"N\" (1, 15)-(1, 20) <DPREF>"][color=red]
+14->16
+17 [label="D_SUFF"][color=green]
+18 [label="lex_analyze.Token \"COMMA\" (1, 20)-(1, 21) <,>"][color=red]
+17->18
+19 [label="lex_analyze.Token \"N\" (1, 22)-(1, 27) <AXIOM>"][color=red]
+17->19
+20 [label="D_SUFF"][color=green]
+21 [label="lex_analyze.Token \"COMMA\" (1, 27)-(1, 28) <,>"][color=red]
+20->21
+22 [label="lex_analyze.Token \"N\" (1, 29)-(1, 34) <DSUFF>"][color=red]
+20->22
+23 [label="D_SUFF"][color=green]
+24 [label="lex_analyze.Token \"COMMA\" (1, 34)-(1, 35) <,>"][color=red]
+23->24
+25 [label="lex_analyze.Token \"N\" (1, 36)-(1, 37) <R>"][color=red]
+23->25
+26 [label="D_SUFF"][color=green]
+27 [label="lex_analyze.Token \"COMMA\" (1, 37)-(1, 38) <,>"][color=red]
+26->27
+28 [label="lex_analyze.Token \"N\" (1, 39)-(1, 41) <E'>"][color=red]
+26->28
+29 [label="D_SUFF"][color=green]
+30 [label="lex_analyze.Token \"COMMA\" (1, 41)-(1, 42) <,>"][color=red]
+29->30
+31 [label="lex_analyze.Token \"N\" (1, 43)-(1, 44) <E>"][color=red]
+29->31
+32 [label="D_SUFF"][color=green]
+33 [label="lex_analyze.Token \"COMMA\" (1, 44)-(1, 45) <,>"][color=red]
+32->33
+34 [label="lex_analyze.Token \"N\" (1, 46)-(1, 50) <SYM'>"][color=red]
+32->34
+35 [label="D_SUFF"][color=green]
+36 [label="lex_analyze.Token \"COMMA\" (1, 50)-(1, 51) <,>"][color=red]
+35->36
+37 [label="lex_analyze.Token \"N\" (1, 52)-(1, 55) <SYM>"][color=red]
+35->37
+38 [label="D_SUFF"][color=green]
+35->38
+32->35
+29->32
+26->29
+23->26
+20->23
+17->20
+14->17
+11->14
+2->11
+1->2
+39 [label="R_LST"][color=green]
+40 [label="R"][color=green]
+41 [label="lex_analyze.Token \"LBRACKET\" (3, 1)-(3, 2) <[>"][color=red]
+40->41
+42 [label="lex_analyze.Token \"N\" (3, 3)-(3, 4) <S>"][color=red]
+40->42
+43 [label="lex_analyze.Token \"COLON\" (3, 8)-(3, 9) <:>"][color=red]
+40->43
+44 [label="E"][color=green]
+45 [label="SYM"][color=green]
+46 [label="lex_analyze.Token \"N\" (3, 10)-(3, 13) <DEF>"][color=red]
+45->46
+44->45
+47 [label="SYM_LST"][color=green]
+48 [label="SYM"][color=green]
+49 [label="lex_analyze.Token \"N\" (3, 14)-(3, 16) <R'>"][color=red]
+48->49
+47->48
+50 [label="SYM_LST"][color=green]
+47->50
+44->47
+40->44
+51 [label="E_LST"][color=green]
+40->51
+52 [label="lex_analyze.Token \"RBRACKET\" (3, 16)-(3, 17) <]>"][color=red]
+40->52
+39->40
+53 [label="R_LST"][color=green]
+54 [label="R"][color=green]
+55 [label="lex_analyze.Token \"LBRACKET\" (4, 1)-(4, 2) <[>"][color=red]
+54->55
+56 [label="lex_analyze.Token \"N\" (4, 2)-(4, 7) <AXIOM>"][color=red]
+54->56
+57 [label="lex_analyze.Token \"COLON\" (4, 8)-(4, 9) <:>"][color=red]
+54->57
+58 [label="E"][color=green]
+59 [label="SYM"][color=green]
+60 [label="lex_analyze.Token \"T\" (4, 10)-(4, 13) <\"{\">"][color=red]
+59->60
+58->59
+61 [label="SYM_LST"][color=green]
+62 [label="SYM"][color=green]
+63 [label="lex_analyze.Token \"T\" (4, 14)-(4, 17) <\"N\">"][color=red]
+62->63
+61->62
+64 [label="SYM_LST"][color=green]
+65 [label="SYM"][color=green]
+66 [label="lex_analyze.Token \"T\" (4, 18)-(4, 21) <\"}\">"][color=red]
+65->66
+64->65
+67 [label="SYM_LST"][color=green]
+64->67
+61->64
+58->61
+54->58
+68 [label="E_LST"][color=green]
+54->68
+69 [label="lex_analyze.Token \"RBRACKET\" (4, 21)-(4, 22) <]>"][color=red]
+54->69
+53->54
+70 [label="R_LST"][color=green]
+71 [label="R"][color=green]
+72 [label="lex_analyze.Token \"LBRACKET\" (5, 1)-(5, 2) <[>"][color=red]
+71->72
+73 [label="lex_analyze.Token \"N\" (5, 2)-(5, 5) <DEF>"][color=red]
+71->73
+74 [label="lex_analyze.Token \"COLON\" (5, 8)-(5, 9) <:>"][color=red]
+71->74
+75 [label="E"][color=green]
+76 [label="SYM"][color=green]
+77 [label="lex_analyze.Token \"N\" (5, 10)-(5, 15) <DPREF>"][color=red]
+76->77
+75->76
+78 [label="SYM_LST"][color=green]
+79 [label="SYM"][color=green]
+80 [label="lex_analyze.Token \"N\" (5, 16)-(5, 21) <AXIOM>"][color=red]
+79->80
+78->79
+81 [label="SYM_LST"][color=green]
+82 [label="SYM"][color=green]
+83 [label="lex_analyze.Token \"N\" (5, 22)-(5, 27) <DSUFF>"][color=red]
+82->83
+81->82
+84 [label="SYM_LST"][color=green]
+81->84
+78->81
+75->78
+71->75
+85 [label="E_LST"][color=green]
+71->85
+86 [label="lex_analyze.Token \"RBRACKET\" (5, 27)-(5, 28) <]>"][color=red]
+71->86
+70->71
+87 [label="R_LST"][color=green]
+88 [label="R"][color=green]
+89 [label="lex_analyze.Token \"LBRACKET\" (6, 1)-(6, 2) <[>"][color=red]
+88->89
+90 [label="lex_analyze.Token \"N\" (6, 2)-(6, 7) <DPREF>"][color=red]
+88->90
+91 [label="lex_analyze.Token \"COLON\" (6, 8)-(6, 9) <:>"][color=red]
+88->91
+92 [label="E"][color=green]
+93 [label="SYM"][color=green]
+94 [label="lex_analyze.Token \"T\" (6, 10)-(6, 13) <\"N\">"][color=red]
+93->94
+92->93
+95 [label="SYM_LST"][color=green]
+96 [label="SYM"][color=green]
+97 [label="lex_analyze.Token \"T\" (6, 14)-(6, 17) <\",\">"][color=red]
+96->97
+95->96
+98 [label="SYM_LST"][color=green]
+99 [label="SYM"][color=green]
+100 [label="lex_analyze.Token \"N\" (6, 18)-(6, 23) <DPREF>"][color=red]
+99->100
+98->99
+101 [label="SYM_LST"][color=green]
+98->101
+95->98
+92->95
+88->92
+102 [label="E_LST"][color=green]
+103 [label="lex_analyze.Token \"COLON\" (6, 24)-(6, 25) <:>"][color=red]
+102->103
+104 [label="E"][color=green]
+105 [label="lex_analyze.Token \"AT\" (6, 26)-(6, 27) <@>"][color=red]
+104->105
+102->104
+106 [label="E_LST"][color=green]
+102->106
+88->102
+107 [label="lex_analyze.Token \"RBRACKET\" (6, 27)-(6, 28) <]>"][color=red]
+88->107
+87->88
+108 [label="R_LST"][color=green]
+109 [label="R"][color=green]
+110 [label="lex_analyze.Token \"LBRACKET\" (7, 1)-(7, 2) <[>"][color=red]
+109->110
+111 [label="lex_analyze.Token \"N\" (7, 2)-(7, 7) <DSUFF>"][color=red]
+109->111
+112 [label="lex_analyze.Token \"COLON\" (7, 8)-(7, 9) <:>"][color=red]
+109->112
+113 [label="E"][color=green]
+114 [label="SYM"][color=green]
+115 [label="lex_analyze.Token \"T\" (7, 10)-(7, 13) <\",\">"][color=red]
+114->115
+113->114
+116 [label="SYM_LST"][color=green]
+117 [label="SYM"][color=green]
+118 [label="lex_analyze.Token \"T\" (7, 14)-(7, 17) <\"N\">"][color=red]
+117->118
+116->117
+119 [label="SYM_LST"][color=green]
+120 [label="SYM"][color=green]
+121 [label="lex_analyze.Token \"N\" (7, 18)-(7, 23) <DSUFF>"][color=red]
+120->121
+119->120
+122 [label="SYM_LST"][color=green]
+119->122
+116->119
+113->116
+109->113
+123 [label="E_LST"][color=green]
+124 [label="lex_analyze.Token \"COLON\" (7, 24)-(7, 25) <:>"][color=red]
+123->124
+125 [label="E"][color=green]
+126 [label="lex_analyze.Token \"AT\" (7, 26)-(7, 27) <@>"][color=red]
+125->126
+123->125
+127 [label="E_LST"][color=green]
+123->127
+109->123
+128 [label="lex_analyze.Token \"RBRACKET\" (7, 27)-(7, 28) <]>"][color=red]
+109->128
+108->109
+129 [label="R_LST"][color=green]
+130 [label="R"][color=green]
+131 [label="lex_analyze.Token \"LBRACKET\" (8, 1)-(8, 2) <[>"][color=red]
+130->131
+132 [label="lex_analyze.Token \"N\" (8, 2)-(8, 4) <R'>"][color=red]
+130->132
+133 [label="lex_analyze.Token \"COLON\" (8, 5)-(8, 6) <:>"][color=red]
+130->133
+134 [label="E"][color=green]
+135 [label="SYM"][color=green]
+136 [label="lex_analyze.Token \"N\" (8, 7)-(8, 8) <R>"][color=red]
+135->136
+134->135
+137 [label="SYM_LST"][color=green]
+138 [label="SYM"][color=green]
+139 [label="lex_analyze.Token \"N\" (8, 9)-(8, 11) <R'>"][color=red]
+138->139
+137->138
+140 [label="SYM_LST"][color=green]
+137->140
+134->137
+130->134
+141 [label="E_LST"][color=green]
+142 [label="lex_analyze.Token \"COLON\" (8, 12)-(8, 13) <:>"][color=red]
+141->142
+143 [label="E"][color=green]
+144 [label="lex_analyze.Token \"AT\" (8, 14)-(8, 15) <@>"][color=red]
+143->144
+141->143
+145 [label="E_LST"][color=green]
+141->145
+130->141
+146 [label="lex_analyze.Token \"RBRACKET\" (8, 15)-(8, 16) <]>"][color=red]
+130->146
+129->130
+147 [label="R_LST"][color=green]
+148 [label="R"][color=green]
+149 [label="lex_analyze.Token \"LBRACKET\" (9, 1)-(9, 2) <[>"][color=red]
+148->149
+150 [label="lex_analyze.Token \"N\" (9, 2)-(9, 3) <R>"][color=red]
+148->150
+151 [label="lex_analyze.Token \"COLON\" (9, 3)-(9, 4) <:>"][color=red]
+148->151
+152 [label="E"][color=green]
+153 [label="SYM"][color=green]
+154 [label="lex_analyze.Token \"T\" (9, 4)-(9, 7) <\"[\">"][color=red]
+153->154
+152->153
+155 [label="SYM_LST"][color=green]
+156 [label="SYM"][color=green]
+157 [label="lex_analyze.Token \"T\" (9, 8)-(9, 11) <\"N\">"][color=red]
+156->157
+155->156
+158 [label="SYM_LST"][color=green]
+159 [label="SYM"][color=green]
+160 [label="lex_analyze.Token \"T\" (9, 12)-(9, 15) <\":\">"][color=red]
+159->160
+158->159
+161 [label="SYM_LST"][color=green]
+162 [label="SYM"][color=green]
+163 [label="lex_analyze.Token \"N\" (9, 16)-(9, 17) <E>"][color=red]
+162->163
+161->162
+164 [label="SYM_LST"][color=green]
+165 [label="SYM"][color=green]
+166 [label="lex_analyze.Token \"N\" (9, 18)-(9, 20) <E'>"][color=red]
+165->166
+164->165
+167 [label="SYM_LST"][color=green]
+168 [label="SYM"][color=green]
+169 [label="lex_analyze.Token \"T\" (9, 20)-(9, 23) <\"]\">"][color=red]
+168->169
+167->168
+170 [label="SYM_LST"][color=green]
+167->170
+164->167
+161->164
+158->161
+155->158
+152->155
+148->152
+171 [label="E_LST"][color=green]
+148->171
+172 [label="lex_analyze.Token \"RBRACKET\" (9, 23)-(9, 24) <]>"][color=red]
+148->172
+147->148
+173 [label="R_LST"][color=green]
+174 [label="R"][color=green]
+175 [label="lex_analyze.Token \"LBRACKET\" (10, 1)-(10, 2) <[>"][color=red]
+174->175
+176 [label="lex_analyze.Token \"N\" (10, 2)-(10, 4) <E'>"][color=red]
+174->176
+177 [label="lex_analyze.Token \"COLON\" (10, 6)-(10, 7) <:>"][color=red]
+174->177
+178 [label="E"][color=green]
+179 [label="SYM"][color=green]
+180 [label="lex_analyze.Token \"T\" (10, 8)-(10, 11) <\":\">"][color=red]
+179->180
+178->179
+181 [label="SYM_LST"][color=green]
+182 [label="SYM"][color=green]
+183 [label="lex_analyze.Token \"N\" (10, 12)-(10, 13) <E>"][color=red]
+182->183
+181->182
+184 [label="SYM_LST"][color=green]
+185 [label="SYM"][color=green]
+186 [label="lex_analyze.Token \"N\" (10, 14)-(10, 16) <E'>"][color=red]
+185->186
+184->185
+187 [label="SYM_LST"][color=green]
+184->187
+181->184
+178->181
+174->178
+188 [label="E_LST"][color=green]
+189 [label="lex_analyze.Token \"COLON\" (10, 17)-(10, 18) <:>"][color=red]
+188->189
+190 [label="E"][color=green]
+191 [label="lex_analyze.Token \"AT\" (10, 19)-(10, 20) <@>"][color=red]
+190->191
+188->190
+192 [label="E_LST"][color=green]
+188->192
+174->188
+193 [label="lex_analyze.Token \"RBRACKET\" (10, 20)-(10, 21) <]>"][color=red]
+174->193
+173->174
+194 [label="R_LST"][color=green]
+195 [label="R"][color=green]
+196 [label="lex_analyze.Token \"LBRACKET\" (11, 1)-(11, 2) <[>"][color=red]
+195->196
+197 [label="lex_analyze.Token \"N\" (11, 2)-(11, 3) <E>"][color=red]
+195->197
+198 [label="lex_analyze.Token \"COLON\" (11, 7)-(11, 8) <:>"][color=red]
+195->198
+199 [label="E"][color=green]
+200 [label="SYM"][color=green]
+201 [label="lex_analyze.Token \"N\" (11, 9)-(11, 12) <SYM>"][color=red]
+200->201
+199->200
+202 [label="SYM_LST"][color=green]
+203 [label="SYM"][color=green]
+204 [label="lex_analyze.Token \"N\" (11, 13)-(11, 17) <SYM'>"][color=red]
+203->204
+202->203
+205 [label="SYM_LST"][color=green]
+202->205
+199->202
+195->199
+206 [label="E_LST"][color=green]
+207 [label="lex_analyze.Token \"COLON\" (11, 18)-(11, 19) <:>"][color=red]
+206->207
+208 [label="E"][color=green]
+209 [label="SYM"][color=green]
+210 [label="lex_analyze.Token \"T\" (11, 20)-(11, 23) <\"@\">"][color=red]
+209->210
+208->209
+211 [label="SYM_LST"][color=green]
+208->211
+206->208
+212 [label="E_LST"][color=green]
+206->212
+195->206
+213 [label="lex_analyze.Token \"RBRACKET\" (11, 23)-(11, 24) <]>"][color=red]
+195->213
+194->195
+214 [label="R_LST"][color=green]
+215 [label="R"][color=green]
+216 [label="lex_analyze.Token \"LBRACKET\" (12, 1)-(12, 2) <[>"][color=red]
+215->216
+217 [label="lex_analyze.Token \"N\" (12, 2)-(12, 6) <SYM'>"][color=red]
+215->217
+218 [label="lex_analyze.Token \"COLON\" (12, 7)-(12, 8) <:>"][color=red]
+215->218
+219 [label="E"][color=green]
+220 [label="SYM"][color=green]
+221 [label="lex_analyze.Token \"N\" (12, 9)-(12, 12) <SYM>"][color=red]
+220->221
+219->220
+222 [label="SYM_LST"][color=green]
+223 [label="SYM"][color=green]
+224 [label="lex_analyze.Token \"N\" (12, 13)-(12, 17) <SYM'>"][color=red]
+223->224
+222->223
+225 [label="SYM_LST"][color=green]
+222->225
+219->222
+215->219
+226 [label="E_LST"][color=green]
+227 [label="lex_analyze.Token \"COLON\" (12, 18)-(12, 19) <:>"][color=red]
+226->227
+228 [label="E"][color=green]
+229 [label="lex_analyze.Token \"AT\" (12, 20)-(12, 21) <@>"][color=red]
+228->229
+226->228
+230 [label="E_LST"][color=green]
+226->230
+215->226
+231 [label="lex_analyze.Token \"RBRACKET\" (12, 21)-(12, 22) <]>"][color=red]
+215->231
+214->215
+232 [label="R_LST"][color=green]
+233 [label="R"][color=green]
+234 [label="lex_analyze.Token \"LBRACKET\" (13, 1)-(13, 2) <[>"][color=red]
+233->234
+235 [label="lex_analyze.Token \"N\" (13, 2)-(13, 5) <SYM>"][color=red]
+233->235
+236 [label="lex_analyze.Token \"COLON\" (13, 9)-(13, 10) <:>"][color=red]
+233->236
+237 [label="E"][color=green]
+238 [label="SYM"][color=green]
+239 [label="lex_analyze.Token \"T\" (13, 11)-(13, 14) <\"N\">"][color=red]
+238->239
+237->238
+240 [label="SYM_LST"][color=green]
+237->240
+233->237
+241 [label="E_LST"][color=green]
+242 [label="lex_analyze.Token \"COLON\" (13, 15)-(13, 16) <:>"][color=red]
+241->242
+243 [label="E"][color=green]
+244 [label="SYM"][color=green]
+245 [label="lex_analyze.Token \"T\" (13, 17)-(13, 20) <\"T\">"][color=red]
+244->245
+243->244
+246 [label="SYM_LST"][color=green]
+243->246
+241->243
+247 [label="E_LST"][color=green]
+241->247
+233->241
+248 [label="lex_analyze.Token \"RBRACKET\" (13, 21)-(13, 22) <]>"][color=red]
+233->248
+232->233
+251 [label="lex_analyze.Token \"$\" (14, 1)-(14, 1) <>"][color=red]
+232->251
+214->232
+194->214
+173->194
+147->173
+129->147
+108->129
+87->108
+70->87
+53->70
+39->53
+1->39
+}

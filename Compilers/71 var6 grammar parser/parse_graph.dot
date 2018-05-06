@@ -1,0 +1,507 @@
+digraph {
+1 [label="S"][color=green]
+2 [label="DEF"][color=green]
+3 [label="D_PREF"][color=green]
+4 [label="Token N (1, 1, 0)-(1, 4, 3) <DEF>"][color=red]
+3->4
+5 [label="Token COMMA (1, 4, 3)-(1, 5, 4) <,>"][color=red]
+3->5
+6 [label="D_PREF"][color=green]
+3->6
+2->3
+7 [label="AXIOM"][color=green]
+8 [label="Token LBRACE (1, 6, 5)-(1, 7, 6) <{>"][color=red]
+7->8
+9 [label="Token N (1, 7, 6)-(1, 8, 7) <S>"][color=red]
+7->9
+10 [label="Token RBRACE (1, 8, 7)-(1, 9, 8) <}>"][color=red]
+7->10
+2->7
+11 [label="D_SUFF"][color=green]
+12 [label="Token COMMA (1, 9, 8)-(1, 10, 9) <,>"][color=red]
+11->12
+13 [label="Token N (1, 11, 10)-(1, 13, 12) <R'>"][color=red]
+11->13
+14 [label="D_SUFF"][color=green]
+15 [label="Token COMMA (1, 13, 12)-(1, 14, 13) <,>"][color=red]
+14->15
+16 [label="Token N (1, 15, 14)-(1, 20, 19) <DPREF>"][color=red]
+14->16
+17 [label="D_SUFF"][color=green]
+18 [label="Token COMMA (1, 20, 19)-(1, 21, 20) <,>"][color=red]
+17->18
+19 [label="Token N (1, 22, 21)-(1, 27, 26) <AXIOM>"][color=red]
+17->19
+20 [label="D_SUFF"][color=green]
+21 [label="Token COMMA (1, 27, 26)-(1, 28, 27) <,>"][color=red]
+20->21
+22 [label="Token N (1, 29, 28)-(1, 34, 33) <DSUFF>"][color=red]
+20->22
+23 [label="D_SUFF"][color=green]
+24 [label="Token COMMA (1, 34, 33)-(1, 35, 34) <,>"][color=red]
+23->24
+25 [label="Token N (1, 36, 35)-(1, 37, 36) <R>"][color=red]
+23->25
+26 [label="D_SUFF"][color=green]
+27 [label="Token COMMA (1, 37, 36)-(1, 38, 37) <,>"][color=red]
+26->27
+28 [label="Token N (1, 39, 38)-(1, 41, 40) <E'>"][color=red]
+26->28
+29 [label="D_SUFF"][color=green]
+30 [label="Token COMMA (1, 41, 40)-(1, 42, 41) <,>"][color=red]
+29->30
+31 [label="Token N (1, 43, 42)-(1, 44, 43) <E>"][color=red]
+29->31
+32 [label="D_SUFF"][color=green]
+33 [label="Token COMMA (1, 44, 43)-(1, 45, 44) <,>"][color=red]
+32->33
+34 [label="Token N (1, 46, 45)-(1, 50, 49) <SYM'>"][color=red]
+32->34
+35 [label="D_SUFF"][color=green]
+36 [label="Token COMMA (1, 50, 49)-(1, 51, 50) <,>"][color=red]
+35->36
+37 [label="Token N (1, 52, 51)-(1, 55, 54) <SYM>"][color=red]
+35->37
+38 [label="D_SUFF"][color=green]
+35->38
+32->35
+29->32
+26->29
+23->26
+20->23
+17->20
+14->17
+11->14
+2->11
+1->2
+39 [label="R_LST"][color=green]
+40 [label="R"][color=green]
+41 [label="Token LBRACKET (3, 1, 56)-(3, 2, 57) <[>"][color=red]
+40->41
+42 [label="Token N (3, 3, 58)-(3, 4, 59) <S>"][color=red]
+40->42
+43 [label="Token COLON (3, 8, 63)-(3, 9, 64) <:>"][color=red]
+40->43
+44 [label="E"][color=green]
+45 [label="SYM"][color=green]
+46 [label="Token N (3, 10, 65)-(3, 13, 68) <DEF>"][color=red]
+45->46
+44->45
+47 [label="SYM_LST"][color=green]
+48 [label="SYM"][color=green]
+49 [label="Token N (3, 14, 69)-(3, 16, 71) <R'>"][color=red]
+48->49
+47->48
+50 [label="SYM_LST"][color=green]
+47->50
+44->47
+40->44
+51 [label="E_LST"][color=green]
+40->51
+52 [label="Token RBRACKET (3, 16, 71)-(3, 17, 72) <]>"][color=red]
+40->52
+39->40
+53 [label="R_LST"][color=green]
+54 [label="R"][color=green]
+55 [label="Token LBRACKET (4, 1, 73)-(4, 2, 74) <[>"][color=red]
+54->55
+56 [label="Token N (4, 2, 74)-(4, 5, 77) <DEF>"][color=red]
+54->56
+57 [label="Token COLON (4, 8, 80)-(4, 9, 81) <:>"][color=red]
+54->57
+58 [label="E"][color=green]
+59 [label="SYM"][color=green]
+60 [label="Token N (4, 10, 82)-(4, 15, 87) <DPREF>"][color=red]
+59->60
+58->59
+61 [label="SYM_LST"][color=green]
+62 [label="SYM"][color=green]
+63 [label="Token N (4, 16, 88)-(4, 21, 93) <AXIOM>"][color=red]
+62->63
+61->62
+64 [label="SYM_LST"][color=green]
+65 [label="SYM"][color=green]
+66 [label="Token N (4, 22, 94)-(4, 27, 99) <DSUFF>"][color=red]
+65->66
+64->65
+67 [label="SYM_LST"][color=green]
+64->67
+61->64
+58->61
+54->58
+68 [label="E_LST"][color=green]
+54->68
+69 [label="Token RBRACKET (4, 27, 99)-(4, 28, 100) <]>"][color=red]
+54->69
+53->54
+70 [label="R_LST"][color=green]
+71 [label="R"][color=green]
+72 [label="Token LBRACKET (5, 1, 101)-(5, 2, 102) <[>"][color=red]
+71->72
+73 [label="Token N (5, 2, 102)-(5, 7, 107) <DPREF>"][color=red]
+71->73
+74 [label="Token COLON (5, 8, 108)-(5, 9, 109) <:>"][color=red]
+71->74
+75 [label="E"][color=green]
+76 [label="SYM"][color=green]
+77 [label="Token N (5, 10, 110)-(5, 11, 111) <N>"][color=red]
+76->77
+75->76
+78 [label="SYM_LST"][color=green]
+79 [label="SYM"][color=green]
+80 [label="Token T (5, 12, 112)-(5, 15, 115) <\",\">"][color=red]
+79->80
+78->79
+81 [label="SYM_LST"][color=green]
+82 [label="SYM"][color=green]
+83 [label="Token N (5, 16, 116)-(5, 21, 121) <DPREF>"][color=red]
+82->83
+81->82
+84 [label="SYM_LST"][color=green]
+81->84
+78->81
+75->78
+71->75
+85 [label="E_LST"][color=green]
+86 [label="Token COLON (5, 22, 122)-(5, 23, 123) <:>"][color=red]
+85->86
+87 [label="E"][color=green]
+88 [label="Token AT (5, 24, 124)-(5, 25, 125) <@>"][color=red]
+87->88
+85->87
+89 [label="E_LST"][color=green]
+85->89
+71->85
+90 [label="Token RBRACKET (5, 25, 125)-(5, 26, 126) <]>"][color=red]
+71->90
+70->71
+91 [label="R_LST"][color=green]
+92 [label="R"][color=green]
+93 [label="Token LBRACKET (6, 1, 127)-(6, 2, 128) <[>"][color=red]
+92->93
+94 [label="Token N (6, 2, 128)-(6, 7, 133) <DSUFF>"][color=red]
+92->94
+95 [label="Token COLON (6, 8, 134)-(6, 9, 135) <:>"][color=red]
+92->95
+96 [label="E"][color=green]
+97 [label="SYM"][color=green]
+98 [label="Token T (6, 10, 136)-(6, 13, 139) <\",\">"][color=red]
+97->98
+96->97
+99 [label="SYM_LST"][color=green]
+100 [label="SYM"][color=green]
+101 [label="Token N (6, 14, 140)-(6, 15, 141) <N>"][color=red]
+100->101
+99->100
+102 [label="SYM_LST"][color=green]
+103 [label="SYM"][color=green]
+104 [label="Token N (6, 16, 142)-(6, 21, 147) <DSUFF>"][color=red]
+103->104
+102->103
+105 [label="SYM_LST"][color=green]
+102->105
+99->102
+96->99
+92->96
+106 [label="E_LST"][color=green]
+107 [label="Token COLON (6, 22, 148)-(6, 23, 149) <:>"][color=red]
+106->107
+108 [label="E"][color=green]
+109 [label="Token AT (6, 24, 150)-(6, 25, 151) <@>"][color=red]
+108->109
+106->108
+110 [label="E_LST"][color=green]
+106->110
+92->106
+111 [label="Token RBRACKET (6, 25, 151)-(6, 26, 152) <]>"][color=red]
+92->111
+91->92
+112 [label="R_LST"][color=green]
+113 [label="R"][color=green]
+114 [label="Token LBRACKET (7, 1, 153)-(7, 2, 154) <[>"][color=red]
+113->114
+115 [label="Token N (7, 2, 154)-(7, 4, 156) <N'>"][color=red]
+113->115
+116 [label="Token COLON (7, 5, 157)-(7, 6, 158) <:>"][color=red]
+113->116
+117 [label="E"][color=green]
+118 [label="SYM"][color=green]
+119 [label="Token T (7, 7, 159)-(7, 10, 162) <\",\">"][color=red]
+118->119
+117->118
+120 [label="SYM_LST"][color=green]
+121 [label="SYM"][color=green]
+122 [label="Token N (7, 11, 163)-(7, 12, 164) <N>"][color=red]
+121->122
+120->121
+123 [label="SYM_LST"][color=green]
+124 [label="SYM"][color=green]
+125 [label="Token N (7, 13, 165)-(7, 15, 167) <N'>"][color=red]
+124->125
+123->124
+126 [label="SYM_LST"][color=green]
+123->126
+120->123
+117->120
+113->117
+127 [label="E_LST"][color=green]
+128 [label="Token COLON (7, 16, 168)-(7, 17, 169) <:>"][color=red]
+127->128
+129 [label="E"][color=green]
+130 [label="Token AT (7, 18, 170)-(7, 19, 171) <@>"][color=red]
+129->130
+127->129
+131 [label="E_LST"][color=green]
+127->131
+113->127
+132 [label="Token RBRACKET (7, 19, 171)-(7, 20, 172) <]>"][color=red]
+113->132
+112->113
+133 [label="R_LST"][color=green]
+134 [label="R"][color=green]
+135 [label="Token LBRACKET (8, 1, 173)-(8, 2, 174) <[>"][color=red]
+134->135
+136 [label="Token N (8, 2, 174)-(8, 4, 176) <R'>"][color=red]
+134->136
+137 [label="Token COLON (8, 5, 177)-(8, 6, 178) <:>"][color=red]
+134->137
+138 [label="E"][color=green]
+139 [label="SYM"][color=green]
+140 [label="Token N (8, 7, 179)-(8, 8, 180) <R>"][color=red]
+139->140
+138->139
+141 [label="SYM_LST"][color=green]
+142 [label="SYM"][color=green]
+143 [label="Token N (8, 9, 181)-(8, 11, 183) <R'>"][color=red]
+142->143
+141->142
+144 [label="SYM_LST"][color=green]
+141->144
+138->141
+134->138
+145 [label="E_LST"][color=green]
+146 [label="Token COLON (8, 12, 184)-(8, 13, 185) <:>"][color=red]
+145->146
+147 [label="E"][color=green]
+148 [label="Token AT (8, 14, 186)-(8, 15, 187) <@>"][color=red]
+147->148
+145->147
+149 [label="E_LST"][color=green]
+145->149
+134->145
+150 [label="Token RBRACKET (8, 15, 187)-(8, 16, 188) <]>"][color=red]
+134->150
+133->134
+151 [label="R_LST"][color=green]
+152 [label="R"][color=green]
+153 [label="Token LBRACKET (9, 1, 189)-(9, 2, 190) <[>"][color=red]
+152->153
+154 [label="Token N (9, 2, 190)-(9, 3, 191) <R>"][color=red]
+152->154
+155 [label="Token COLON (9, 3, 191)-(9, 4, 192) <:>"][color=red]
+152->155
+156 [label="E"][color=green]
+157 [label="SYM"][color=green]
+158 [label="Token T (9, 4, 192)-(9, 7, 195) <\"[\">"][color=red]
+157->158
+156->157
+159 [label="SYM_LST"][color=green]
+160 [label="SYM"][color=green]
+161 [label="Token N (9, 7, 195)-(9, 8, 196) <N>"][color=red]
+160->161
+159->160
+162 [label="SYM_LST"][color=green]
+163 [label="SYM"][color=green]
+164 [label="Token T (9, 8, 196)-(9, 11, 199) <\":\">"][color=red]
+163->164
+162->163
+165 [label="SYM_LST"][color=green]
+166 [label="SYM"][color=green]
+167 [label="Token N (9, 12, 200)-(9, 13, 201) <E>"][color=red]
+166->167
+165->166
+168 [label="SYM_LST"][color=green]
+169 [label="SYM"][color=green]
+170 [label="Token N (9, 14, 202)-(9, 16, 204) <E'>"][color=red]
+169->170
+168->169
+171 [label="SYM_LST"][color=green]
+172 [label="SYM"][color=green]
+173 [label="Token T (9, 16, 204)-(9, 19, 207) <\"]\">"][color=red]
+172->173
+171->172
+174 [label="SYM_LST"][color=green]
+171->174
+168->171
+165->168
+162->165
+159->162
+156->159
+152->156
+175 [label="E_LST"][color=green]
+152->175
+176 [label="Token RBRACKET (9, 19, 207)-(9, 20, 208) <]>"][color=red]
+152->176
+151->152
+177 [label="R_LST"][color=green]
+178 [label="R"][color=green]
+179 [label="Token LBRACKET (10, 1, 209)-(10, 2, 210) <[>"][color=red]
+178->179
+180 [label="Token N (10, 2, 210)-(10, 4, 212) <E'>"][color=red]
+178->180
+181 [label="Token COLON (10, 6, 214)-(10, 7, 215) <:>"][color=red]
+178->181
+182 [label="E"][color=green]
+183 [label="SYM"][color=green]
+184 [label="Token T (10, 8, 216)-(10, 11, 219) <\":\">"][color=red]
+183->184
+182->183
+185 [label="SYM_LST"][color=green]
+186 [label="SYM"][color=green]
+187 [label="Token N (10, 12, 220)-(10, 13, 221) <E>"][color=red]
+186->187
+185->186
+188 [label="SYM_LST"][color=green]
+189 [label="SYM"][color=green]
+190 [label="Token N (10, 14, 222)-(10, 16, 224) <E'>"][color=red]
+189->190
+188->189
+191 [label="SYM_LST"][color=green]
+188->191
+185->188
+182->185
+178->182
+192 [label="E_LST"][color=green]
+193 [label="Token COLON (10, 17, 225)-(10, 18, 226) <:>"][color=red]
+192->193
+194 [label="E"][color=green]
+195 [label="Token AT (10, 19, 227)-(10, 20, 228) <@>"][color=red]
+194->195
+192->194
+196 [label="E_LST"][color=green]
+192->196
+178->192
+197 [label="Token RBRACKET (10, 20, 228)-(10, 21, 229) <]>"][color=red]
+178->197
+177->178
+198 [label="R_LST"][color=green]
+199 [label="R"][color=green]
+200 [label="Token LBRACKET (11, 1, 230)-(11, 2, 231) <[>"][color=red]
+199->200
+201 [label="Token N (11, 2, 231)-(11, 3, 232) <E>"][color=red]
+199->201
+202 [label="Token COLON (11, 7, 236)-(11, 8, 237) <:>"][color=red]
+199->202
+203 [label="E"][color=green]
+204 [label="SYM"][color=green]
+205 [label="Token N (11, 9, 238)-(11, 12, 241) <SYM>"][color=red]
+204->205
+203->204
+206 [label="SYM_LST"][color=green]
+207 [label="SYM"][color=green]
+208 [label="Token N (11, 13, 242)-(11, 17, 246) <SYM'>"][color=red]
+207->208
+206->207
+209 [label="SYM_LST"][color=green]
+206->209
+203->206
+199->203
+210 [label="E_LST"][color=green]
+211 [label="Token COLON (11, 18, 247)-(11, 19, 248) <:>"][color=red]
+210->211
+212 [label="E"][color=green]
+213 [label="SYM"][color=green]
+214 [label="Token T (11, 20, 249)-(11, 23, 252) <\"@\">"][color=red]
+213->214
+212->213
+215 [label="SYM_LST"][color=green]
+212->215
+210->212
+216 [label="E_LST"][color=green]
+210->216
+199->210
+217 [label="Token RBRACKET (11, 23, 252)-(11, 24, 253) <]>"][color=red]
+199->217
+198->199
+218 [label="R_LST"][color=green]
+219 [label="R"][color=green]
+220 [label="Token LBRACKET (12, 1, 254)-(12, 2, 255) <[>"][color=red]
+219->220
+221 [label="Token N (12, 2, 255)-(12, 6, 259) <SYM'>"][color=red]
+219->221
+222 [label="Token COLON (12, 7, 260)-(12, 8, 261) <:>"][color=red]
+219->222
+223 [label="E"][color=green]
+224 [label="SYM"][color=green]
+225 [label="Token N (12, 9, 262)-(12, 12, 265) <SYM>"][color=red]
+224->225
+223->224
+226 [label="SYM_LST"][color=green]
+227 [label="SYM"][color=green]
+228 [label="Token N (12, 13, 266)-(12, 17, 270) <SYM'>"][color=red]
+227->228
+226->227
+229 [label="SYM_LST"][color=green]
+226->229
+223->226
+219->223
+230 [label="E_LST"][color=green]
+231 [label="Token COLON (12, 18, 271)-(12, 19, 272) <:>"][color=red]
+230->231
+232 [label="E"][color=green]
+233 [label="Token AT (12, 20, 273)-(12, 21, 274) <@>"][color=red]
+232->233
+230->232
+234 [label="E_LST"][color=green]
+230->234
+219->230
+235 [label="Token RBRACKET (12, 21, 274)-(12, 22, 275) <]>"][color=red]
+219->235
+218->219
+236 [label="R_LST"][color=green]
+237 [label="R"][color=green]
+238 [label="Token LBRACKET (13, 1, 276)-(13, 2, 277) <[>"][color=red]
+237->238
+239 [label="Token N (13, 2, 277)-(13, 5, 280) <SYM>"][color=red]
+237->239
+240 [label="Token COLON (13, 9, 284)-(13, 10, 285) <:>"][color=red]
+237->240
+241 [label="E"][color=green]
+242 [label="SYM"][color=green]
+243 [label="Token N (13, 11, 286)-(13, 12, 287) <N>"][color=red]
+242->243
+241->242
+244 [label="SYM_LST"][color=green]
+241->244
+237->241
+245 [label="E_LST"][color=green]
+246 [label="Token COLON (13, 13, 288)-(13, 14, 289) <:>"][color=red]
+245->246
+247 [label="E"][color=green]
+248 [label="SYM"][color=green]
+249 [label="Token N (13, 15, 290)-(13, 16, 291) <T>"][color=red]
+248->249
+247->248
+250 [label="SYM_LST"][color=green]
+247->250
+245->247
+251 [label="E_LST"][color=green]
+245->251
+237->245
+252 [label="Token RBRACKET (13, 17, 292)-(13, 18, 293) <]>"][color=red]
+237->252
+236->237
+255 [label="Token $ (14, 1, 294)-(14, 1, 294) <>"][color=red]
+236->255
+218->236
+198->218
+177->198
+151->177
+133->151
+112->133
+91->112
+70->91
+53->70
+39->53
+1->39
+}

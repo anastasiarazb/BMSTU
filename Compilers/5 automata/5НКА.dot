@@ -1,0 +1,77 @@
+digraph Ggraph{
+rankdir=LR;
+node [fontname="Liberation Serif"];
+edge [fontname="Liberation Serif"];
+  
+zero [style="invis"]
+S [label=<i>][shape="circle"][style="bold"]
+zero->S
+
+i1 [label=<i<sub><font point-size="10">1</font></sub>>][shape="circle"]
+i2 [label=<i<sub><font point-size="10">2</font></sub>>][shape="circle"]
+i3 [label=<i<sub><font point-size="10">3</font></sub>>][shape="circle"]
+i4 [label=<i<sub><font point-size="10">4</font></sub>>][shape="circle"]
+i5 [label=<i<sub><font point-size="10">5</font></sub>>][shape="circle"]
+i6 [label=<i<sub><font point-size="10">6</font></sub>>][shape="circle"]
+i7 [label=<i<sub><font point-size="10">7</font></sub>>][shape="circle"]
+i8 [label=<i<sub><font point-size="10">8</font></sub>>][shape="circle"]
+i9 [label=<i<sub><font point-size="10">9</font></sub>>][shape="circle"]
+
+1 [shape="circle"]
+2 [shape="circle"]
+3 [shape="circle"]
+4 [shape="circle"]
+5 [shape="circle"]
+6 [shape="circle"]
+7 [shape="circle"]
+f1 [label=<f<sub><font point-size="10">1</font></sub>>][shape="doublecircle"]
+f2 [label=<f<sub><font point-size="10">2</font></sub>>][shape="doublecircle"]
+f3 [label=<f<sub><font point-size="10">3</font></sub>>][shape="doublecircle"]
+f4 [label=<f<sub><font point-size="10">4</font></sub>>][shape="doublecircle"]
+f5 [label=<f<sub><font point-size="10">5</font></sub>>][shape="circle"]
+f6 [label=<f<sub><font point-size="10">6</font></sub>>][shape="circle"]
+f7 [label=<f<sub><font point-size="10">7</font></sub>>][shape="circle"]
+f8 [label=<f<sub><font point-size="10">8</font></sub>>][shape="circle"]
+f9 [label=<f<sub><font point-size="10">9</font></sub>>][shape="doublecircle"]
+
+S->i1 [label="&#955;"]
+S->i2 [label="&#955;"]
+S->i3 [label="&#955;"]
+S->i4 [label="&#955;"]
+S->i8 [label="&#955;"]
+
+subgraph clusterstep2{
+rankdir=LR;
+style="invis"
+i1->1 [label="f"]
+1->2 [label="u"]
+2->f1 [label="n"]
+
+i2->3 [label="l"]
+3->4 [label="e"]
+4->f2 [label="t"]
+
+i3->5 [label="i"]
+5->f3 [label="n"]
+
+i4->6 [label=":"]
+6->f4 [label=":,&#955;"]
+}
+
+i8->f8 [label="`"]
+f8->i7 [label="&#955;"]
+i7->i5 [label="&#955;"]
+i7->i6 [label="&#955;"]
+
+i7->f7 [label="&#955;"]
+i5->f5 [label="[^\\n\\r\\\\`]"]
+f5->f7 [label="&#955;"]
+
+i6->7 [label="\\"]
+7->f6 [label="\\,`,n"]
+f6->f7 [label="&#955;"]
+f7->i7 [label="&#955;"]
+f7->i9 [label="&#955;"]
+i9->f9 [label="`"]
+
+}

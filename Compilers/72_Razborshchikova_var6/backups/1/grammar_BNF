@@ -1,0 +1,62 @@
+/*Синтаксис*/
+
+S     ::= DEF R_LST
+DEF   ::= D_PREF AXIOM D_SUFF
+D_PREF ::= N ',' D_PREF | eps
+D_SUFF ::= ',' N D_SUFF | eps
+AXIOM  ::= '{' N '}'
+R_LST ::= R R_LST | eps
+R  ::= '[' N ':' E Elst ']'
+Elst  ::= ':' E Elst | eps
+E     ::= SYM SYM_LST | '@'
+SYM_LST ::= SYM SYM_LST | eps
+SYM    ::= N | T
+
+N  ::= "[A-Z]+'?"
+T  ::= "\" [a-z+*-()] \""
+
+/*Лексическая структура*/
+
+WS_CHAR ::= ' ' | '\n' | '\t' | '\r' | eps
+WS      ::= WS_CHAR WS | eps
+CHAR   ::= 'a' | ... | 'z' | '*' | '+' | '-' | '(' | ')'
+LETTER ::= 'A' | ... | 'Z'
+LETTER_LST ::= LETTER LETTER_LST | eps
+SUFFIX ::= '\'' | eps
+N  ::= LETTER LETTER_LST SUFFIX
+T  ::= '"' CHAR '"'
+
+SYM    ::= N | T
+SYM_LST ::= SYM SYM_LST | eps
+E     ::= SYM SYM_LST | '@'
+Elst  ::= ':' E Elst | eps
+R  ::= '[' N ':' E Elst ']'
+R_LST ::= R R_LST | eps
+D_SUFF ::= ',' N D_SUFF | eps
+D_PREF ::= N ',' D_PREF | eps
+AXIOM ::= '{' N '}'
+DEF   ::= D_PREF AXIOM D_SUFF
+S     ::= DEF R_LST
+
+/*Грамматика*/
+
+WS_CHAR ::= ' ' | '\n' | '\t' | '\r' | eps
+WS      ::= WS_CHAR WS | eps
+CHAR   ::= 'a' | ... | 'z' | '*' | '+' | '-' | '(' | ')'
+LETTER ::= 'A' | ... | 'Z'
+LETTER_LST ::= LETTER LETTER_LST | eps
+SUFFIX ::= '\'' | eps
+N  ::= LETTER LETTER_LST SUFFIX WS
+T  ::= '"' CHAR '"' WS
+
+SYM    ::= N WS | T WS
+SYM_LST ::= SYM SYM_LST | eps
+E     ::= SYM SYM_LST | '@' WS
+Elst  ::= ':' WS E Elst | eps
+R  ::= '[' WS N ':' WS E Elst ']' WS
+R_LST ::= R R_LST | eps
+D_SUFF ::= ',' WS N D_SUFF | eps
+D_PREF ::= N ',' WS D_PREF | WS
+AXIOM ::= '{' WS N '}' WS
+DEF   ::= D_PREF AXIOM D_SUFF
+S     ::= DEF R_LST

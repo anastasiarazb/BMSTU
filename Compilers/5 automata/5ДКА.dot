@@ -1,0 +1,70 @@
+digraph Ggraph{
+rankdir=LR;
+overlap=false;
+node [fontname="Liberation Serif"];
+edge [fontname="Liberation Serif"];
+  
+zero [style="invis"]
+S [label=<i>][shape="circle"][style="bold"]
+zero->S
+
+
+1 [shape="doublecircle", xlabel="WHITESPACE"]
+S->1 [label="[ \\t\\n\\r]"]
+1->1 [label="[ \\t\\n\\r]"]
+
+//2 [shape="doublecircle", xlabel="IDENT"]
+2 [shape="doublecircle"]
+IDENT [shape="plaintext"]
+2->IDENT [style="invis", len=0]
+S->2 [label="[a-dghjkmo-sv-zA-Z0-9]"]
+2->2 [label="[a-dghjkmo-sv-zA-Z0-9efilntu]"]
+
+//3 [shape="doublecircle", xlabel="NUMBER"]
+3 [shape="doublecircle"]
+NUMBER [shape="plaintext"]
+3->NUMBER [style="invis"]
+S->3 [label="[0-9]"]
+3->3 [label="[0-9]"]
+
+//4 [shape="doublecircle", xlabel="KEYWORD"]
+4 [shape="doublecircle"]
+KEYWORD [shape="plaintext"]
+4->KEYWORD [style="invis"]
+411, 412 [shape="circle"]
+S->411   [label="f"]
+411->412 [label="u"]
+411->2   [label="[a-dghjkmo-sv-zA-Z0-9efilnt]"]
+412->4   [label="n"]
+412->2   [label="[a-dghjkmo-sv-zA-Z0-9efiltu]"]
+4->2     [label="[a-dghjkmo-sv-zA-Z0-9efilntu]"]
+421, 422 [shape="circle"]
+S->421   [label="l"]
+421->422 [label="e"]
+421->2   [label="[a-dghjkmo-sv-zA-Z0-9filntu]"]
+422->4   [label="t"]
+422->2   [label="[a-dghjkmo-sv-zA-Z0-9efilnu]"]
+//43      [shape="circle"]
+S->412   [label="i"]
+//S->43   [label="i"]
+//43->4   [label="n"]
+
+51, 52 [shape="doublecircle", xlabel="OP"]
+S->51  [label=":"]
+51->52  [label=":"]
+
+//6 [shape="doublecircle", xlabel="STRING"]
+6 [shape="doublecircle"]
+STRING  [shape="plaintext"]
+6->STRING [style="invis"]
+61, 62 [shape="circle"]
+S->61  [label="`"]
+subgraph clusterstep2{
+style="invis"
+rankdir=TR;
+61->61 [label="[^\\n\\r\\`]"]
+61->62 [label="\\"]
+62->61 [label="[n`\\]"]
+}
+61->6  [label="`"]
+}
