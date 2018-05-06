@@ -1,0 +1,10 @@
+{
+  "algorithm": "NWA",
+  "fasta source": "test4.fasta",
+  "match reward": 1,
+  "mismatch penalty": -1,
+  "gap penalty"     : -10,
+  "extension gap penalty" : -0.5,
+  "output line length":   50,
+  "compare function" : "NK"
+}

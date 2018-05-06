@@ -1,0 +1,10 @@
+{
+  "algorithm": "SW",
+  "fasta source": "test_Wiki_Smith-Waterman.fasta",
+  "match reward": 3,
+  "mismatch penalty": -3,
+  "gap penalty"     : -2,
+  "extension gap penalty" : -2,
+  "output line length":   20,
+  "compare function" : "CMP"
+}

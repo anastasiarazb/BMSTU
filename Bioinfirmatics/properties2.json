@@ -1,0 +1,10 @@
+{
+  "algorithm": "MSA",
+  "fasta source": "test.fasta",
+  "match reward": 4,
+  "mismatch penalty": -3,
+  "gap penalty"     : -2,
+  "extension gap penalty" : -1,
+  "output line length":   20,
+  "compare function" : "CMP"
+}
