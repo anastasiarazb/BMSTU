@@ -1,0 +1,4 @@
+#ifndef СМИРНОВСКАЯ_TXT
+#define СМИРНОВСКАЯ_TXT
+
+#endif // СМИРНОВСКАЯ_TXT

@@ -1,0 +1,325 @@
+#ifndef FULLDEBUG_TXT
+#define FULLDEBUG_TXT
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+//#define DEBUG
+
+#ifdef DEBUG
+#define out printf
+#define newline putchar('\n');
+#define SHOW_RECURSION_DEPTH(i) {int k; for(k = 0; k < i; ++k) printf("  |");}
+#define NUMELEM(array) (sizeof(array)/sizeof(*(array)))
+#define PRINTF_ARR(arr, nel, spec) {int i; for(i = 0; i < (nel); ++i) printf(spec, (arr)[i]); putchar('\n');}
+
+#else
+#define out(...)
+#define newline
+#define SHOW_RECURSION_DEPTH(i)
+#define PRINTF_ARR(arr, nel, spec) {int i; for(i = 0; i < (nel); ++i) printf(spec, (arr)[i]); putchar('\n');}
+#endif
+
+#define MAXLEN (1000000+1)
+#define KEY(a) ((int)((a)-'a'))
+#define SET_BIT(i) (1 << (i))
+#define IS_POWER2(i) ((i) > 0 && !(((i)-1) & (i)))
+
+typedef int32_t my_type;
+typedef my_type (*bin_op)(my_type, my_type);
+
+void segment_tree_build(int n, bin_op op);
+int segment_tree_query(int r, int l, int n, bin_op op);
+void segment_tree_update(int i, int val, int n, bin_op op);
+void menu(int n, bin_op op);
+
+
+char string[MAXLEN] = "aababab"; //abcdefghijklmnopqrstuvwxyz
+char substr[MAXLEN] = "qqq";
+my_type *mass;
+my_type *seg_tree;
+
+//int mass[10] = {2, 3, 5, 1, 0, 4, 7, 6, 2, 3}; //В слайдах опечатка, там посчитано для 9-го элемента, равного 3
+
+/*-------Бинарные операции-----------*/
+my_type sum(my_type a, my_type b)
+{
+    return a + b;
+}
+my_type max(my_type a, my_type b)
+{
+    return (a > b) ? a : b;
+}
+
+my_type XOR(my_type a, my_type b)
+{
+    return a ^ b;
+}
+
+#define HD
+
+#ifdef HD
+
+#define OPERATION XOR
+
+int main(void)
+{
+//    scanf("%s", string);
+    int len = strnlen(string, MAXLEN);
+    mass = (int32_t *)malloc(len*sizeof(int32_t));
+    int i;
+    char c;
+//    printf("%d\n", SET_BIT(KEY('c')));
+    for(i = 0; i < len; ++i){
+        c = string[i];
+        mass[i] = SET_BIT(KEY(c)); //Установить в числе равным единице бит, соответствующей порядковому номеру буквы в алфавите
+    }
+    segment_tree_build(len, OPERATION);
+    printf("%d\n", IS_POWER2(segment_tree_query(0, 3, len, OPERATION)));
+    menu(len, OPERATION);
+    free(mass);
+    free(seg_tree);
+    return 0;
+}
+
+#define COMMAND(str) if(!strcmp(command, str))
+void menu(int n, bin_op op)
+{
+    int m, i, j;
+    char command[4]; //Команда состоит не более чем из 3-х букв.
+    scanf("%d", &m);
+    int arg1, arg2, substrlen;
+    for(i = 0; i < m; ++i){
+        scanf("%3s", command);
+        COMMAND("UPD"){
+            scanf("%d %s", &arg1, substr);
+            substrlen = strnlen(substr, MAXLEN);
+            for(j = 0; j < substrlen; ++j){
+                segment_tree_update(arg1+j, SET_BIT(KEY(substr[j])), n, op);
+            }
+        }
+        COMMAND("HD"){
+            scanf("%d %d", &arg1, &arg2);
+            printf(IS_POWER2(segment_tree_query(arg1, arg2, n, op)) ? "YES\n" : "NO\n");
+        }
+    }
+}
+
+#endif
+
+#ifdef MAX
+#define OPERATION max
+
+int main(void)
+{
+    int n;
+    scanf("%d", &n);
+    mass = (int *)malloc(n*sizeof(int));
+    int i;
+    for(i = 0; i < n; ++i){
+        scanf("%d", mass+i);
+    }
+//    char c;
+//    scanf("%c", &c);
+//    printf("%d\n", KEY(c));
+    segment_tree_build(n, OPERATION);
+    menu(n, OPERATION);
+//    segment_tree_build(10, sum);
+//    out("I'M HERE?\n");
+//    out("sum[3:7]= %d\n", segment_tree_query(10, 3, 7, sum));
+//    segment_tree_update(3, 0, 10, sum);
+//    segment_tree_query(10, 3, 7, sum);
+//    out("after?\n");
+    free(mass);
+    free(seg_tree);
+    return 0;
+}
+
+#define COMMAND(str) if(!strcmp(command, str))
+void menu(int n, bin_op op)
+{
+    int m, i;
+    char command[4]; //Команда состоит фиксированно из 3-х букв.
+    scanf("%d", &m);
+    int arg1, arg2;
+    for(i = 0; i < m; ++i){
+        scanf("%3s %d %d", command, &arg1, &arg2);
+        COMMAND("UPD"){
+            segment_tree_update(arg1, arg2, n, op);
+        }
+        COMMAND("MAX"){
+            printf("%d\n", segment_tree_query(arg1, arg2, n, op));
+        }
+    }
+}
+#endif
+
+/*--------------Функции для работы с деревьями отрезков---------------------*/
+
+#define INIT_CHILDREN(i) \
+    int m = (a+b)/2;\
+    int left_child = 2*(i)+1;\
+    int right_child = left_child + 1;    //Медиана и индексы потомков
+
+#define GO_TO_LEFT left_child, a, m      //Обращение к правому (левому) потомку
+#define GO_TO_RIGHT right_child, m+1, b
+
+   /*------------Построение дерева----------*/
+void seg_build_help(int current, int a, int b, bin_op op, int counter)
+{
+    if(a == b){
+        seg_tree[current] = mass[a];
+    } else {
+        INIT_CHILDREN(current);
+        seg_build_help(GO_TO_LEFT, op, counter+1);
+        seg_build_help(GO_TO_RIGHT, op, counter+1);
+        seg_tree[current] = op(seg_tree[left_child], seg_tree[right_child]);
+    }
+    SHOW_RECURSION_DEPTH(counter);
+    out("current = %d, [%d:%d] = %d\n", current, a, b, seg_tree[current]);
+}
+
+void segment_tree_build(int n, bin_op op)
+{
+    out("SEGMENT TREE BUILD:\n");
+    seg_tree = (int *)malloc(4*n*sizeof(int));
+    seg_build_help(0, 0, n-1, op, 0);
+}
+
+
+      /*----------------Обращение к дереву-----------------*/
+int seg_query_help(int l, int r, int current, int a, int b, bin_op op, int counter)
+{
+    SHOW_RECURSION_DEPTH(counter);
+    out("current = %d, l:r = [%d:%d] m = %d a:b = [%d:%d]\n",
+        current, l, r, (a+b)/2, a, b);
+    if((l == a) && (r == b)){
+        SHOW_RECURSION_DEPTH(counter);
+        out("l:r = a:b, t[a:b] = t[%d] = %d\n", current, seg_tree[current]);
+        return seg_tree[current];
+    }
+    INIT_CHILDREN(current);
+    if(r <= m){
+        return seg_query_help(l, r, GO_TO_LEFT, op, counter+1);
+    }
+    if(l > m){
+        return seg_query_help(l, r, GO_TO_RIGHT, op, counter+1);
+    }
+    return  op(seg_query_help(l, m, GO_TO_LEFT, op, counter+1),
+               seg_query_help(m+1, r, GO_TO_RIGHT, op, counter+1));
+
+}
+int segment_tree_query(int l, int r, int n, bin_op op)
+{
+    out("SEGMENT TREE QUERY: [%d:%d]\n", l, n);
+    return seg_query_help(l, r, 0, 0, n-1, op, 0);
+}
+
+
+     /*-----------------Обновление дерева----------------------*/
+
+void seg_upd_help(int current, int a, int b, const int i, const int val, bin_op op, int counter)
+{
+    if(a == b){
+        seg_tree[current] = val;
+    } else {
+        INIT_CHILDREN(current);
+        (i <= m) ? seg_upd_help(GO_TO_LEFT, i, val, op, counter+1)
+                 : seg_upd_help(GO_TO_RIGHT, i, val, op, counter+1);
+        seg_tree[current] = op(seg_tree[left_child], seg_tree[right_child]);
+    }
+    SHOW_RECURSION_DEPTH(counter);
+    out("current = %d, [%d:%d] = %d\n", current, a, b, seg_tree[current]);
+}
+
+void segment_tree_update(int i, int val, int n, bin_op op)
+{
+    out("SEGMENT TREE UPDATE: val = %d, i = %d\n", val, i);
+    seg_upd_help(0, 0, n-1, i, val, op, 0);
+}
+
+//valgrind ~/Qt/2module/segment-tree-Debug/segment-tree < ~/Qt/2module/skorb22.txt > ~/Qt/2module/out.txt
+
+/*Поиск максимального элемента подпоследовательности
+Условие
+Баллы: 2
+
+Составьте программу rangemax.c, выполняющую поиск максимального элемента на различных интервалах последовательности целых чисел, которая время от времени изменяется.
+Формат входных данных
+
+Первая строка, считываемая со стандартного потока ввода, содержит размер последовательности n (0 < n ≤ 1000000). Во второй строке перечислены элементы последовательности. Каждый элемент представляет собой целое число, находящееся в диапазоне от -109 до 109. Элементы разделяются пробелами.
+
+Третья строка содержит общее количество выполняемых операций m (0 < m ≤ 20000). Каждая из следующих m строк содержит описание операции.
+
+Операция либо имеет форму MAX l r (найти максимальный элемент подпоследовательности, начинающейся с элемента с индексом l и заканчивающейся элементом с индексом r), либо форму UPD i v (присвоить значение v элементу с индексом i).
+
+Формат результата работы программы
+
+Для каждой операции MAX вывести в стандартный поток вывода значение максимального элемента указанной подпоследовательности.
+
+Пример работы программы
+
+
+Входные данные
+
+
+Выходные данные
+
+
+5
+10 2 -5 8 7
+4
+MAX 0 4
+MAX 1 3
+UPD 2 12
+MAX 1 3
+
+
+
+10
+8
+12 */
+
+/*
+
+Гипердром – это строка, из букв которой можно составить палиндром. Другими словами, любая буква имеет чётное количество вхождений (возможно, нулевое) в гипердром чётной длины. Если же гипердром имеет нечётную длину, то ровно одна буква имеет нечётное количество вхождений.
+
+Составьте программу rangehd.c, определяющую, является ли указанная подстрока строки гипердромом. Строка время от времени может изменяться.
+Формат входных данных
+
+Первая строчка, считываемая со стандартного потока ввода, содержит строку размера n (0 < n ≤ 1000000). Строка состоит из маленьких латинских букв.
+
+Вторая строчка содержит общее количество выполняемых операций m (0 < m ≤ 10000). Каждая из следующих m строчек содержит описание операции.
+
+Операция либо имеет форму HD l r (определить, является ли подстрока, начинающаяся с индекса l и заканчивающаяся индексом r, гипердромом), либо форму UPD i s (заменить подстроку, начинающуюся с индекса i, строкой s).
+
+Формат результата работы программы
+
+Для каждой операции HD вывести в стандартный поток вывода слово «YES», если подстрока является гипердромом, или слово «NO» в противном случае.
+
+Пример работы программы
+
+
+Входные данные
+
+
+Выходные данные
+
+
+aababab
+6
+HD 0 6
+HD 1 6
+HD 0 3
+UPD 2 qqq
+HD 0 6
+HD 1 5
+
+
+YES
+NO
+NO
+NO
+YES */
+
+#endif // FULLDEBUG_TXT

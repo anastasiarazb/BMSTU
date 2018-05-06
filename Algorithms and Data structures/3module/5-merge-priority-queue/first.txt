@@ -1,0 +1,246 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DEBUG
+
+#ifdef DEBUG
+#define out printf
+#define SHOW_HEAP /*{int j; for(j = 0; j < q->count; ++j){ printf("%d ", q->heap[j].val);} putchar('\n');}*/
+#else
+#define out(...)
+#define SHOW_HEAP
+#endif
+
+#define alloc(n, type) (type *)malloc(n*sizeof(type))
+
+//------------Реализация очереди с приоритетами------------
+
+typedef char boolean;
+typedef int pq_type;
+typedef struct
+{
+    int index;
+    int key;
+    pq_type val;
+} triplet;
+
+typedef struct Priority_queue
+{
+    triplet *heap;
+    int cap;   //Размер массива heap
+    int count; //Количество элементов в очереди
+    int (*cmp)(struct Priority_queue *, int, int);
+} p_queue;
+
+void init_priority_queue(p_queue *q, int nel, int (*compare)(struct Priority_queue *, int, int))
+{
+    q->heap = alloc(nel, triplet);
+    q->cap = nel;
+    q->count = 0;
+    q->cmp = compare;
+
+}
+
+void delete_priority_queue(p_queue *q)
+{
+    free(q->heap);
+    q->cap = q->count = 0;
+
+}
+
+pq_type maximum(p_queue *q)
+{
+    if(!q->count){
+        printf("Error: queue is empty.\n");
+        exit(1);
+    }
+    return q->heap[0].val;
+}
+
+boolean empty_queue(p_queue *q)
+{
+    return !q->count;
+}
+
+void swap(p_queue *q, int a, int b)
+{
+//    size_t size = sizeof(triplet);
+    triplet temp;
+//    memcpy(&temp, q->heap+a, size);
+//    memcpy(q->heap+a, q->heap+b, size);
+//    memcpy(q->heap+b, &temp, size);
+    temp = q->heap[a];
+    q->heap[a] = q->heap[b];
+    q->heap[b] = temp;
+    q->heap[a].index = a;
+    q->heap[b].index = b;
+}
+
+#define KEY x
+int compare(p_queue *q, int a, int b) //Сравнить элементы с индексами a и b
+{
+    return q->heap[a].key > q->heap[b].key;
+}
+
+void insert_p_queue(p_queue *q, pq_type x)
+{
+    int i = q->count;
+    if(i == q->cap){
+        q->cap *= 2;
+        q->heap = (triplet *)realloc(q->heap, q->cap*sizeof(triplet));
+    }
+    ++q->count;
+    triplet temp;
+    temp.val = x;
+    temp.key = KEY;
+    q->heap[i] = temp;
+    while(/*out("i = %d, (i-1)/2 = %i, data[i] = %d, data[2] = %d\n", i, (i-1)/2, q->heap[i].val, q->heap[(i-1)/2].val) &&*/
+          i && q->cmp(q, (i-1)/2, i))
+    {
+        swap(q, (i-1)/2, i);
+//        q->heap[i].index = i;
+        i = (i-1)/2;
+    }
+    q->heap[i].index = i;
+    SHOW_HEAP;
+}
+
+//Восстановление свойств пирамиды.
+void heapify(p_queue *q)
+{
+    int left, right, old_root;
+    int i = 0, nel = q->cap;
+    while(1){
+        left = 2*i + 1;       //l = 2i+1
+        right = left + 1;     //r = 2i+2
+        old_root = i;
+        //Ищем наибольший элемент среди данного элемента и его потомков
+        if (left < nel && compare(q, i, left)){
+            i = left;
+        }
+        if (right < nel && compare(q, i, right)){
+            i = right;
+        }
+        if (i == old_root){     //Текущий элемент и так оказался наибольшим -
+            break;      //изменения не требуются
+        }
+        //Иначе ставим в корень наибольшего из потомков
+        swap(q, i, old_root);
+        //i-й элемент опустился и стал корневым для уровня ниже
+    }
+}
+
+int extract_min(p_queue *q)
+{
+    if(!q->count){
+        printf("Error: queue is empty\n");
+        exit(1);
+    }
+    triplet temp = q->heap[0];
+    --q->count;
+    if(q->count){
+        q->heap[0] = q->heap[q->count];
+        q->heap[0].index = 0;
+        heapify(q);
+    }
+    return temp.val;
+}
+
+int main(void)
+{
+{
+int size = 10;
+int a[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+p_queue Temp;
+init_priority_queue(&Temp, size, compare);
+int i;
+for(i = 0; i < size; ++i){
+    insert_p_queue(&Temp, a[i]);
+}
+for(i = 0; i < size; ++i){
+    printf("%d ", Temp.heap[i].val);
+}
+printf("\nmin = %d\n", extract_min(&Temp));
+for(i = 0; i < Temp.count; ++i){
+    printf("%d ", Temp.heap[i].val);
+}
+delete_priority_queue(&Temp);
+}
+
+    int n;
+    scanf("%d", &n);
+    int *lens = alloc(n, int); //Массив, содержащий длины последовательностей
+    int i, cur_len, sum_len = 0;
+    for(i = 0; i < n; ++i){
+        scanf("%d", &cur_len);
+        lens[i] = cur_len;
+        sum_len += cur_len;
+    }
+    int **place = (int **)malloc(n*sizeof(int *) + sum_len*sizeof(int));
+    place[0] = (int *)(place + n);        /*Переходим на ту область, где начинается массив строк*/
+    int j;
+    cur_len = lens[0];
+    for(j = 0; j < cur_len; ++j){
+        scanf("%d", place[0]+j);
+//        int value;
+//        scanf("%d", &value);
+//        place[0][j] = value;
+//        printf("j = %d, val = %d", j, value);
+    }
+    for(i = 1; i < n; ++i){
+        place[i] = place[i-1]+cur_len;     /*Отступаем от начала предыдущей строки на ее длину*/
+        cur_len = lens[i];
+        for(j = 0; j < cur_len; ++j){
+            scanf("%d", place[i]+j);
+        }
+    }
+
+//    for(i = 0; i < n; ++i){
+//        cur_len = lens[i];
+//        printf("i = %d, cur-len = %d\n     ", i, cur_len);
+//        for(j = 0; j < cur_len; ++j){
+//            printf("%d ", place[i][j]);
+//        }
+//        putchar('\n');
+//    }
+
+    free(lens);
+    free(place);
+    return 0;
+}
+
+
+/*Слияние последовательностей
+Условие
+Баллы: 2
+
+Составьте программу merge.c, объединяющую k отсортированных по возрастанию массивов целых чисел в один отсортированный массив за время O(n lg k), где n – общее количество элементов во всех входных массивах. Для слияния массивов воспользуйтесь очередью с приоритетами размера k.
+
+Формат входных данных программы должен быть такой: первая строка, считываемая со стандартного потока ввода, содержит количество k массивов, вторая строка содержит последовательность целых чисел n1, n2, ..., nk, разделённых пробелами и задающих размеры массивов, каждая из следующих k строк описывает соответствующий массив, то есть i-тая строка содержит ni целых чисел, отсортированных по возрастанию и разделённых пробелами.
+
+Программа должна выводить в стандартный поток вывода отсортированную по возрастанию последовательность целых чисел, полученную путём слияния массивов. Целые числа должны разделяться пробелами или символами перевода строки.
+
+Например, рассмотрим следующие входные данные:
+
+    4
+
+    3 5 1 2
+
+    10 12 20
+
+    15 16 17 19 25
+
+    20
+
+    11 12
+
+Для этих данных программа должна вывести
+
+    10 11 12 12 15 16 17 19 20 20 25
+
+valgrind ~/Qt/3-module/5-merge-priority-queue-Debug/5-merge-priority-queue
+
+http://pastebin.com/pxafpjwh
+
+*/

@@ -1,0 +1,289 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define MAX_LEN 100
+
+typedef char boolean;
+typedef int (*key_type)();
+typedef char (*cmp_void)(char *, char *);
+typedef char val_type[MAX_LEN];
+
+typedef struct Node
+{
+//    char value[MAX_LEN];
+    char *value;
+    int key;
+    int balance;
+    struct Node *parent;
+    struct Node *left;
+    struct Node *right;
+} *node;
+
+typedef struct Tree
+{
+    node Head;
+    cmp_void compare;
+    key_type key_func;
+
+} tree;
+
+void init_tree(struct Tree *New_tree, cmp_void cmp, key_type k)
+{
+    New_tree->Head = NULL;
+    New_tree->compare = cmp;
+    New_tree->key_func = k;
+}
+
+node init_node()
+{
+    node New_node = (node)malloc(sizeof(struct Node)+MAX_LEN);
+    New_node->left = New_node->right = New_node->parent = NULL;
+    New_node->value = (char *)(New_node+1);
+    New_node->value[0] = '\0';
+    return New_node;
+}
+
+
+//Возвращает 1, если новый элемент был добавен и 0 в противном случае
+node insert(node Head, node New_elem) //insertavl 73
+{
+    if(!Head->value[0]) {
+        strcpy(Head->value, New_elem->value);
+        Head->key = 0;
+        free(New_elem);
+        return Head;
+    }
+    node Temp = Head;
+     printf("[%d] %s, [%d] %s, flag = %d\n", Temp->key, Temp->value, New_elem->key, New_elem->value, strcmp(Temp->value, New_elem->value));
+//    int flag = compare(Temp->value, New_elem->value);
+    int flag;
+    while(1){
+        flag = strcmp(Temp->value, New_elem->value);
+        printf("[%d] %s, [%d] %s, flag = %d\n", Temp->key, Temp->value, New_elem->key, New_elem->value, flag);
+        if(!flag){ //Такой элемент уже есть, добавлять ничего не надо
+            printf("HURREY %s %d\n", New_elem->value, New_elem->key);
+            free(New_elem);
+            return Temp;
+        }
+        if(flag == -1){
+            if(!Temp->left){
+                Temp->left = New_elem;
+                New_elem->parent = Temp;
+                New_elem->key = Temp->key+1;
+                return New_elem;
+            } else {
+                Temp = Temp->left;
+            }
+        } else {
+            if(!Temp->right){
+                Temp->right = New_elem;
+                New_elem->parent = Temp;
+                New_elem->key = Temp->key+1;
+                return New_elem;
+            } else {
+                Temp = Temp->right;
+            }
+        }
+    }
+    return New_elem;
+}
+
+void delete_tree(node Head)
+{
+    if(Head){
+        delete_tree(Head->left);
+        delete_tree(Head->right);
+        free(Head);
+        Head = NULL;
+    }
+//    if(!Head){
+//        return;
+//    }
+//    node Temp_l = Head->left;
+//    node Temp_r = Head->right;
+//    if(Temp_l){
+//        delete_tree(Temp_l);
+//    }
+//    if(Temp_r){
+//        delete_tree(Temp_r);
+//    } else {
+//        free(Head);
+//        Head = NULL;
+//    }
+}
+
+
+enum Types
+{
+    CONST,
+    SPEC,  //+ - * / ( )
+    IDENT
+};
+
+typedef struct Token
+{
+    enum Types tag;
+    union {
+        int num;
+        char *ident;
+    } value;
+} *token;
+
+int ident_spec(int c)
+{
+    switch(c){
+    case '+' : return 0;
+    case '-' : return 1;
+    case '*' : return 2;
+    case '/' : return 3;
+    case '(' : return 4;
+    case ')' : return 5;
+    default : return -1;
+    }
+
+}
+
+void get_ident(char *buffer, int bufsize){
+    int c;
+    int i;
+    for(i = 0; (i < bufsize-1) && (isalpha(c = getchar()) || isdigit(c)); ++i){
+        buffer[i] = (char)c;
+    }
+    ungetc(c, stdin);
+    buffer[i] = '\0';
+}
+
+void scaner(node Head)
+{
+    int c;
+    node New_ident = NULL;
+//    int i, n;
+//    scanf("%d ", &n);
+    while((c = getchar()) != '\n' && c != EOF){
+//    for(i = 0; i < n; ++i) {
+//        c = getchar();
+        if(isspace(c)){
+//            --i;
+            continue;
+        }
+        if(isdigit(c)){
+            ungetc(c, stdin);
+            scanf("%d", &c);
+            printf("CONST %d\n", c);
+            continue;
+        }
+        if(isalpha(c)){
+            ungetc(c, stdin);
+            char buf[MAX_LEN];
+            get_ident(buf, MAX_LEN);
+//            New_ident = init_node();
+//            scanf("%s", New_ident->value);
+//            New_ident = insert(Head, New_ident);
+            printf("IDENT %d %s", New_ident->key, New_ident->value);
+//            printf("IDENT %s\n", buf);
+            continue;
+        }
+        else {
+            printf("SPEC %d\n", ident_spec(c));
+        }
+    }
+}
+
+int main(void)
+{
+//    char arr[5][MAX_LEN] = {"asdf", "fsa", "adf", "fdas", "asdf"};
+    node Head = init_node();
+//    char buf[MAX_LEN];
+//    get_ident(buf, MAX_LEN);
+//    printf("%d %s\n", isalpha('+'), buf);
+    scaner(Head);
+//    node New = NULL;
+//    int i;
+//    for(i = 0; i < 5; ++i){
+//        New = init_node();
+// //        strcpy(New->value, arr[i]);
+//        scanf("%s", New->value);
+//        New->key = key;
+// //        printf("%d, value = %s\n", key, New->value);
+//        ++key;
+//        insert(Head, New);
+//    }
+    delete_tree(Head);
+    return 0;
+}
+
+/*Лексический анализ
+Условие
+Баллы: 3
+
+Пусть константа – это непустая последовательность десятичных цифр.
+
+Пусть специальный знак – это один из следующих символов: + - * / ( ).
+
+Пусть идентификатор – это непустая последовательность латинских букв и десятичных цифр, начинающаяся с буквы.
+
+Пусть лексема – это либо константа, либо специальный знак, либо идентификатор.
+
+Известно, что в некоторой строке записаны лексемы и пробелы. Лексемы не обязательно разделены пробелами за исключением случая, когда непосредственно после константы идёт идентификатор. Назовём такую строку предложением.
+
+Лексический анализ предложения заключается в выделении из него последовательности записанных в нём лексем. При этом для каждой лексемы вычисляется пара ⟨tag,value⟩, где tag – тип лексемы (CONST для констант, SPEC для специальных знаков и IDENT для идентификаторов), а value – значение лексемы.
+
+Значение лексемы – это неотрицательное целое число, смысл которого зависит от типа лексемы.
+
+Константу мы будем считать десятичной записью её значения.
+
+Значением специального знака пусть будет его порядковый номер в списке + - * / ( ) (нумерация осуществляется, начиная с нуля).
+
+Значение идентификатора определяется следующим образом: если выписать все идентификаторы в том порядке, в каком они входят в предложение, и оставить только первые вхождения каждого идентификатора, то значением идентификатора будет являться его порядковый номер в получившейся последовательности (нумерация осуществляется, начиная с нуля).
+
+Например, если дано предложение
+
+    alpha + x1 (beta alpha) x1 y
+
+то значением идентификатора alpha является число 0, значением идентификатора x1 – число 1, значением beta – число 2, а значением y – число 3.
+
+Составьте программу lexavl.c, выполняющую лексический анализ предложения.
+Формат входных данных
+
+Первая строка, считываемая со стандартного потока ввода, содержит размер предложения n. Следующая строка содержит само предложение.
+
+Формат результата работы программы
+
+Для каждой лексемы, выделенной из предложения, программа должна выводить в стандартный поток вывода её тип и значение.
+
+Пример работы программы
+
+
+Входные данные
+
+
+Выходные данные
+
+
+18
+(a1+10)*(b2-a1)/b2
+
+
+SPEC 4
+IDENT 0
+SPEC 0
+CONST 10
+SPEC 5
+SPEC 2
+SPEC 4
+IDENT 1
+SPEC 1
+IDENT 0
+SPEC 5
+SPEC 3
+IDENT 1
+
+
+
+Указание.
+    В процессе лексического анализа необходимо использовать АВЛ-дерево, хранящее отображение идентификаторов в их значения.
+
+    valgrind ~/Qt/3-module/11-lexanalisis-avl-Debug/11-lexanalisis-avl
+*/
