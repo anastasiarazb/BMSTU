@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Lab4-Intent</string>
+    <string name="title_activity_explicit">ExplicitActivity</string>
+    <string name="title_activity_implicit_card">ImplicitCardActivity</string>
+</resources>

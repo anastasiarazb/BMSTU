@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Crypto currencies app</string>
+    <string name="upd">Update</string>
+    <string name="hello">This application shows the crypto currency rate for last 14 days per hour. Choose the currency:</string>
+    <string name="switch_lang">Settings</string>
+    <string name="switch_lang_pref_title">Switch language</string>
+    <string name="please_update">Data is not loaded.
+        Please, press \"Update\" button to receive data from the server.</string>
+
+    <string name="cannot_connect">Connection failed</string>
+    <string name="data_not_loaded">Sorry, data was not loaded.</string>
+    <string name="title_activity_detailed_info">Detailed info</string>
+    <string name="title_activity_setting">Settings</string>
+    <string name="title_instant_update">Full precision</string>
+    <string name="check_box_summary_on">Full precision</string>
+    <string name="check_box_summary_off">Round</string>
+    <string name="lable_google_button">Show \"Google Converter\" button</string>
+    <string name="google_button_on">Show</string>
+    <string name="google_button_off">Hide</string>
+    <string name="backgr_color_title">Background color HTML</string>
+</resources>

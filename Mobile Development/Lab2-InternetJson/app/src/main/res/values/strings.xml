@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Weather app</string>
+    <string name="upd">Update</string>
+    <string name="hello">This application shows the weather. Choose the city:</string>
+    <string name="switch_lang">Switch Language</string>
+    <string name="please_update">Data is not loaded.
+        Please, press \"Update\" button to receive data from the server.</string>
+
+    <string-array name="city_list">
+        <item>Moscow</item>
+        <item>London</item>
+    </string-array>
+    <string name="cannot_connect">Connection failed</string>
+    <string name="data_not_loaded">Sorry, data was not loaded.</string>
+</resources>

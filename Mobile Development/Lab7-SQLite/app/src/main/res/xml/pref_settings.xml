@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="time"
+        android:entries="@array/sort_by_items"
+        android:entryValues="@array/sort_by_items_values"
+        android:key="@string/key_sort_by_item"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/setting_sort_order"/>
+
+
+</PreferenceScreen>

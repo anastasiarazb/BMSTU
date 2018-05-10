@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lang_list">
+        <item>Английский</item>
+        <item>Русский</item>
+    </string-array>
+
+    <string-array name="currency_list">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>GBP</item>
+        <item>GPY</item>
+        <item>RUB</item>
+    </string-array>
+
+</resources>

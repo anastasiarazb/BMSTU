@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_by_items">
+        <item>Время добавления</item>
+        <item>По алфавиту</item>
+        <item>Сначала невыделенные</item>
+        <item>Сначала выделенные</item>
+    </string-array>
+</resources>
+ 

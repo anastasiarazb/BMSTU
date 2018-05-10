@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Inner app keys, not for users -->
+    <!--   -->
+    <string name="lang_key">lang_list_pref</string>
+    <string name="instant_update_key">font_key</string>
+    <string name="color_key">color_key</string>
+    <string name="google_button_key">google_button_key</string>
+</resources>

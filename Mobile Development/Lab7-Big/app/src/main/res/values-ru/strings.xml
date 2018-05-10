@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Криптовалюты</string>
+    <string name="upd">Обновить</string>
+    <string name="hello">Это приложение показывает ежечасный курс криптовалюты за последние 14 дней. Пожалуйста, выберите валюту:</string>
+    <string name="switch_lang">Настройки</string>
+    <string name="please_update">Данные не загружены. Пожалуйста, нажмите кнопку \"Обновить\"
+        для получения данных с сервера.</string>
+    <string name="cannot_connect">Соединение не установлено</string>
+    <string name="data_not_loaded">К сожалению, нет данных  для отображения.</string>
+    <string name="title_activity_detailed_info">Дополнительная информация</string>
+    <string name="switch_lang_pref_title">Сменить язык</string>
+    <string name="title_activity_setting">Настройки</string>
+    <string name="title_instant_update">Показывать максимальную точность</string>
+    <string name="check_box_summary_on">Показывать</string>
+    <string name="check_box_summary_off">Округлять</string>
+    <string name="lable_google_button">Показывать кнопку \"Google Converter\"</string>
+    <string name="google_button_on">Показывать</string>
+    <string name="google_button_off">Спрятать</string>
+    <string name="backgr_color_title">Цвет фона HTML</string>
+</resources>

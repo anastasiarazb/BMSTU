@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_by_items">
+        <item>Add time</item>
+        <item>Alphabetic</item>
+        <item>Unchecked first</item>
+        <item>Cheched first</item>
+    </string-array>
+
+    <string-array name="sort_by_items_values" translatable="false">
+        <item>time</item>
+        <item>alpha</item>
+        <item>unchecked</item>
+        <item>checked</item>
+    </string-array>
+</resources>

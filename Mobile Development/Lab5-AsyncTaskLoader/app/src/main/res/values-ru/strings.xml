@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Погода</string>
+    <string name="upd">Обновить</string>
+    <string name="hello">Это приложение показывает погоду. Выберите город:</string>
+    <string name="switch_lang">Сменить язык</string>
+    <string name="please_update">Данные не загружены. Пожалуйста, нажмите кнопку \"Обновить\" для получения данных с сервера.</string>
+    <string-array name="city_list">
+        <item>Москва</item>
+        <item>Лондон</item>
+    </string-array>
+    <string name="cannot_connect">Соединение не установлено</string>
+    <string name="data_not_loaded">К сожалению, не удалось загрузить данные.</string>
+</resources>

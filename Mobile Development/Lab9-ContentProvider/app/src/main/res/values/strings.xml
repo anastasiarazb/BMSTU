@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Lab 9 - Content Provider</string>
+    <string name="title_save_button">Save</string>
+    <string name="hint_add_new">Input new note here</string>
+    <string name="settings">Settings</string>
+    <string name="setting_del_all">Delete all</string>
+    <string name="notify_deleted">Deleted</string>
+    <string name="setting_del_all_q">Delete all notes?</string>
+    <string name="setting_del_all_y">Delete</string>
+    <string name="setting_del_all_n">Cancel</string>
+    <string name="setting_sort_order">Sort by</string>
+    <string name="setting_activity_title">Settings</string>
+</resources>

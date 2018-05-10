@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Inner app keys, not for users -->
+    <!--   -->
+    <string name="lang_key" translatable="false">lang_list_pref</string>
+    <string name="instant_update_key" translatable="false">font_key</string>
+    <string name="color_key" translatable="false">color_key</string>
+    <string name="key_sort_by_item" translatable="false">sort_by_item</string>
+</resources>
+ 

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">File Manager</string>
+    <string name="default_path">/storage/emulated/0/</string>
+    <string name="title_activity_file_list">FileList</string>
+</resources>

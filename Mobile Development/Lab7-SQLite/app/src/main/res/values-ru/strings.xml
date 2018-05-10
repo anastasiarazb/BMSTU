@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="title_save_button">Сохранить</string>
+    <string name="hint_add_new">Новая заметка</string>
+    <string name="settings">Настройки</string>
+    <string name="setting_del_all">Удалить все</string>
+    <string name="notify_deleted">Удалено</string>
+    <string name="setting_del_all_q">Удалить все заметки?</string>
+    <string name="setting_del_all_y">Удалить</string>
+    <string name="setting_del_all_n">Отмена</string>
+    <string name="setting_sort_order">Сортировать по</string>
+    <string name="setting_activity_title">Настройки</string>
+    <string name="shuffle_title">Перемешать</string>
+</resources>

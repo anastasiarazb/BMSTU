@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/instant_update_key"
+        android:title="@string/title_instant_update"
+        android:summaryOff="@string/check_box_summary_off"
+        android:summaryOn="@string/check_box_summary_on" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/google_button_key"
+        android:title="@string/lable_google_button"
+        android:summaryOff="@string/google_button_off"
+        android:summaryOn="@string/google_button_on" />
+
+    <ListPreference
+        android:defaultValue="en"
+        android:entries="@array/lang_list"
+        android:entryValues="@array/lang_values_list"
+        android:key="@string/lang_key"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
+        android:title="@string/switch_lang_pref_title"/>
+
+    <EditTextPreference
+        android:key="@string/color_key"
+        android:title="@string/backgr_color_title">
+    </EditTextPreference>
+
+</PreferenceScreen>
