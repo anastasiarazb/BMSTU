@@ -1,0 +1,9 @@
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/Debug.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/AirportIDComparator.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/JoinedAirportFlightKey.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/AirportIDMapper.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/FlightDelayMapper.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/FlightReducer.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/AirportArrivalDelayAnalyzerApp.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/model/AirportsTableRec.java
+/home/nastasia/BMSTU/Apache/lab3-join/src/main/java/ru/bmstu/labs/hadoop/lab3/AirportIDPartitioner.java

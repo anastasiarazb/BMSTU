@@ -1,0 +1,4 @@
+ru/bmstu/hadoop/spark/bolts/BoltCounter.class
+ru/bmstu/hadoop/spark/bolts/SpoutFiles.class
+ru/bmstu/hadoop/spark/bolts/BoltSplitter.class
+ru/bmstu/hadoop/spark/bolts/WordCounterStorm.class

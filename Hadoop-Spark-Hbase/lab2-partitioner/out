@@ -1,0 +1,90 @@
+ 
+nastasia@linux-0r80:~/5 сем/Хадуп/Лабы/lab2> hadoop fs -copyFromLocal '/home/nastasia/5 сем/Хадуп/Лабы/lab2/664600583_T_ONTIME_sample.csv' 
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dsun.java2d.xrender=true
+16/10/02 18:51:50 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+copyFromLocal: unexpected URISyntaxException
+nastasia@linux-0r80:~/5 сем/Хадуп/Лабы/lab2> hadoop fs -copyFromLocal '/home/nastasia/5%20сем/Хадуп/Лабы/lab2/664600583_T_ONTIME_sample.csv' 
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dsun.java2d.xrender=true
+16/10/02 18:52:15 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+nastasia@linux-0r80:~/5 сем/Хадуп/Лабы/lab2> export HADOOP_CLASSPATH='/home/nastasia/5 сем/Хадуп/Лабы/lab2/target/hadoop-lab2-1.0-SNAPSHOT.jar' 
+nastasia@linux-0r80:~/5 сем/Хадуп/Лабы/lab2> hadoop FlightSortApp 664600583_T_ONTIME_sample.csv output
+Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dsun.java2d.xrender=true
+16/10/02 18:55:45 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+16/10/02 18:55:46 INFO Configuration.deprecation: session.id is deprecated. Instead, use dfs.metrics.session-id
+16/10/02 18:55:46 INFO jvm.JvmMetrics: Initializing JVM Metrics with processName=JobTracker, sessionId=
+16/10/02 18:55:47 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+16/10/02 18:55:47 INFO input.FileInputFormat: Total input paths to process : 1
+16/10/02 18:55:47 INFO mapreduce.JobSubmitter: number of splits:1
+16/10/02 18:55:47 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_local1116702301_0001
+16/10/02 18:55:47 INFO mapreduce.Job: The url to track the job: http://localhost:8080/
+16/10/02 18:55:47 INFO mapreduce.Job: Running job: job_local1116702301_0001
+16/10/02 18:55:47 INFO mapred.LocalJobRunner: OutputCommitter set in config null
+16/10/02 18:55:47 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+16/10/02 18:55:47 INFO mapred.LocalJobRunner: OutputCommitter is org.apache.hadoop.mapreduce.lib.output.FileOutputCommitter
+16/10/02 18:55:47 INFO mapred.LocalJobRunner: Waiting for map tasks
+16/10/02 18:55:47 INFO mapred.LocalJobRunner: Starting task: attempt_local1116702301_0001_m_000000_0
+16/10/02 18:55:47 INFO output.FileOutputCommitter: File Output Committer Algorithm version is 1
+16/10/02 18:55:47 INFO mapred.Task:  Using ResourceCalculatorProcessTree : [ ]
+16/10/02 18:55:47 INFO mapred.MapTask: Processing split: hdfs://localhost:9000/user/nastasia/664600583_T_ONTIME_sample.csv:0+6109098
+16/10/02 18:55:48 INFO mapreduce.Job: Job job_local1116702301_0001 running in uber mode : false
+16/10/02 18:55:48 INFO mapred.MapTask: (EQUATOR) 0 kvi 26214396(104857584)
+16/10/02 18:55:48 INFO mapred.MapTask: mapreduce.task.io.sort.mb: 100
+16/10/02 18:55:48 INFO mapred.MapTask: soft limit at 83886080
+16/10/02 18:55:48 INFO mapred.MapTask: bufstart = 0; bufvoid = 104857600
+16/10/02 18:55:48 INFO mapred.MapTask: kvstart = 26214396; length = 6553600
+16/10/02 18:55:48 INFO mapreduce.Job:  map 0% reduce 0%
+16/10/02 18:55:48 WARN mapred.MapTask: Unable to initialize MapOutputCollector org.apache.hadoop.mapred.MapTask$MapOutputBuffer
+java.lang.RuntimeException: java.lang.NoSuchMethodException: FlightKey.<init>()
+        at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:134)
+        at org.apache.hadoop.io.WritableComparator.newKey(WritableComparator.java:144)
+        at org.apache.hadoop.io.WritableComparator.<init>(WritableComparator.java:130)
+        at org.apache.hadoop.io.WritableComparator.get(WritableComparator.java:65)
+        at org.apache.hadoop.mapred.JobConf.getOutputKeyComparator(JobConf.java:887)
+        at org.apache.hadoop.mapred.MapTask$MapOutputBuffer.init(MapTask.java:1004)
+        at org.apache.hadoop.mapred.MapTask.createSortingCollector(MapTask.java:402)
+        at org.apache.hadoop.mapred.MapTask.access$100(MapTask.java:81)
+        at org.apache.hadoop.mapred.MapTask$NewOutputCollector.<init>(MapTask.java:698)
+        at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:770)
+        at org.apache.hadoop.mapred.MapTask.run(MapTask.java:341)
+        at org.apache.hadoop.mapred.LocalJobRunner$Job$MapTaskRunnable.run(LocalJobRunner.java:243)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.NoSuchMethodException: FlightKey.<init>()
+        at java.lang.Class.getConstructor0(Class.java:3074)
+        at java.lang.Class.getDeclaredConstructor(Class.java:2170)
+        at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:128)
+        ... 16 more
+16/10/02 18:55:49 INFO mapred.LocalJobRunner: map task executor complete.
+16/10/02 18:55:50 WARN mapred.LocalJobRunner: job_local1116702301_0001
+java.lang.Exception: java.io.IOException: Initialization of all the collectors failed. Error in last collector was :java.lang.NoSuchMethodException: FlightKey.<init>()
+        at org.apache.hadoop.mapred.LocalJobRunner$Job.runTasks(LocalJobRunner.java:462)
+        at org.apache.hadoop.mapred.LocalJobRunner$Job.run(LocalJobRunner.java:522)
+Caused by: java.io.IOException: Initialization of all the collectors failed. Error in last collector was :java.lang.NoSuchMethodException: FlightKey.<init>()
+        at org.apache.hadoop.mapred.MapTask.createSortingCollector(MapTask.java:414)
+        at org.apache.hadoop.mapred.MapTask.access$100(MapTask.java:81)
+        at org.apache.hadoop.mapred.MapTask$NewOutputCollector.<init>(MapTask.java:698)
+        at org.apache.hadoop.mapred.MapTask.runNewMapper(MapTask.java:770)
+        at org.apache.hadoop.mapred.MapTask.run(MapTask.java:341)
+        at org.apache.hadoop.mapred.LocalJobRunner$Job$MapTaskRunnable.run(LocalJobRunner.java:243)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+        at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.RuntimeException: java.lang.NoSuchMethodException: FlightKey.<init>()
+        at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:134)
+        at org.apache.hadoop.io.WritableComparator.newKey(WritableComparator.java:144)
+        at org.apache.hadoop.io.WritableComparator.<init>(WritableComparator.java:130)
+        at org.apache.hadoop.io.WritableComparator.get(WritableComparator.java:65)
+        at org.apache.hadoop.mapred.JobConf.getOutputKeyComparator(JobConf.java:887)
+        at org.apache.hadoop.mapred.MapTask$MapOutputBuffer.init(MapTask.java:1004)
+        at org.apache.hadoop.mapred.MapTask.createSortingCollector(MapTask.java:402)
+        ... 10 more
+Caused by: java.lang.NoSuchMethodException: FlightKey.<init>()
+        at java.lang.Class.getConstructor0(Class.java:3074)
+        at java.lang.Class.getDeclaredConstructor(Class.java:2170)
+        at org.apache.hadoop.util.ReflectionUtils.newInstance(ReflectionUtils.java:128)
+        ... 16 more

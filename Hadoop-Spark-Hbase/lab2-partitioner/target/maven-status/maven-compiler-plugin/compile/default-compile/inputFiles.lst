@@ -1,0 +1,6 @@
+/home/nastasia/BMSTU/Apache/lab2-partitioner/src/main/java/ru/bmstu/labs/hadoop/lab2/FlightReducer.java
+/home/nastasia/BMSTU/Apache/lab2-partitioner/src/main/java/ru/bmstu/labs/hadoop/lab2/FlightKey.java
+/home/nastasia/BMSTU/Apache/lab2-partitioner/src/main/java/ru/bmstu/labs/hadoop/lab2/FlightPartitioner.java
+/home/nastasia/BMSTU/Apache/lab2-partitioner/src/main/java/ru/bmstu/labs/hadoop/lab2/FlightMapper.java
+/home/nastasia/BMSTU/Apache/lab2-partitioner/src/main/java/ru/bmstu/labs/hadoop/lab2/FlightComparator.java
+/home/nastasia/BMSTU/Apache/lab2-partitioner/src/main/java/ru/bmstu/labs/hadoop/lab2/FlightSortApp.java

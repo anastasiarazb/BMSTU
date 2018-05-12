@@ -1,0 +1,10 @@
+ru/bmstu/labs/hadoop/lab3/FlightDelayMapper.class
+ru/bmstu/labs/hadoop/lab3/JoinedAirportFlightKey.class
+ru/bmstu/labs/hadoop/lab3/AirportIDComparator.class
+ru/bmstu/labs/hadoop/lab3/model/AirportsTableRec.class
+ru/bmstu/labs/hadoop/lab3/FlightReducer.class
+ru/bmstu/labs/hadoop/lab3/FlightDelayMapper$FlightsTableRec.class
+ru/bmstu/labs/hadoop/lab3/AirportIDPartitioner.class
+ru/bmstu/labs/hadoop/lab3/AirportArrivalDelayAnalyzerApp.class
+ru/bmstu/labs/hadoop/lab3/AirportIDMapper.class
+ru/bmstu/labs/hadoop/lab3/Debug.class

@@ -1,0 +1,4 @@
+ru/bmstu/hadoop/hbase/model/FlightTable.class
+ru/bmstu/hadoop/hbase/FlightsTableLoader.class
+ru/bmstu/hadoop/hbase/CancelDelayFlightFilter.class
+ru/bmstu/hadoop/hbase/FilterMainClass.class

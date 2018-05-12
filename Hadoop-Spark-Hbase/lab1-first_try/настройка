@@ -1,0 +1,24 @@
+ 
+sudo hadoop fs -mkdir /user/nastasia
+sudo hadoop fs -chown nastasia:nastasia /user/nastasia
+
+для уcтранения ...hadoop.security.AccessControlException: Permission denied
+------------------------------------------------
+в конце файла, если пишет "не могу найти /root/бла-бла, надо исправить
+exec "$JAVA" $JAVA_HEAP_MAX $HADOOP_OPTS $CLASS "$@"  на 
+exec /home/nastasia/Programs/jdk1.8.0_31/bin/java $JAVA_HEAP_MAX $HADOOP_OPTS $CLASS "$@"
+------------------------------------------------
+и там, где двумя строчками выше над ошибкой указано DEFAULT_LIBEXEC_DIR="$bin"/../libexec , надо руками подправить на /home/nastasia/Programs/hadoop-2.7.3/libexec/
+
+вместо sudo /etc/init.d/ssh restart запускать sudo rcsshd restart
+------------------------------------------------
+установка прав чтения-записи на логи и namenode
+chmod 777 logs из рут-консоли (почему-то sudo не работает, а дельфин в режиме суперюзера - да)
+
+------------------------------------------------
+В файл /etc/hosts дописала
+127.0.0.1	localhost linux-0r80
+(было 127.0.0.1	localhost)
+
+
+// hdfs dfs -mkdir -p /user/hduser 

@@ -1,0 +1,6 @@
+ru/bmstu/labs/hadoop/lab2/FlightReducer.class
+ru/bmstu/labs/hadoop/lab2/FlightMapper.class
+ru/bmstu/labs/hadoop/lab2/FlightPartitioner.class
+ru/bmstu/labs/hadoop/lab2/FlightComparator.class
+ru/bmstu/labs/hadoop/lab2/FlightSortApp.class
+ru/bmstu/labs/hadoop/lab2/FlightKey.class

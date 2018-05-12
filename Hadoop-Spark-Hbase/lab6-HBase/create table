@@ -1,0 +1,8 @@
+hbase shell
+
+create 'flights2','info'
+
+disable 'flights2'
+drop 'flights2'
+
+quit

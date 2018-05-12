@@ -1,0 +1,6 @@
+ru/bmstu/hadoop/storm/trident/FlightsTridentApp/BatchSpout.class
+ru/bmstu/hadoop/storm/trident/FlightsTridentApp/SplitFunction.class
+ru/bmstu/hadoop/storm/trident/FlightsTridentApp/FlightsTridentApp.class
+ru/bmstu/hadoop/storm/trident/FlightsTridentApp/CountDaysAggregator.class
+ru/bmstu/hadoop/storm/trident/FlightsTridentApp/DelayedCancelledFilter.class
+ru/bmstu/hadoop/storm/trident/FlightsTridentApp/AggregatedPrintFilter.class
