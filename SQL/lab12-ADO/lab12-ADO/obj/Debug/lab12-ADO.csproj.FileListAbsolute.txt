@@ -1,0 +1,7 @@
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\obj\Debug\lab12-ADO.csprojResolveAssemblyReference.cache
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\obj\Debug\ConsoleApplication1.exe
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\obj\Debug\ConsoleApplication1.pdb
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\bin\Debug\ConsoleApplication1.exe
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\bin\Debug\ConsoleApplication1.pdb
+C:\Users\Настя\Desktop\Для учебы\DB_2016\Лабы\lab12-ADO\lab12-ADO\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll

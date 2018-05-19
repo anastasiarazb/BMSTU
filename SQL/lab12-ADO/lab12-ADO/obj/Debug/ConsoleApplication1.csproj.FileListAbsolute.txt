@@ -1,0 +1,16 @@
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Microsoft.SqlServer.ADONETDest.dll
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Microsoft.SqlServer.ADONETSrc.dll
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\Microsoft.SqlServer.ForEachAdoEnumerator.dll
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+c:\users\sargarass\documents\visual studio 2015\Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\bin\Debug\Microsoft.SqlServer.DTSRuntimeWrap.dll
+C:\Users\Настя\Desktop\Для учебы\DB_2016\samples\SQL Server Management Studio\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
