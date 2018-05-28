@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<JSONObject> {
 
     public static class Keys {
-        public static final String CURRENCY_INFO_KEY = "CURRENCY_INFO";;
+        public static final String CURRENCY_INFO_KEY = "CURRENCY_INFO";
         public static final String SELECTED_CURRENCY_KEY = "SELECTED_CURRENCY";
         public static final String CRYPTO_CURRENCY_KEY   = "CRYPTO_CURRENCY_KEY";
     }
@@ -225,7 +226,7 @@ public class MainActivity extends AppCompatActivity
         return new ArrayAdapter<CharSequence>(getBaseContext(), android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.currency_list)) {
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 // do whatever you want with this text view
@@ -320,8 +321,8 @@ public class MainActivity extends AppCompatActivity
             }
         }));
 
-        Button googleButton = (Button) findViewById(R.id.google_button);
-        LinearLayout button_layout = (LinearLayout) findViewById(R.id.button_layout);
+        Button googleButton = findViewById(R.id.google_button);
+        LinearLayout button_layout =  findViewById(R.id.button_layout);
 //        bgElement.getBackground().setColorFilter(Color.parseColor(getPreferenceColor(this, prefs)), PorterDuff.Mode.DARKEN);
         bgElement.setBackgroundColor(background_color);
         if (show_google_button) {
@@ -343,7 +344,7 @@ public class MainActivity extends AppCompatActivity
 //            googleButton.setVisibility(Button.GONE);
         }
 
-        cryptoCurrency = (EditText) findViewById(R.id.cryptoCurrencyTV);
+        cryptoCurrency = findViewById(R.id.cryptoCurrencyTV);
         
         setCurrencyInfo();
         mItemsList.setHasFixedSize(true);
